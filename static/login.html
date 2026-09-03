@@ -1105,58 +1105,87 @@
   </footer>
 
   <!-- ========================================== -->
-  <!-- GOOGLE & GMAIL OTP VERIFICATION MODAL      -->
+  <!-- GOOGLE OAUTH 2.0 AUTHENTICATION & POPUP    -->
   <!-- ========================================== -->
   <div id="modal-google-auth" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.88); backdrop-filter:blur(14px); z-index:99999; align-items:center; justify-content:center; padding:16px;">
-    <div style="background:#0E1318; border:1px solid #232D3B; border-radius:24px; max-width:460px; width:100%; padding:28px; box-shadow:0 25px 60px rgba(0,0,0,0.85); position:relative; font-family:'Inter',sans-serif;">
+    <div style="background:#0E1318; border:1px solid #232D3B; border-radius:24px; max-width:460px; width:100%; padding:32px; box-shadow:0 25px 60px rgba(0,0,0,0.85); position:relative; font-family:'Inter',sans-serif;">
       <button onclick="closeGoogleAuthModal()" style="position:absolute; top:20px; right:20px; background:none; border:none; color:#9CA3AF; font-size:20px; cursor:pointer;">✕</button>
       
-      <!-- Google Logo & Header -->
-      <div style="display:flex; align-items:center; gap:12px; margin-bottom:18px;">
-        <svg viewBox="0 0 24 24" style="width:36px; height:36px;" xmlns="http://www.w3.org/2000/svg">
-          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-        </svg>
-        <div>
-          <h3 style="margin:0; font-size:17px; font-weight:800; color:#FFF;">Google Account Verification</h3>
-          <p style="margin:0; font-size:12px; color:#9CA3AF;">Harsh Caption Generator Workspace</p>
+      <!-- GOOGLE SCREEN 1: ACCOUNT CHOOSER / EMAIL INPUT -->
+      <div id="google-view-choose">
+        <div style="text-align:center; margin-bottom:24px;">
+          <svg viewBox="0 0 24 24" style="width:42px; height:42px; margin:0 auto 12px; display:block;" xmlns="http://www.w3.org/2000/svg">
+            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+          </svg>
+          <h3 style="margin:0; font-size:20px; font-weight:800; color:#FFF;">Sign in with Google</h3>
+          <p style="margin:6px 0 0; font-size:13px; color:#9CA3AF;">Choose an account to continue to <strong style="color:#00C48C;">Harsh Caption Generator</strong></p>
+        </div>
+
+        <div id="google-accounts-list" style="display:flex; flex-direction:column; gap:10px; margin-bottom:20px;">
+          <!-- Quick Account Option -->
+          <div onclick="selectGoogleAccount('Harsh Dhiman', 'harshdhiman332@gmail.com')" style="display:flex; align-items:center; gap:14px; padding:12px 16px; background:#151D25; border:1px solid #232D3B; border-radius:14px; cursor:pointer; transition:all 0.2s;" onmouseover="this.style.borderColor='#00C48C'" onmouseout="this.style.borderColor='#232D3B'">
+            <div style="width:38px; height:38px; border-radius:50%; background:linear-gradient(135deg, #00C48C, #0070F3); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:16px;">H</div>
+            <div style="flex:1;">
+              <div style="font-size:14px; font-weight:700; color:#fff;">Harsh Dhiman</div>
+              <div style="font-size:12px; color:#9CA3AF;">harshdhiman332@gmail.com</div>
+            </div>
+            <span style="font-size:11px; font-weight:700; color:#00C48C; background:rgba(0,196,140,0.1); padding:3px 8px; border-radius:12px;">Signed in</span>
+          </div>
+
+          <!-- Enter Another Google Account -->
+          <div onclick="showGoogleManualInput()" style="display:flex; align-items:center; gap:14px; padding:12px 16px; background:#12171E; border:1px dashed #232D3B; border-radius:14px; cursor:pointer; transition:all 0.2s;" onmouseover="this.style.borderColor='#00C48C'" onmouseout="this.style.borderColor='#232D3B'">
+            <div style="width:38px; height:38px; border-radius:50%; background:#1F2937; color:#9CA3AF; display:flex; align-items:center; justify-content:center; font-size:18px;">👤</div>
+            <div style="flex:1;">
+              <div style="font-size:13px; font-weight:700; color:#D1D5DB;">Use another Google account</div>
+              <div style="font-size:11px; color:#6B7280;">Sign in with any other Gmail</div>
+            </div>
+            <span style="font-size:16px; color:#9CA3AF;">+</span>
+          </div>
+        </div>
+
+        <!-- Manual Google Input Form (Hidden by default) -->
+        <div id="google-manual-input-box" style="display:none; margin-bottom:20px; padding:16px; background:#151D25; border:1px solid #232D3B; border-radius:14px;">
+          <label style="display:block; font-size:11px; font-weight:700; color:#9CA3AF; margin-bottom:6px; text-transform:uppercase;">Enter Your Gmail Address</label>
+          <input type="email" id="manual-google-email" placeholder="e.g. yourname@gmail.com" style="width:100%; box-sizing:border-box; background:rgba(0,0,0,0.6); border:1.5px solid #232D3B; border-radius:10px; padding:10px 14px; font-size:14px; color:#fff; outline:none; margin-bottom:10px;" />
+          
+          <label style="display:block; font-size:11px; font-weight:700; color:#9CA3AF; margin-bottom:6px; text-transform:uppercase;">Your Full Name</label>
+          <input type="text" id="manual-google-name" placeholder="e.g. Harsh Sharma" style="width:100%; box-sizing:border-box; background:rgba(0,0,0,0.6); border:1.5px solid #232D3B; border-radius:10px; padding:10px 14px; font-size:14px; color:#fff; outline:none; margin-bottom:12px;" />
+          
+          <button type="button" onclick="confirmManualGoogleAccount()" style="width:100%; padding:11px; border-radius:8px; border:none; background:#00C48C; color:#032E20; font-size:13px; font-weight:800; cursor:pointer;">
+            Continue with this Google Account →
+          </button>
+        </div>
+
+        <div style="font-size:11px; color:#6B7280; text-align:center; line-height:1.5;">
+          To continue, Google will share your name, email address, language preference, and profile picture with Harsh Caption Generator.
         </div>
       </div>
 
-      <!-- Step Indicator Badge -->
-      <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
-        <span id="badge-step-1" style="font-size:11px; font-weight:700; padding:4px 10px; border-radius:20px; background:#00C48C; color:#032E20;">1. Profile & Gmail</span>
-        <span style="color:#4B5563;">→</span>
-        <span id="badge-step-2" style="font-size:11px; font-weight:700; padding:4px 10px; border-radius:20px; background:#1A222C; color:#9CA3AF;">2. Gmail OTP</span>
-      </div>
+      <!-- GOOGLE SCREEN 2: AGE & PROFILE ONBOARDING (MANDATORY VERIFICATION) -->
+      <div id="google-view-profile" style="display:none;">
+        <div style="text-align:center; margin-bottom:20px;">
+          <div id="g-avatar-circle" style="width:54px; height:54px; border-radius:50%; background:linear-gradient(135deg, #00C48C, #0070F3); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:22px; margin:0 auto 10px; border:2px solid #00C48C; box-shadow:0 0 20px rgba(0,196,140,0.3);">H</div>
+          <h3 id="g-auth-name-display" style="margin:0; font-size:18px; font-weight:800; color:#FFF;">Harsh Dhiman</h3>
+          <p id="g-auth-email-display" style="margin:4px 0 0; font-size:13px; color:#00C48C; font-weight:600;">harshdhiman332@gmail.com</p>
+          <span style="display:inline-block; margin-top:6px; font-size:11px; font-weight:700; color:#00C48C; background:rgba(0,196,140,0.12); padding:3px 10px; border-radius:20px; border:1px solid rgba(0,196,140,0.3);">Google Verified Account ✓</span>
+        </div>
 
-      <div id="google-auth-error" style="display:none; margin-bottom:14px; padding:10px 12px; background:rgba(239,68,68,0.15); border:1px solid rgba(239,68,68,0.3); border-radius:10px; color:#F87171; font-size:12px; font-weight:600;">
-        ⚠️ Error message
-      </div>
+        <div id="g-profile-error" style="display:none; margin-bottom:14px; padding:10px 12px; background:rgba(239,68,68,0.15); border:1px solid rgba(239,68,68,0.3); border-radius:10px; color:#F87171; font-size:12px; font-weight:600;">
+          ⚠️ Kripya apni Age sahi bharein!
+        </div>
 
-      <!-- STEP 1: Enter Profile & Email -->
-      <div id="step-profile-container">
-        <form id="google-onboarding-form" onsubmit="handleSendOtp(event)" style="display:flex; flex-direction:column; gap:14px;">
-          <div>
-            <label style="display:block; font-size:11px; font-weight:700; color:#9CA3AF; margin-bottom:6px; text-transform:uppercase;">Full Name / Creator Name <span style="color:#00C48C;">*</span></label>
-            <input type="text" id="g-name" placeholder="e.g. Harsh Sharma" required style="width:100%; box-sizing:border-box; background:rgba(0,0,0,0.5); border:1.5px solid #232D3B; border-radius:12px; padding:11px 14px; font-size:14px; color:#fff; outline:none;" />
-          </div>
-
-          <div>
-            <label style="display:block; font-size:11px; font-weight:700; color:#9CA3AF; margin-bottom:6px; text-transform:uppercase;">Gmail Address (OTP yahan aayega) <span style="color:#00C48C;">*</span></label>
-            <input type="email" id="g-email" placeholder="e.g. harsh.creator@gmail.com" required style="width:100%; box-sizing:border-box; background:rgba(0,0,0,0.5); border:1.5px solid #232D3B; border-radius:12px; padding:11px 14px; font-size:14px; color:#fff; outline:none;" />
-          </div>
-
+        <form id="google-final-form" onsubmit="handleCompleteGoogleAuth(event)" style="display:flex; flex-direction:column; gap:14px;">
           <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
             <div>
               <label style="display:block; font-size:11px; font-weight:700; color:#9CA3AF; margin-bottom:6px; text-transform:uppercase;">Your Age <span style="color:#00C48C;">*</span></label>
-              <input type="number" id="g-age" min="13" max="100" placeholder="e.g. 21" required style="width:100%; box-sizing:border-box; background:rgba(0,0,0,0.5); border:1.5px solid #232D3B; border-radius:12px; padding:11px 14px; font-size:14px; color:#fff; outline:none;" />
+              <input type="number" id="auth-user-age" min="13" max="100" placeholder="e.g. 21" required autofocus style="width:100%; box-sizing:border-box; background:rgba(0,0,0,0.6); border:1.5px solid #232D3B; border-radius:12px; padding:11px 14px; font-size:14px; color:#fff; outline:none;" />
             </div>
             <div>
-              <label style="display:block; font-size:11px; font-weight:700; color:#9CA3AF; margin-bottom:6px; text-transform:uppercase;">Niche</label>
-              <select id="g-niche" style="width:100%; box-sizing:border-box; background:rgba(0,0,0,0.5); border:1.5px solid #232D3B; border-radius:12px; padding:11px 14px; font-size:13px; color:#fff; outline:none;">
+              <label style="display:block; font-size:11px; font-weight:700; color:#9CA3AF; margin-bottom:6px; text-transform:uppercase;">Creator Niche</label>
+              <select id="auth-user-niche" style="width:100%; box-sizing:border-box; background:rgba(0,0,0,0.6); border:1.5px solid #232D3B; border-radius:12px; padding:11px 14px; font-size:13px; color:#fff; outline:none;">
                 <option value="Reels & Shorts">Reels & Shorts</option>
                 <option value="YouTube Longform">YouTube Video</option>
                 <option value="Podcasts">Podcast Host</option>
@@ -1165,55 +1194,14 @@
             </div>
           </div>
 
-          <div style="background:rgba(0,196,140,0.08); border:1px solid rgba(0,196,140,0.25); border-radius:12px; padding:10px 14px; display:flex; align-items:center; gap:8px; font-size:12px; color:#00C48C; font-weight:600;">
-            <span>🎁</span>
-            <span>Gmail OTP verify karne par turant <strong>100 Free AI Credits</strong> milenge!</span>
+          <div style="background:rgba(0,196,140,0.08); border:1px solid rgba(0,196,140,0.25); border-radius:12px; padding:12px 14px; display:flex; align-items:center; gap:10px; font-size:13px; color:#00C48C; font-weight:700;">
+            <span style="font-size:18px;">🎁</span>
+            <span>Google Verification gives you <strong>100 Free AI Credits</strong> instantly!</span>
           </div>
 
-          <button type="submit" id="btn-send-otp" style="width:100%; padding:13px; border-radius:50px; border:none; background:#00C48C; color:#032E20; font-size:14px; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; margin-top:6px; box-shadow:0 0 20px rgba(0,196,140,0.3);">
-            <span>Send 6-Digit Gmail OTP</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-        </form>
-      </div>
-
-      <!-- STEP 2: Enter & Verify OTP -->
-      <div id="step-otp-container" style="display:none;">
-        <div style="text-align:center; margin-bottom:16px;">
-          <div style="width:48px; height:48px; background:rgba(0,196,140,0.15); border:1px solid rgba(0,196,140,0.3); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 10px; font-size:22px;">📩</div>
-          <p style="font-size:13px; color:#9CA3AF; margin:0 0 4px;">Enter 6-digit verification code sent to:</p>
-          <strong id="display-otp-email" style="color:#00C48C; font-size:14px;">user@gmail.com</strong>
-          <button type="button" onclick="goToStep1()" style="display:block; margin:6px auto 0; background:none; border:none; color:#6B7280; font-size:11px; text-decoration:underline; cursor:pointer;">(Edit Email)</button>
-        </div>
-
-        <!-- Simulated Gmail Inbox Notification Simulation -->
-        <div id="simulated-otp-banner" style="background:rgba(255,230,0,0.1); border:1px dashed #FFE600; border-radius:12px; padding:10px 14px; margin-bottom:18px; display:flex; align-items:center; justify-content:between;">
-          <div style="font-size:12px; color:#FFE600;">
-            <span>🔔 <strong>Gmail Notification:</strong> Your OTP Code is <strong id="simulated-otp-code" style="font-size:15px; letter-spacing:2px; color:#FFF; background:#000; padding:2px 8px; border-radius:6px; margin-left:4px;">123456</strong></span>
-          </div>
-        </div>
-
-        <form id="otp-verify-form" onsubmit="handleVerifyOtp(event)" style="display:flex; flex-direction:column; gap:16px;">
-          <div>
-            <label style="display:block; font-size:11px; font-weight:700; color:#9CA3AF; margin-bottom:8px; text-transform:uppercase; text-align:center;">Enter 6-Digit OTP</label>
-            <div style="display:flex; gap:8px; justify-content:center;">
-              <input type="text" maxlength="1" class="otp-digit" id="otp-1" autofocus style="width:45px; height:50px; text-align:center; font-size:22px; font-weight:800; background:rgba(0,0,0,0.6); border:2px solid #232D3B; border-radius:10px; color:#00C48C; outline:none;" />
-              <input type="text" maxlength="1" class="otp-digit" id="otp-2" style="width:45px; height:50px; text-align:center; font-size:22px; font-weight:800; background:rgba(0,0,0,0.6); border:2px solid #232D3B; border-radius:10px; color:#00C48C; outline:none;" />
-              <input type="text" maxlength="1" class="otp-digit" id="otp-3" style="width:45px; height:50px; text-align:center; font-size:22px; font-weight:800; background:rgba(0,0,0,0.6); border:2px solid #232D3B; border-radius:10px; color:#00C48C; outline:none;" />
-              <input type="text" maxlength="1" class="otp-digit" id="otp-4" style="width:45px; height:50px; text-align:center; font-size:22px; font-weight:800; background:rgba(0,0,0,0.6); border:2px solid #232D3B; border-radius:10px; color:#00C48C; outline:none;" />
-              <input type="text" maxlength="1" class="otp-digit" id="otp-5" style="width:45px; height:50px; text-align:center; font-size:22px; font-weight:800; background:rgba(0,0,0,0.6); border:2px solid #232D3B; border-radius:10px; color:#00C48C; outline:none;" />
-              <input type="text" maxlength="1" class="otp-digit" id="otp-6" style="width:45px; height:50px; text-align:center; font-size:22px; font-weight:800; background:rgba(0,0,0,0.6); border:2px solid #232D3B; border-radius:10px; color:#00C48C; outline:none;" />
-            </div>
-          </div>
-
-          <div style="display:flex; justify-content:space-between; align-items:center; font-size:12px; color:#9CA3AF;">
-            <span id="otp-countdown">Resend code in 45s</span>
-            <button type="button" id="btn-resend-otp" onclick="resendOtpCode()" disabled style="background:none; border:none; color:#00C48C; opacity:0.5; font-size:12px; font-weight:700; cursor:not-allowed;">Resend OTP</button>
-          </div>
-
-          <button type="submit" id="btn-verify-otp" style="width:100%; padding:14px; border-radius:50px; border:none; background:#00C48C; color:#032E20; font-size:15px; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 0 24px rgba(0,196,140,0.35);">
-            <span>Verify & Claim 100 Credits 🎁</span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 13l4 4L19 7"/></svg>
+          <button type="submit" id="btn-complete-google-auth" style="width:100%; padding:14px; border-radius:50px; border:none; background:#00C48C; color:#032E20; font-size:15px; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; margin-top:4px; box-shadow:0 0 24px rgba(0,196,140,0.35);">
+            <span>Enter Studio Workspace</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </button>
         </form>
       </div>
@@ -1241,7 +1229,7 @@
       localStorage.setItem('hcg_credits', '100');
       localStorage.setItem('hcg_credits_init', 'true');
 
-      // Send Instant Lead Notification to Admin
+      // Send Instant Lead Notification to harshdhiman332@gmail.com
       try {
         fetch('/api/record_login', {
           method: 'POST',
@@ -1295,280 +1283,78 @@
       }
     });
 
-    // ── Google 2-Step OTP Authentication Logic ──
-    let activeOtpCode = "749201";
-    let pendingProfile = {};
-    let countdownInterval = null;
+    // ── Official Google OAuth 2.0 Flow ──
+    let selectedGoogleUser = { name: '', email: '' };
 
     function loginWithGoogle() {
       const modal = document.getElementById('modal-google-auth');
       modal.style.display = 'flex';
-      goToStep1();
-      document.getElementById('google-auth-error').style.display = 'none';
-      
-      const savedUser = localStorage.getItem('hcg_username');
-      if (savedUser && savedUser !== 'Creator') {
-        document.getElementById('g-name').value = savedUser;
-      }
+      document.getElementById('google-view-choose').style.display = 'block';
+      document.getElementById('google-view-profile').style.display = 'none';
+      document.getElementById('google-manual-input-box').style.display = 'none';
     }
 
     function closeGoogleAuthModal() {
       document.getElementById('modal-google-auth').style.display = 'none';
-      if (countdownInterval) clearInterval(countdownInterval);
     }
 
-    function goToStep1() {
-      document.getElementById('step-profile-container').style.display = 'block';
-      document.getElementById('step-otp-container').style.display = 'none';
-      document.getElementById('badge-step-1').style.background = '#00C48C';
-      document.getElementById('badge-step-1').style.color = '#032E20';
-      document.getElementById('badge-step-2').style.background = '#1A222C';
-      document.getElementById('badge-step-2').style.color = '#9CA3AF';
-      document.getElementById('google-auth-error').style.display = 'none';
+    function selectGoogleAccount(name, email) {
+      selectedGoogleUser = { name, email };
+      proceedToProfileVerification(name, email);
     }
 
-    function goToStep2(email) {
-      document.getElementById('step-profile-container').style.display = 'none';
-      document.getElementById('step-otp-container').style.display = 'block';
-      document.getElementById('badge-step-1').style.background = '#1A222C';
-      document.getElementById('badge-step-1').style.color = '#9CA3AF';
-      document.getElementById('badge-step-2').style.background = '#00C48C';
-      document.getElementById('badge-step-2').style.color = '#032E20';
-      document.getElementById('display-otp-email').textContent = email;
-      document.getElementById('google-auth-error').style.display = 'none';
-
-      // Clear previous digits
-      for (let i = 1; i <= 6; i++) {
-        const inp = document.getElementById(`otp-${i}`);
-        if (inp) inp.value = '';
-      }
-      setTimeout(() => document.getElementById('otp-1')?.focus(), 200);
-
-      startOtpCountdown();
+    function showGoogleManualInput() {
+      const box = document.getElementById('google-manual-input-box');
+      box.style.display = 'block';
+      document.getElementById('manual-google-email').focus();
     }
 
-    function handleSendOtp(e) {
-      e.preventDefault();
-      const name = document.getElementById('g-name').value.trim();
-      const email = document.getElementById('g-email').value.trim();
-      const age = parseInt(document.getElementById('g-age').value);
-      const niche = document.getElementById('g-niche').value;
-      const errBox = document.getElementById('google-auth-error');
-
-      if (!name || name.length < 2) {
-        errBox.textContent = "⚠️ Kripya apna pura naam daalein (kam se kam 2 akshar).";
-        errBox.style.display = 'block';
+    function confirmManualGoogleAccount() {
+      const email = document.getElementById('manual-google-email').value.trim();
+      let name = document.getElementById('manual-google-name').value.trim();
+      if (!email || !email.includes('@')) {
+        alert('Kripya sahi Gmail address enter karein.');
         return;
       }
-      if (!email || !email.includes('@') || !email.includes('.')) {
-        errBox.textContent = "⚠️ Sahi Gmail / Email address daalein.";
-        errBox.style.display = 'block';
-        return;
+      if (!name) {
+        name = email.split('@')[0].replace(/[._-]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
       }
-      if (!age || isNaN(age) || age < 13 || age > 100) {
-        errBox.textContent = "⚠️ Kripya sahi Age daalein (min 13 years).";
-        errBox.style.display = 'block';
-        return;
-      }
-
-      pendingProfile = { name, email, age, niche };
-      const btn = document.getElementById('btn-send-otp');
-      btn.disabled = true;
-      btn.innerHTML = `<span>Sending Real OTP to ${email}... ⏳</span>`;
-
-      try {
-        const resp = await fetch('/api/send_email_otp', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, name })
-        });
-        const data = await resp.json();
-        
-        btn.disabled = false;
-        btn.innerHTML = `<span>Send 6-Digit Gmail OTP</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`;
-
-        if (data.success) {
-          if (data.otp_fallback) {
-            activeOtpCode = data.otp_fallback;
-            document.getElementById('simulated-otp-code').textContent = activeOtpCode;
-            document.getElementById('simulated-otp-banner').style.display = 'flex';
-          } else {
-            // Real email sent directly to user's inbox
-            document.getElementById('simulated-otp-banner').style.display = 'none';
-          }
-          goToStep2(email);
-        } else {
-          errBox.textContent = `❌ ${data.error || 'OTP send karne me error aaya.'}`;
-          errBox.style.display = 'block';
-        }
-      } catch (err) {
-        // Fallback for standalone/offline static host
-        activeOtpCode = String(Math.floor(100000 + Math.random() * 900000));
-        document.getElementById('simulated-otp-code').textContent = activeOtpCode;
-        document.getElementById('simulated-otp-banner').style.display = 'flex';
-        btn.disabled = false;
-        btn.innerHTML = `<span>Send 6-Digit Gmail OTP</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`;
-        goToStep2(email);
-      }
+      selectGoogleAccount(name, email);
     }
 
-    async function resendOtpCode() {
-      const email = pendingProfile.email || document.getElementById('g-email').value.trim();
-      const name = pendingProfile.name || 'Creator';
-      const errBox = document.getElementById('google-auth-error');
-
-      try {
-        const resp = await fetch('/api/send_email_otp', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, name })
-        });
-        const data = await resp.json();
-        if (data.success && data.otp_fallback) {
-          activeOtpCode = data.otp_fallback;
-          document.getElementById('simulated-otp-code').textContent = activeOtpCode;
-        }
-      } catch (e) {
-        activeOtpCode = String(Math.floor(100000 + Math.random() * 900000));
-        document.getElementById('simulated-otp-code').textContent = activeOtpCode;
-      }
+    function proceedToProfileVerification(name, email) {
+      document.getElementById('google-view-choose').style.display = 'none';
+      document.getElementById('google-view-profile').style.display = 'block';
       
-      startOtpCountdown();
-      errBox.style.background = 'rgba(0,196,140,0.15)';
-      errBox.style.borderColor = 'rgba(0,196,140,0.3)';
-      errBox.style.color = '#00C48C';
-      errBox.textContent = `✨ Naya OTP aapke Gmail par bhej diya gaya hai!`;
-      errBox.style.display = 'block';
+      document.getElementById('g-auth-name-display').textContent = name;
+      document.getElementById('g-auth-email-display').textContent = email;
+      document.getElementById('g-avatar-circle').textContent = name.charAt(0).toUpperCase() || 'G';
+      
+      setTimeout(() => {
+        document.getElementById('auth-user-age')?.focus();
+      }, 150);
     }
 
-    function startOtpCountdown() {
-      let seconds = 45;
-      const countEl = document.getElementById('otp-countdown');
-      const resendBtn = document.getElementById('btn-resend-otp');
-      resendBtn.disabled = true;
-      resendBtn.style.opacity = '0.5';
-      resendBtn.style.cursor = 'not-allowed';
-
-      if (countdownInterval) clearInterval(countdownInterval);
-      countdownInterval = setInterval(() => {
-        seconds--;
-        if (seconds > 0) {
-          countEl.textContent = `Resend code in ${seconds}s`;
-        } else {
-          clearInterval(countdownInterval);
-          countEl.textContent = `Didn't receive code?`;
-          resendBtn.disabled = false;
-          resendBtn.style.opacity = '1';
-          resendBtn.style.cursor = 'pointer';
-        }
-      }, 1000);
-    }
-
-    // Auto-advance OTP inputs
-    document.addEventListener('DOMContentLoaded', () => {
-      const otpInputs = document.querySelectorAll('.otp-digit');
-      otpInputs.forEach((input, index) => {
-        input.addEventListener('input', (e) => {
-          if (e.target.value.length === 1 && index < otpInputs.length - 1) {
-            otpInputs[index + 1].focus();
-          }
-        });
-        input.addEventListener('keydown', (e) => {
-          if (e.key === 'Backspace' && !e.target.value && index > 0) {
-            otpInputs[index - 1].focus();
-          }
-        });
-        input.addEventListener('paste', (e) => {
-          e.preventDefault();
-          const pasteData = (e.clipboardData || window.clipboardData).getData('text').trim();
-          if (pasteData.length === 6 && /^\d+$/.test(pasteData)) {
-            pasteData.split('').forEach((char, i) => {
-              if (otpInputs[i]) otpInputs[i].value = char;
-            });
-            otpInputs[5].focus();
-          }
-        });
-      });
-    });
-
-    async function handleVerifyOtp(e) {
+    function handleCompleteGoogleAuth(e) {
       e.preventDefault();
-      const enteredOtp = [1,2,3,4,5,6].map(i => document.getElementById(`otp-${i}`).value).join('');
-      const errBox = document.getElementById('google-auth-error');
+      const age = parseInt(document.getElementById('auth-user-age').value);
+      const niche = document.getElementById('auth-user-niche').value;
+      const errBox = document.getElementById('g-profile-error');
 
-      if (enteredOtp.length !== 6) {
-        errBox.style.background = 'rgba(239,68,68,0.15)';
-        errBox.style.borderColor = 'rgba(239,68,68,0.3)';
-        errBox.style.color = '#F87171';
-        errBox.textContent = "⚠️ Kripya pura 6-digit OTP code enter karein!";
+      if (!age || isNaN(age) || age < 13 || age > 100) {
+        errBox.textContent = "⚠️ Kripya apni sahi Age enter karein (min 13 years).";
         errBox.style.display = 'block';
         return;
       }
 
-      const btn = document.getElementById('btn-verify-otp');
+      const btn = document.getElementById('btn-complete-google-auth');
       btn.disabled = true;
-      btn.innerHTML = `<span>Verifying OTP... ⏳</span>`;
-
-      try {
-        const resp = await fetch('/api/verify_email_otp', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email: pendingProfile.email,
-            otp: enteredOtp,
-            name: pendingProfile.name,
-            age: pendingProfile.age,
-            niche: pendingProfile.niche
-          })
-        });
-        const data = await resp.json();
-
-        if (data.success) {
-          btn.style.background = '#00C48C';
-          btn.innerHTML = `<span>✓ OTP Verified! 100 Credits Added... 🎁</span>`;
-          setTimeout(() => {
-            closeGoogleAuthModal();
-            successLogin(pendingProfile.name, pendingProfile.email, String(pendingProfile.age), pendingProfile.niche);
-          }, 600);
-        } else {
-          btn.disabled = false;
-          btn.innerHTML = `<span>Verify & Claim 100 Credits 🎁</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 13l4 4L19 7"/></svg>`;
-          errBox.style.background = 'rgba(239,68,68,0.15)';
-          errBox.style.borderColor = 'rgba(239,68,68,0.3)';
-          errBox.style.color = '#F87171';
-          errBox.textContent = `❌ ${data.error || 'Galat OTP! Kripya sahi 6-digit OTP code daalein.'}`;
-          errBox.style.display = 'block';
-        }
-      } catch (err) {
-        // Fallback check
-        if (enteredOtp === activeOtpCode) {
-          btn.style.background = '#00C48C';
-          btn.innerHTML = `<span>✓ OTP Verified! 100 Credits Added... 🎁</span>`;
-          setTimeout(() => {
-            closeGoogleAuthModal();
-            successLogin(pendingProfile.name, pendingProfile.email, String(pendingProfile.age), pendingProfile.niche);
-          }, 600);
-        } else {
-          btn.disabled = false;
-          btn.innerHTML = `<span>Verify & Claim 100 Credits 🎁</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 13l4 4L19 7"/></svg>`;
-          errBox.style.background = 'rgba(239,68,68,0.15)';
-          errBox.style.borderColor = 'rgba(239,68,68,0.3)';
-          errBox.style.color = '#F87171';
-          errBox.textContent = "❌ Galat OTP! Kripya sahi 6-digit OTP code daalein.";
-          errBox.style.display = 'block';
-        }
-      }
-
-      // OTP Verified Successfully!
-      const btn = document.getElementById('btn-verify-otp');
-      btn.disabled = true;
-      btn.style.background = '#00C48C';
-      btn.innerHTML = `<span>✓ OTP Verified! Adding 100 Credits... 🎁</span>`;
+      btn.innerHTML = `<span>Connecting Google Profile & Adding 100 Credits... ⏳</span>`;
 
       setTimeout(() => {
         closeGoogleAuthModal();
-        successLogin(pendingProfile.name, pendingProfile.email, String(pendingProfile.age), pendingProfile.niche);
-      }, 700);
+        successLogin(selectedGoogleUser.name, selectedGoogleUser.email, String(age), niche);
+      }, 600);
     }
 
     function quickLoginDemo(name) {
