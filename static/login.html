@@ -1357,31 +1357,73 @@
         return;
       }
 
-      // Generate random 6 digit OTP
-      activeOtpCode = String(Math.floor(100000 + Math.random() * 900000));
       pendingProfile = { name, email, age, niche };
-
       const btn = document.getElementById('btn-send-otp');
       btn.disabled = true;
-      btn.innerHTML = `<span>Sending OTP to ${email}... ⏳</span>`;
+      btn.innerHTML = `<span>Sending Real OTP to ${email}... ⏳</span>`;
 
-      setTimeout(() => {
+      try {
+        const resp = await fetch('/api/send_email_otp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, name })
+        });
+        const data = await resp.json();
+        
         btn.disabled = false;
         btn.innerHTML = `<span>Send 6-Digit Gmail OTP</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`;
+
+        if (data.success) {
+          if (data.otp_fallback) {
+            activeOtpCode = data.otp_fallback;
+            document.getElementById('simulated-otp-code').textContent = activeOtpCode;
+            document.getElementById('simulated-otp-banner').style.display = 'flex';
+          } else {
+            // Real email sent directly to user's inbox
+            document.getElementById('simulated-otp-banner').style.display = 'none';
+          }
+          goToStep2(email);
+        } else {
+          errBox.textContent = `❌ ${data.error || 'OTP send karne me error aaya.'}`;
+          errBox.style.display = 'block';
+        }
+      } catch (err) {
+        // Fallback for standalone/offline static host
+        activeOtpCode = String(Math.floor(100000 + Math.random() * 900000));
         document.getElementById('simulated-otp-code').textContent = activeOtpCode;
+        document.getElementById('simulated-otp-banner').style.display = 'flex';
+        btn.disabled = false;
+        btn.innerHTML = `<span>Send 6-Digit Gmail OTP</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`;
         goToStep2(email);
-      }, 700);
+      }
     }
 
-    function resendOtpCode() {
-      activeOtpCode = String(Math.floor(100000 + Math.random() * 900000));
-      document.getElementById('simulated-otp-code').textContent = activeOtpCode;
-      startOtpCountdown();
+    async function resendOtpCode() {
+      const email = pendingProfile.email || document.getElementById('g-email').value.trim();
+      const name = pendingProfile.name || 'Creator';
       const errBox = document.getElementById('google-auth-error');
+
+      try {
+        const resp = await fetch('/api/send_email_otp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, name })
+        });
+        const data = await resp.json();
+        if (data.success && data.otp_fallback) {
+          activeOtpCode = data.otp_fallback;
+          document.getElementById('simulated-otp-code').textContent = activeOtpCode;
+        }
+      } catch (e) {
+        activeOtpCode = String(Math.floor(100000 + Math.random() * 900000));
+        document.getElementById('simulated-otp-code').textContent = activeOtpCode;
+      }
+      
+      startOtpCountdown();
       errBox.style.background = 'rgba(0,196,140,0.15)';
       errBox.style.borderColor = 'rgba(0,196,140,0.3)';
       errBox.style.color = '#00C48C';
-      errBox.textContent = `✨ Naya OTP bhej diya gaya hai: ${activeOtpCode}`;
+      errBox.textContent = `✨ Naya OTP aapke Gmail par bhej diya gaya hai!`;
       errBox.style.display = 'block';
     }
 
@@ -1435,7 +1477,7 @@
       });
     });
 
-    function handleVerifyOtp(e) {
+    async function handleVerifyOtp(e) {
       e.preventDefault();
       const enteredOtp = [1,2,3,4,5,6].map(i => document.getElementById(`otp-${i}`).value).join('');
       const errBox = document.getElementById('google-auth-error');
@@ -1449,13 +1491,58 @@
         return;
       }
 
-      if (enteredOtp !== activeOtpCode) {
-        errBox.style.background = 'rgba(239,68,68,0.15)';
-        errBox.style.borderColor = 'rgba(239,68,68,0.3)';
-        errBox.style.color = '#F87171';
-        errBox.textContent = "❌ Galat OTP! Kripya sahi 6-digit OTP code daalein.";
-        errBox.style.display = 'block';
-        return;
+      const btn = document.getElementById('btn-verify-otp');
+      btn.disabled = true;
+      btn.innerHTML = `<span>Verifying OTP... ⏳</span>`;
+
+      try {
+        const resp = await fetch('/api/verify_email_otp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: pendingProfile.email,
+            otp: enteredOtp,
+            name: pendingProfile.name,
+            age: pendingProfile.age,
+            niche: pendingProfile.niche
+          })
+        });
+        const data = await resp.json();
+
+        if (data.success) {
+          btn.style.background = '#00C48C';
+          btn.innerHTML = `<span>✓ OTP Verified! 100 Credits Added... 🎁</span>`;
+          setTimeout(() => {
+            closeGoogleAuthModal();
+            successLogin(pendingProfile.name, pendingProfile.email, String(pendingProfile.age), pendingProfile.niche);
+          }, 600);
+        } else {
+          btn.disabled = false;
+          btn.innerHTML = `<span>Verify & Claim 100 Credits 🎁</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 13l4 4L19 7"/></svg>`;
+          errBox.style.background = 'rgba(239,68,68,0.15)';
+          errBox.style.borderColor = 'rgba(239,68,68,0.3)';
+          errBox.style.color = '#F87171';
+          errBox.textContent = `❌ ${data.error || 'Galat OTP! Kripya sahi 6-digit OTP code daalein.'}`;
+          errBox.style.display = 'block';
+        }
+      } catch (err) {
+        // Fallback check
+        if (enteredOtp === activeOtpCode) {
+          btn.style.background = '#00C48C';
+          btn.innerHTML = `<span>✓ OTP Verified! 100 Credits Added... 🎁</span>`;
+          setTimeout(() => {
+            closeGoogleAuthModal();
+            successLogin(pendingProfile.name, pendingProfile.email, String(pendingProfile.age), pendingProfile.niche);
+          }, 600);
+        } else {
+          btn.disabled = false;
+          btn.innerHTML = `<span>Verify & Claim 100 Credits 🎁</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 13l4 4L19 7"/></svg>`;
+          errBox.style.background = 'rgba(239,68,68,0.15)';
+          errBox.style.borderColor = 'rgba(239,68,68,0.3)';
+          errBox.style.color = '#F87171';
+          errBox.textContent = "❌ Galat OTP! Kripya sahi 6-digit OTP code daalein.";
+          errBox.style.display = 'block';
+        }
       }
 
       // OTP Verified Successfully!

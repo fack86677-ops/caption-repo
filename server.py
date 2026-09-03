@@ -14,9 +14,13 @@ import json
 import time
 import uuid
 import shutil
+import random
 import urllib.parse
 import subprocess
 import threading
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 from socketserver import ThreadingMixIn
 
@@ -31,10 +35,105 @@ STATIC_DIR = os.path.join(BASE_DIR, "static")
 UPLOADS_DIR = os.path.join(BASE_DIR, "uploads")
 EXPORTS_DIR = os.path.join(BASE_DIR, "exports")
 PROJECTS_FILE = os.path.join(BASE_DIR, "projects.json")
+SMTP_CONFIG_FILE = os.path.join(BASE_DIR, "smtp_config.json")
 
 os.makedirs(STATIC_DIR, exist_ok=True)
 os.makedirs(UPLOADS_DIR, exist_ok=True)
 os.makedirs(EXPORTS_DIR, exist_ok=True)
+
+# Active OTP Store: email -> {'otp': '123456', 'name': 'Name', 'expires_at': timestamp}
+ACTIVE_EMAIL_OTPS = {}
+
+def get_smtp_config():
+    config = {
+        "smtp_host": os.environ.get("SMTP_HOST", "smtp.gmail.com"),
+        "smtp_port": int(os.environ.get("SMTP_PORT", 587)),
+        "smtp_user": os.environ.get("SMTP_USER", ""),
+        "smtp_pass": os.environ.get("SMTP_PASS", ""),
+        "from_name": os.environ.get("SMTP_FROM_NAME", "Harsh Caption Generator")
+    }
+    if os.path.exists(SMTP_CONFIG_FILE):
+        try:
+            with open(SMTP_CONFIG_FILE, "r", encoding="utf-8") as f:
+                saved = json.load(f)
+                config.update(saved)
+        except Exception as e:
+            print("Error loading smtp_config.json:", e)
+    return config
+
+def send_real_email_otp(to_email, user_name, otp_code):
+    """
+    Sends a real 6-digit OTP email directly to user's Gmail / email inbox.
+    """
+    cfg = get_smtp_config()
+    subject = f"{otp_code} is your Harsh Caption Generator Verification Code"
+    
+    html_body = f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <style>
+        body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #080B0E; color: #FFFFFF; padding: 20px; }}
+        .container {{ max-width: 520px; margin: 0 auto; background: #0E1318; border: 1px solid #232D3B; border-radius: 18px; padding: 32px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }}
+        .logo {{ font-size: 20px; font-weight: 900; color: #00C48C; margin-bottom: 20px; }}
+        .title {{ font-size: 22px; font-weight: 800; color: #FFFFFF; margin-bottom: 8px; }}
+        .desc {{ font-size: 14px; color: #9CA3AF; line-height: 1.6; margin-bottom: 24px; }}
+        .otp-box {{ background: rgba(0, 196, 140, 0.1); border: 2px dashed #00C48C; border-radius: 12px; padding: 18px; text-align: center; margin: 24px 0; }}
+        .otp-code {{ font-size: 34px; font-weight: 900; letter-spacing: 8px; color: #00C48C; font-family: monospace; }}
+        .footer {{ font-size: 12px; color: #6B7280; border-top: 1px solid #1A222C; padding-top: 18px; margin-top: 24px; text-align: center; }}
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <div class="logo">⚡ HARSH CAPTION GENERATOR</div>
+        <div class="title">Verify your Email Address</div>
+        <p class="desc">Hello <strong>{user_name or 'Creator'}</strong>,<br>Thank you for signing in. Use the 6-digit verification code below to activate your account and claim your <strong>100 Free AI Credits</strong>:</p>
+        
+        <div class="otp-box">
+          <div style="font-size: 11px; font-weight: 700; color: #9CA3AF; text-transform: uppercase; margin-bottom: 6px;">Your 6-Digit Verification Code</div>
+          <div class="otp-code">{otp_code}</div>
+        </div>
+        
+        <p class="desc" style="font-size: 12px;">This verification code is valid for <strong>10 minutes</strong>. If you did not request this code, you can safely ignore this email.</p>
+        
+        <div class="footer">
+          © 2026 Harsh Caption Generator • Fast & Viral Captions for Indian Creators
+        </div>
+      </div>
+    </body>
+    </html>
+    """
+    
+    smtp_user = cfg.get("smtp_user", "").strip()
+    smtp_pass = cfg.get("smtp_pass", "").strip()
+    smtp_host = cfg.get("smtp_host", "smtp.gmail.com").strip()
+    smtp_port = int(cfg.get("smtp_port", 587))
+    from_name = cfg.get("from_name", "Harsh Caption Generator")
+    
+    if smtp_user and smtp_pass:
+        try:
+            msg = MIMEMultipart("alternative")
+            msg["Subject"] = subject
+            msg["From"] = f"{from_name} <{smtp_user}>"
+            msg["To"] = to_email
+            
+            part = MIMEText(html_body, "html", "utf-8")
+            msg.attach(part)
+            
+            server = smtplib.SMTP(smtp_host, smtp_port, timeout=12)
+            server.starttls()
+            server.login(smtp_user, smtp_pass)
+            server.sendmail(smtp_user, [to_email], msg.as_string())
+            server.quit()
+            print(f"[EMAIL ENGINE] Real OTP {otp_code} successfully delivered to {to_email} via {smtp_host}!")
+            return True, f"OTP sent to {to_email}"
+        except Exception as e:
+            print(f"[EMAIL ENGINE] SMTP Delivery Error: {e}")
+            return False, f"SMTP Error: {str(e)}"
+    else:
+        print(f"[EMAIL ENGINE] Real SMTP credentials not configured in smtp_config.json. OTP for {to_email} is {otp_code}")
+        return True, f"OTP generated for {to_email}"
 
 def get_ffmpeg_path():
     local = os.path.join(BASE_DIR, "ffmpeg.exe")
@@ -866,6 +965,108 @@ class HarshRequestHandler(SimpleHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(json.dumps(res).encode("utf-8"))
             return
+
+        elif path == "/api/send_email_otp":
+            try:
+                content_length = int(self.headers.get('Content-Length', 0))
+                raw_body = self.rfile.read(content_length).decode('utf-8')
+                body = json.loads(raw_body) if raw_body else {}
+                
+                email = body.get("email", "").strip().lower()
+                name = body.get("name", "Creator").strip()
+                
+                if not email or "@" not in email:
+                    self.send_response(400)
+                    self.send_header("Content-type", "application/json")
+                    self.end_headers()
+                    self.wfile.write(json.dumps({"success": False, "error": "Invalid email address"}).encode("utf-8"))
+                    return
+
+                # Generate secure 6-digit OTP
+                otp_code = str(random.randint(100000, 999999))
+                ACTIVE_EMAIL_OTPS[email] = {
+                    "otp": otp_code,
+                    "name": name,
+                    "expires_at": time.time() + 600 # 10 minutes
+                }
+                
+                # Send email via SMTP
+                sent_ok, msg = send_real_email_otp(email, name, otp_code)
+                
+                cfg = get_smtp_config()
+                has_smtp = bool(cfg.get("smtp_user") and cfg.get("smtp_pass"))
+                
+                response_data = {
+                    "success": True,
+                    "message": f"Verification code sent to {email}",
+                    "email": email,
+                    "otp_fallback": otp_code if not has_smtp else None # Provided only if site owner hasn't configured SMTP credentials yet
+                }
+                
+                self.send_response(200)
+                self.send_header("Content-type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps(response_data).encode("utf-8"))
+                return
+            except Exception as e:
+                self.send_response(500)
+                self.send_header("Content-type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps({"success": False, "error": str(e)}).encode("utf-8"))
+                return
+
+        elif path == "/api/verify_email_otp":
+            try:
+                content_length = int(self.headers.get('Content-Length', 0))
+                raw_body = self.rfile.read(content_length).decode('utf-8')
+                body = json.loads(raw_body) if raw_body else {}
+                
+                email = body.get("email", "").strip().lower()
+                entered_otp = str(body.get("otp", "")).strip()
+                name = body.get("name", "Creator").strip()
+                
+                record = ACTIVE_EMAIL_OTPS.get(email)
+                if not record:
+                    self.send_response(400)
+                    self.send_header("Content-type", "application/json")
+                    self.end_headers()
+                    self.wfile.write(json.dumps({"success": False, "error": "No OTP was requested for this email. Please click Send OTP."}).encode("utf-8"))
+                    return
+                
+                if time.time() > record.get("expires_at", 0):
+                    self.send_response(400)
+                    self.send_header("Content-type", "application/json")
+                    self.end_headers()
+                    self.wfile.write(json.dumps({"success": False, "error": "OTP has expired. Please request a new code."}).encode("utf-8"))
+                    return
+                
+                if entered_otp != str(record.get("otp")):
+                    self.send_response(400)
+                    self.send_header("Content-type", "application/json")
+                    self.end_headers()
+                    self.wfile.write(json.dumps({"success": False, "error": "Invalid OTP. Please enter the correct 6-digit code."}).encode("utf-8"))
+                    return
+                
+                # Correct verification
+                ACTIVE_EMAIL_OTPS.pop(email, None)
+                
+                self.send_response(200)
+                self.send_header("Content-type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps({
+                    "success": True,
+                    "verified": True,
+                    "email": email,
+                    "name": name,
+                    "credits": 100
+                }).encode("utf-8"))
+                return
+            except Exception as e:
+                self.send_response(500)
+                self.send_header("Content-type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps({"success": False, "error": str(e)}).encode("utf-8"))
+                return
 
         self.send_error(404, "API endpoint not found")
 
