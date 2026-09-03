@@ -3,22 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Harsh Caption Generator - AI Caption & Subtitle Studio</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2300C48C'><path d='M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5'/></svg>">
+  <title>Harsh Luxury Real Estate Media – AI Video & Caption Studio</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23D4AF37'><path d='M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5'/></svg>">
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
       darkMode: 'class',
       theme: {
         extend: {
+          fontFamily: {
+            serif: ['Playfair Display', 'serif'],
+            sans: ['Plus Jakarta Sans', 'sans-serif']
+          },
           colors: {
             brand: {
-              green: '#00C48C',
-              greenHover: '#00DF9F',
-              dark: '#0B0E11',
-              sidebar: '#0E1217',
-              card: '#141A21',
-              border: '#1F2732'
+              gold: '#D4AF37',
+              goldLight: '#F3E5AB',
+              goldHover: '#E5C158',
+              goldGlow: 'rgba(212, 175, 55, 0.3)',
+              dark: '#07090D',
+              sidebar: '#0D1219',
+              card: '#121822',
+              border: '#1F2837'
             }
           }
         }
@@ -27,30 +34,30 @@
   </script>
   <link rel="stylesheet" href="/static/css/styles.css">
 </head>
-<body class="bg-[#0B0E11] text-[#F3F4F6] font-sans h-screen flex flex-col overflow-hidden select-none">
+<body class="bg-[#07090D] text-[#F8FAFC] font-sans h-screen flex flex-col overflow-hidden select-none">
 
   <!-- ========================================== -->
   <!-- SCREEN 1: DASHBOARD VIEW                   -->
   <!-- ========================================== -->
   <div id="screen-dashboard" class="app-screen flex-1 flex overflow-hidden">
     <!-- Left Sidebar -->
-    <aside class="w-64 bg-[#0E1217] border-r border-[#1F2732] flex flex-col justify-between p-4 shrink-0">
+    <aside class="w-64 bg-[#0D1219] border-r border-[#1F2837] flex flex-col justify-between p-4 shrink-0">
       <div>
-        <!-- Logo: Harsh Caption Generator -->
-        <div class="flex items-center gap-2 mb-8 px-2">
-          <div class="w-8 h-8 rounded-lg bg-[#00C48C]/15 border border-[#00C48C]/40 flex items-center justify-center text-[#00C48C] font-black text-xl shadow-[0_0_12px_rgba(0,196,140,0.3)]">
-            H
+        <!-- Logo: Harsh Luxury Estates -->
+        <div class="flex items-center gap-2.5 mb-8 px-2">
+          <div class="w-8 h-8 rounded-lg bg-[#D4AF37]/15 border border-[#D4AF37]/40 flex items-center justify-center text-[#D4AF37] font-black text-lg shadow-[0_0_15px_rgba(212,175,55,0.3)]">
+            🏛️
           </div>
-          <span class="text-base font-extrabold tracking-tight text-white flex items-center">
-            Harsh Captions<span class="w-2 h-2 rounded-full bg-[#00C48C] ml-1"></span>
+          <span class="text-sm font-extrabold tracking-tight text-white flex items-center font-serif">
+            Harsh Luxury Estates<span class="w-2 h-2 rounded-full bg-[#D4AF37] ml-1.5 shadow-[0_0_8px_#D4AF37]"></span>
           </span>
         </div>
 
         <!-- Navigation Menu -->
         <nav class="space-y-1">
-          <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-[#142621] text-[#00C48C] font-semibold text-sm border border-[#00C48C]/20">
+          <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-[#D4AF37]/15 text-[#D4AF37] font-bold text-sm border border-[#D4AF37]/30">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-            Home
+            Estate Studio
           </a>
           <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[#9CA3AF] hover:text-white hover:bg-[#141A21] font-medium text-sm transition">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
@@ -122,22 +129,20 @@
           <svg class="w-4 h-4 text-[#6B7280] absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
           <input type="text" placeholder="Search by title... (⌘K)" class="w-full bg-[#141A21] border border-[#1F2732] rounded-xl pl-10 pr-4 py-2 text-xs text-white focus:outline-none focus:border-[#00C48C] transition placeholder-[#6B7280]">
         </div>
-
         <!-- Right Top Actions -->
         <div class="flex items-center gap-4">
           <!-- Credit Badge -->
-          <a href="/pricing" class="flex items-center gap-1.5 px-3 py-1.5 bg-[#0E1F18] border border-[#00C48C]/30 rounded-xl text-xs font-bold text-[#00C48C] hover:bg-[#122B1E] transition cursor-pointer" title="Buy more credits">
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-            <span id="header-credits">100</span> Credits
-            <svg class="w-3 h-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+          <a href="/pricing" class="flex items-center gap-1.5 px-3.5 py-1.5 bg-[#171D26] border border-[#D4AF37]/40 rounded-xl text-xs font-extrabold text-[#D4AF37] hover:bg-[#1E2632] transition cursor-pointer shadow-[0_0_12px_rgba(212,175,55,0.15)]" title="Buy estate credits">
+            <span>👑</span>
+            <span id="header-credits">100</span> Estate Credits
           </a>
-          <a href="/pricing" class="btn-primary text-xs" style="text-decoration:none">
+          <a href="/pricing" class="btn-primary text-xs !bg-gradient-to-r !from-[#D4AF37] !to-[#B8860B] !text-black !font-bold" style="text-decoration:none">
             <span>Buy Credits</span>
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
           </a>
           <!-- Profile Avatar -->
           <div class="flex items-center gap-2 pl-2">
-            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-[#00C48C] to-[#38BDF8] flex items-center justify-center text-xs font-bold text-black border border-white/20 avatar-initials-display" id="avatar-initials">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-[#D4AF37] to-[#F3E5AB] flex items-center justify-center text-xs font-black text-black border border-white/20 avatar-initials-display" id="avatar-initials">
               H
             </div>
             <span class="text-xs font-semibold text-white avatar-name-display" id="avatar-name">Harsh</span>
@@ -151,19 +156,19 @@
       <!-- Dashboard Body -->
       <div class="p-8 max-w-6xl w-full mx-auto space-y-8">
         <!-- Big Upload Dropzone -->
-        <div id="main-dropzone" class="dropzone p-12 flex flex-col items-center justify-center cursor-pointer group">
+        <div id="main-dropzone" class="dropzone p-12 flex flex-col items-center justify-center cursor-pointer group !border-[#D4AF37]/30 hover:!border-[#D4AF37] !bg-[#0E131A] hover:!bg-[#131A24]">
           <input type="file" id="file-upload-input" accept="video/mp4,video/quicktime,video/webm,audio/mp3,audio/wav" class="hidden">
-          <div class="w-16 h-16 rounded-2xl bg-[#141A21] border border-[#232D3B] group-hover:border-[#00C48C]/50 flex items-center justify-center text-[#9CA3AF] group-hover:text-[#00C48C] mb-4 transition transform group-hover:scale-110">
+          <div class="w-16 h-16 rounded-2xl bg-[#171E28] border border-[#2A3648] group-hover:border-[#D4AF37]/50 flex items-center justify-center text-[#9CA3AF] group-hover:text-[#D4AF37] mb-4 transition transform group-hover:scale-110 shadow-lg">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
           </div>
-          <h3 class="text-base font-semibold text-white mb-1 group-hover:text-[#00C48C] transition">Drop your videos here or click to upload</h3>
-          <p class="text-xs text-[#6B7280] mb-1">Max: 2:00 minutes, 1GB</p>
-          <p class="text-xs text-[#6B7280]">Supports: MP4, MOV</p>
+          <h3 class="text-base font-bold text-white mb-1 group-hover:text-[#D4AF37] transition font-serif">Drop property tour video here or click to upload</h3>
+          <p class="text-xs text-[#9CA3AF] mb-1">Max: 10:00 minutes, 2GB 4K HDR</p>
+          <p class="text-xs text-[#6B7280]">Supports: MP4, MOV, ProRes, Drone 4K</p>
         </div>
 
         <!-- Recent Videos Section -->
         <div class="space-y-4">
-          <h2 class="text-lg font-bold text-white">Recent Videos</h2>
+          <h2 class="text-lg font-bold text-white font-serif">Recent Property Videos & Tours</h2>
           <div id="recent-videos-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
             <!-- Dynamic Project Cards -->
           </div>
@@ -177,12 +182,12 @@
   <!-- SCREEN 2: PREPARE YOUR MEDIA MODAL         -->
   <!-- ========================================== -->
   <div id="modal-prepare-media" class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-[#12171E] border border-[#232D3B] rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-6">
+    <div class="bg-[#0E131A] border border-[#D4AF37]/30 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-6">
       <div class="flex items-center justify-between">
         <div>
-          <h3 class="text-lg font-bold text-white">Prepare Your Media</h3>
-          <p id="prepare-file-name" class="text-xs text-[#00C48C] font-semibold mt-0.5 truncate max-w-sm"></p>
-          <p class="text-[11px] text-[#9CA3AF]">Select language and settings to transcribe your media.</p>
+          <h3 class="text-lg font-bold text-white font-serif">Prepare Property Media</h3>
+          <p id="prepare-file-name" class="text-xs text-[#D4AF37] font-semibold mt-0.5 truncate max-w-sm"></p>
+          <p class="text-[11px] text-[#9CA3AF]">Select language and AI voice settings for property transcription.</p>
         </div>
         <button id="btn-close-prepare" class="text-[#6B7280] hover:text-white p-1 rounded-lg hover:bg-[#1A222C]">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
@@ -190,112 +195,82 @@
       </div>
 
       <!-- Preview Thumbnail -->
-      <div class="relative h-44 bg-[#0A0D11] rounded-xl overflow-hidden flex items-center justify-center border border-[#1F2732]">
+      <div class="relative h-44 bg-[#07090D] rounded-xl overflow-hidden flex items-center justify-center border border-[#1F2837]">
         <img src="/static/assets/demo_thumb.jpg" class="w-full h-full object-cover" onerror="this.src='/static/assets/demo_thumb.jpg'">
         <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
           <div class="w-12 h-12 rounded-full bg-white/20 backdrop-blur flex items-center justify-center text-white">
             <svg class="w-6 h-6 ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
           </div>
         </div>
-        <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-3 py-1 bg-black/70 rounded-full text-[11px] text-[#00C48C] font-semibold backdrop-blur">
-          <span class="w-2 h-2 rounded-full bg-[#00C48C] animate-pulse"></span>
-          Ready for processing
+        <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-3 py-1 bg-black/80 rounded-full text-[11px] text-[#D4AF37] font-semibold backdrop-blur border border-[#D4AF37]/30">
+          <span class="w-2 h-2 rounded-full bg-[#D4AF37] animate-pulse"></span>
+          Ready for Real Estate AI processing
         </div>
       </div>
 
       <!-- Language Settings Box -->
       <div class="space-y-3">
         <div class="flex items-center gap-2 text-xs font-bold text-white">
-          <svg class="w-4 h-4 text-[#00C48C]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/></svg>
-          Language Settings
+          <svg class="w-4 h-4 text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/></svg>
+          Property Audio & Language Settings
         </div>
 
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block text-[11px] text-[#9CA3AF] mb-1">What language is spoken?</label>
-            <select id="select-spoken-language" class="w-full bg-[#1A222C] border border-[#26313F] rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[#00C48C]">
-              <option value="hi" selected>Hindi / Hinglish (हिंदी)</option>
-              <option value="ur">Urdu (اردو - RTL)</option>
-              <option value="pa">Punjabi (ਪੰਜਾਬੀ / شاہ مکھی)</option>
-              <option value="bn">Bengali (বাংলা)</option>
+            <label class="block text-[10px] font-bold text-[#9CA3AF] uppercase mb-1">Spoken Language</label>
+            <select id="select-spoken-language" class="w-full bg-[#151D26] border border-[#242F3D] rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[#D4AF37]">
+              <option value="hi" selected>Hindi (हिंदी / Hinglish)</option>
+              <option value="en">English (Global / Luxury)</option>
+              <option value="ur">Urdu (اردو - Dubai/Gulf)</option>
+              <option value="pa">Punjabi (ਪੰਜਾਬੀ)</option>
               <option value="mr">Marathi (मराठी)</option>
               <option value="gu">Gujarati (ગુજરાતી)</option>
+              <option value="bn">Bengali (বাংলা)</option>
               <option value="ta">Tamil (தமிழ்)</option>
               <option value="te">Telugu (తెలుగు)</option>
-              <option value="kn">Kannada (ಕನ್ನಡ)</option>
-              <option value="ml">Malayalam (മലയാളം)</option>
-              <option value="sd">Sindhi (سنڌي)</option>
-              <option value="ps">Pashto (پښتو)</option>
-              <option value="as">Assamese (অসমীয়া)</option>
-              <option value="ks">Kashmiri (کٲشُر)</option>
-              <option value="ne">Nepali (नेपाली)</option>
-              <option value="or">Odia (ଓଡ଼ିଆ)</option>
-              <option value="fa">Persian / Farsi (فارسی)</option>
-              <option value="ar">Arabic (العربية)</option>
-              <option value="ms">Malay (Bahasa Melayu)</option>
-              <option value="en">English (Global)</option>
+              <option value="auto">Auto-Detect Voice</option>
             </select>
           </div>
           <div>
-            <label class="block text-[11px] text-[#9CA3AF] mb-1">Writing system used?</label>
-            <select id="select-writing-script" class="w-full bg-[#1A222C] border border-[#26313F] rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[#00C48C]">
-              <option value="roman" selected>Roman Script (Hinglish)</option>
-              <option value="native">Native Script (हिंदी/देवनागरी)</option>
+            <label class="block text-[10px] font-bold text-[#9CA3AF] uppercase mb-1">Subtitle Style</label>
+            <select id="select-writing-script" class="w-full bg-[#151D26] border border-[#242F3D] rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[#D4AF37]">
+              <option value="roman" selected>Hinglish (Roman Script)</option>
+              <option value="native">Native Script (हिंदी/বাংলা)</option>
             </select>
           </div>
         </div>
-      </div>
 
-      <!-- Feature Toggles -->
-      <div class="space-y-2.5">
-        <div class="flex items-center justify-between p-3 bg-[#151B22] border border-[#1F2732] rounded-xl">
+        <div class="flex items-center justify-between p-3 bg-[#151D26] border border-[#242F3D] rounded-xl">
           <div class="flex items-center gap-3">
-            <span class="text-sm">✨</span>
+            <span class="text-sm">🎙️</span>
             <div>
-              <div class="text-xs font-semibold text-white flex items-center gap-2">
-                Translation (Desi → English)
-                <span class="text-[9px] bg-[#00C48C]/15 text-[#00C48C] px-1.5 py-0.5 rounded font-bold border border-[#00C48C]/30">AI Active</span>
-              </div>
-              <div class="text-[11px] text-[#6B7280]">Automatically translate audio speech into English subtitles</div>
-            </div>
-          </div>
-          <label class="relative inline-flex items-center cursor-pointer">
-            <input type="checkbox" id="toggle-translation" class="sr-only peer">
-            <div class="w-9 h-5 bg-[#26313F] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#00C48C]"></div>
-          </label>
-        </div>
-
-        <div class="flex items-center justify-between p-3 bg-[#151B22] border border-[#1F2732] rounded-xl">
-          <div class="flex items-center gap-3">
-            <span class="text-sm">🔊</span>
-            <div>
-              <div class="text-xs font-semibold text-white">Audio Enhancement</div>
-              <div class="text-[11px] text-[#6B7280]">Clean up audio quality for better transcription accuracy</div>
+              <div class="text-xs font-semibold text-white">Drone & Room Audio Cleaner</div>
+              <div class="text-[11px] text-[#6B7280]">Denoise background room echo, wind & drone propeller noise</div>
             </div>
           </div>
           <label class="relative inline-flex items-center cursor-pointer">
             <input type="checkbox" id="toggle-audio-enhance" checked class="sr-only peer">
-            <div class="w-9 h-5 bg-[#26313F] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#00C48C]"></div>
+            <div class="w-9 h-5 bg-[#26313F] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#D4AF37]"></div>
           </label>
         </div>
 
-        <div class="flex items-center justify-between p-3 bg-[#151B22] border border-[#1F2732] rounded-xl">
+        <div class="flex items-center justify-between p-3 bg-[#151D26] border border-[#242F3D] rounded-xl">
           <div class="flex items-center gap-3">
-            <span class="text-sm">😊</span>
+            <span class="text-sm">✨</span>
             <div>
-              <div class="text-xs font-semibold text-white">Emojis</div>
-              <div class="text-[11px] text-[#6B7280]">Add engaging emojis to your captions automatically</div>
+              <div class="text-xs font-semibold text-white">Real Estate Emojis</div>
+              <div class="text-[11px] text-[#6B7280]">Auto-attach luxury real estate emojis (🏛️, 💎, 👑, 🏡, 💰)</div>
             </div>
           </div>
           <label class="relative inline-flex items-center cursor-pointer">
             <input type="checkbox" id="toggle-emojis" checked class="sr-only peer">
-            <div class="w-9 h-5 bg-[#26313F] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#00C48C]"></div>
+            <div class="w-9 h-5 bg-[#26313F] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#D4AF37]"></div>
           </label>
         </div>
       </div>
 
-      <button id="btn-generate-transcription" class="w-full py-3 bg-[#00C48C] hover:bg-[#00DF9F] text-[#051A14] font-bold text-sm rounded-xl flex items-center justify-center gap-2 transition shadow-lg">
-        <span>Generate Transcription</span>
+      <button id="btn-generate-transcription" class="w-full py-3 bg-gradient-to-r from-[#D4AF37] to-[#B8860B] hover:from-[#E5C158] hover:to-[#D4AF37] text-black font-extrabold text-sm rounded-xl flex items-center justify-center gap-2 transition shadow-lg">
+        <span>Generate Estate Video Captions</span>
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
       </button>
     </div>
@@ -306,44 +281,28 @@
   <!-- SCREEN 3: UPLOADING & PROCESSING MODAL     -->
   <!-- ========================================== -->
   <div id="modal-processing" class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-[#12171E] border border-[#232D3B] rounded-2xl max-w-md w-full p-8 shadow-2xl text-center space-y-6">
-      <div class="flex justify-end">
-        <button class="text-[#6B7280] hover:text-white p-1">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-        </button>
-      </div>
-
+    <div class="bg-[#0E131A] border border-[#D4AF37]/40 rounded-2xl max-w-md w-full p-8 shadow-2xl text-center space-y-6">
       <!-- Animated Graphic -->
       <div class="relative w-28 h-28 mx-auto flex items-center justify-center">
-        <div class="absolute inset-0 bg-[#00C48C]/15 rounded-full blur-xl animate-pulse"></div>
-        <div class="w-24 h-24 rounded-full bg-[#18212C] border border-[#00C48C]/40 flex items-center justify-center text-[#00C48C]">
-          <svg class="w-12 h-12 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+        <div class="absolute inset-0 bg-[#D4AF37]/20 rounded-full blur-xl animate-pulse"></div>
+        <div class="w-24 h-24 rounded-full bg-[#151D26] border border-[#D4AF37]/40 flex items-center justify-center text-[#D4AF37] text-3xl">
+          🏛️
         </div>
       </div>
 
       <div class="space-y-2">
         <div class="flex justify-between text-xs text-[#9CA3AF] px-1 font-semibold">
-          <span>Uploading</span>
+          <span>Processing Property Tour</span>
           <span id="processing-progress-text">8%</span>
         </div>
         <div class="w-full h-2.5 bg-[#1C2530] rounded-full overflow-hidden p-0.5">
-          <div id="processing-progress-bar" class="h-full progress-gradient rounded-full transition-all duration-300" style="width: 8%;"></div>
+          <div id="processing-progress-bar" class="h-full bg-gradient-to-r from-[#D4AF37] to-[#F3E5AB] rounded-full transition-all duration-300" style="width: 8%;"></div>
         </div>
       </div>
 
       <div>
-        <h4 class="text-base font-bold text-white">Uploading your video</h4>
-        <p id="processing-status-subtext" class="text-xs text-[#9CA3AF] mt-1">This may take a minute, <span class="text-[#00C48C]">Hang tight!</span></p>
-      </div>
-
-      <div class="p-3.5 bg-[#151B22] border border-[#1F2732] rounded-xl text-left">
-        <div class="flex items-center gap-1.5 text-[10px] font-bold text-[#00C48C] tracking-wide uppercase mb-1">
-          <span class="w-1.5 h-1.5 rounded-full bg-[#00C48C]"></span>
-          Did you know?
-        </div>
-        <p id="processing-trivia" class="text-xs text-[#9CA3AF] leading-relaxed">
-          More than 200,000 creators trust Harsh Caption Generator for fast viral captions.
-        </p>
+        <h4 class="text-base font-bold text-white font-serif">Transcribing Property Audio</h4>
+        <p id="processing-status-subtext" class="text-xs text-[#9CA3AF] mt-1">Faster-Whisper AI is syncing vocals with 4K video... <span class="text-[#D4AF37]">Hang tight!</span></p>
       </div>
     </div>
   </div>
@@ -354,15 +313,15 @@
   <!-- ========================================== -->
   <div id="screen-studio" class="app-screen flex-1 flex flex-col overflow-hidden hidden">
     <!-- Top Studio Bar -->
-    <header class="h-14 border-b border-[#1F2732] px-4 flex items-center justify-between shrink-0 bg-[#0E1217]">
+    <header class="h-14 border-b border-[#1F2837] px-4 flex items-center justify-between shrink-0 bg-[#0D1219]">
       <div class="flex items-center gap-3">
         <button id="btn-back-home" class="p-1.5 text-[#9CA3AF] hover:text-white hover:bg-[#1A222C] rounded-lg transition" title="Back to Dashboard">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
         </button>
         <div class="flex items-center gap-2">
-          <span class="w-2 h-2 rounded-full bg-[#00C48C]"></span>
-          <span id="project-title-display" contenteditable="true" class="text-sm font-semibold text-white px-2 py-1 rounded hover:bg-[#1A222C] focus:bg-[#1A222C] focus:outline-none">
-            paras reel 1
+          <span class="w-2 h-2 rounded-full bg-[#D4AF37] shadow-[0_0_6px_#D4AF37]"></span>
+          <span id="project-title-display" contenteditable="true" class="text-sm font-bold text-white px-2 py-1 rounded hover:bg-[#1A222C] focus:bg-[#1A222C] focus:outline-none font-serif">
+            Luxury Villa Tour
           </span>
           <svg class="w-3.5 h-3.5 text-[#6B7280]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
         </div>

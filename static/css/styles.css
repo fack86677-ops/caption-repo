@@ -1,22 +1,24 @@
-/* Harsh Caption Generator - Core Styling */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Montserrat:wght@700;800;900&family=Poppins:wght@600;700;800;900&family=Bebas+Neue&family=Outfit:wght@600;700;800;900&family=Oswald:wght@600;700&family=Anton&display=swap');
+/* Harsh Luxury Real Estate Media - Core Styling */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Montserrat:wght@700;800;900&family=Poppins:wght@600;700;800;900&family=Bebas+Neue&family=Outfit:wght@600;700;800;900&family=Oswald:wght@600;700&family=Anton&display=swap');
 
 :root {
-  --bg-main: #0B0E11;
-  --bg-sidebar: #0E1217;
-  --bg-card: #141A21;
-  --bg-card-hover: #1A222C;
-  --border-color: #1F2732;
-  --border-subtle: #18202A;
-  --primary-green: #00C48C;
-  --primary-green-hover: #00DF9F;
-  --primary-green-glow: rgba(0, 196, 140, 0.25);
+  --bg-main: #07090D;
+  --bg-sidebar: #0D1219;
+  --bg-card: #121822;
+  --bg-card-hover: #18202D;
+  --border-color: #1F2837;
+  --border-subtle: #19212E;
+  --border-gold: rgba(212, 175, 55, 0.3);
+  --primary-gold: #D4AF37;
+  --primary-gold-light: #F3E5AB;
+  --primary-gold-hover: #E5C158;
+  --primary-gold-glow: rgba(212, 175, 55, 0.35);
   --accent-yellow: #FFE600;
   --accent-blue: #38BDF8;
   --accent-purple: #A855F7;
-  --text-main: #F3F4F6;
-  --text-muted: #9CA3AF;
-  --text-subtle: #6B7280;
+  --text-main: #F8FAFC;
+  --text-muted: #94A3B8;
+  --text-subtle: #64748B;
 }
 
 * {
@@ -27,7 +29,7 @@
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   background-color: var(--bg-main);
   color: var(--text-main);
   height: 100vh;
@@ -45,47 +47,48 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #26303D;
+  background: #243042;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #374659;
+  background: #364860;
 }
 
 /* Base Utility Classes */
 .bg-sidebar { background-color: var(--bg-sidebar); }
 .bg-card { background-color: var(--bg-card); }
 .border-subtle { border-color: var(--border-color); }
-.text-green { color: var(--primary-green); }
-.bg-green { background-color: var(--primary-green); }
-.bg-green:hover { background-color: var(--primary-green-hover); }
+.text-green { color: var(--primary-gold); }
+.bg-green { background-color: var(--primary-gold); }
+.bg-green:hover { background-color: var(--primary-gold-hover); }
 
 /* Buttons */
 .btn-primary {
-  background-color: #00C48C;
-  color: #051A14;
-  font-weight: 700;
-  padding: 8px 18px;
-  border-radius: 8px;
+  background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
+  color: #07090D;
+  font-weight: 800;
+  padding: 9px 20px;
+  border-radius: 10px;
   display: inline-flex;
   align-items: center;
   gap: 8px;
   font-size: 13px;
   cursor: pointer;
   transition: all 0.2s ease;
-  border: none;
+  border: 1px solid rgba(243, 229, 171, 0.4);
+  box-shadow: 0 0 16px var(--primary-gold-glow);
 }
 .btn-primary:hover {
-  background-color: #00DF9F;
-  box-shadow: 0 0 15px var(--primary-green-glow);
+  background: linear-gradient(135deg, #E5C158 0%, #D4AF37 100%);
+  box-shadow: 0 0 24px rgba(212, 175, 55, 0.55);
   transform: translateY(-1px);
 }
 
 .btn-secondary {
-  background-color: #1A222C;
+  background-color: #171E28;
   color: var(--text-main);
   border: 1px solid var(--border-color);
-  font-weight: 500;
+  font-weight: 600;
   padding: 8px 14px;
   border-radius: 8px;
   display: inline-flex;
@@ -96,21 +99,21 @@ body {
   transition: all 0.15s ease;
 }
 .btn-secondary:hover {
-  background-color: #242F3D;
-  border-color: #374659;
+  background-color: #202A38;
+  border-color: var(--primary-gold);
 }
 
 /* Dropzone */
 .dropzone {
-  border: 1.5px dashed #2A3543;
-  border-radius: 14px;
-  background-color: #0E1318;
+  border: 1.5px dashed #2A3648;
+  border-radius: 16px;
+  background-color: #0E131A;
   transition: all 0.25s ease;
 }
 .dropzone:hover, .dropzone.dragover {
-  border-color: var(--primary-green);
-  background-color: rgba(0, 196, 140, 0.04);
-  box-shadow: 0 0 25px rgba(0, 196, 140, 0.1);
+  border-color: var(--primary-gold);
+  background-color: rgba(212, 175, 55, 0.05);
+  box-shadow: 0 0 30px rgba(212, 175, 55, 0.15);
 }
 
 /* Video Player Safe Zones */
