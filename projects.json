@@ -1,5 +1,465 @@
 [
   {
+    "id": "proj_1788428142102",
+    "title": "3 Sep E-Surfer Krishan Janmashtmi reel 1",
+    "filename": "3 Sep E-Surfer Krishan Janmashtmi reel 1.mp4",
+    "video_url": "/uploads/ef45c5807996_3 Sep E-Surfer Krishan Janmashtmi reel 1.mp4",
+    "file_path": "C:\\Users\\Abc\\Documents\\KalakarWebStudio\\uploads\\ef45c5807996_3 Sep E-Surfer Krishan Janmashtmi reel 1.mp4",
+    "created_at": "Just now",
+    "language": "Hinglish",
+    "duration": 17.067,
+    "segments": [
+      {
+        "id": 1,
+        "start": 0,
+        "end": 2.16,
+        "text": "Mahasumiyat میں چھوپی شرارت",
+        "words": [
+          {
+            "word": "Mahasumiyat",
+            "start": 0,
+            "end": 0.86,
+            "highlight": false
+          },
+          {
+            "word": "میں",
+            "start": 0.86,
+            "end": 0.98,
+            "highlight": false
+          },
+          {
+            "word": "چھوپی",
+            "start": 0.98,
+            "end": 1.42,
+            "highlight": false
+          },
+          {
+            "word": "شرارت",
+            "start": 1.42,
+            "end": 2.16,
+            "highlight": false
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "start": 2.16,
+        "end": 4.8,
+        "text": "شرارت میں گلی وہ مستی",
+        "words": [
+          {
+            "word": "شرارت",
+            "start": 2.16,
+            "end": 3.32,
+            "highlight": false
+          },
+          {
+            "word": "میں",
+            "start": 3.32,
+            "end": 3.52,
+            "highlight": false
+          },
+          {
+            "word": "گلی",
+            "start": 3.52,
+            "end": 3.92,
+            "highlight": false
+          },
+          {
+            "word": "وہ",
+            "start": 3.92,
+            "end": 4.12,
+            "highlight": false
+          },
+          {
+            "word": "مستی",
+            "start": 4.12,
+            "end": 4.8,
+            "highlight": false
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "start": 5.36,
+        "end": 7.24,
+        "text": "مستی میں بساگانھا کا",
+        "words": [
+          {
+            "word": "مستی",
+            "start": 5.28,
+            "end": 5.9,
+            "highlight": false
+          },
+          {
+            "word": "میں",
+            "start": 5.9,
+            "end": 6.06,
+            "highlight": false
+          },
+          {
+            "word": "بساگانھا",
+            "start": 6.06,
+            "end": 7.06,
+            "highlight": false
+          },
+          {
+            "word": "کا",
+            "start": 7.06,
+            "end": 7.24,
+            "highlight": false
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "start": 7.24,
+        "end": 9.16,
+        "text": "وہ پیارا بچپن",
+        "words": [
+          {
+            "word": "وہ",
+            "start": 7.24,
+            "end": 7.9,
+            "highlight": false
+          },
+          {
+            "word": "پیارا",
+            "start": 7.9,
+            "end": 8.52,
+            "highlight": false
+          },
+          {
+            "word": "بچپن",
+            "start": 8.52,
+            "end": 9.16,
+            "highlight": false
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "start": 9.7,
+        "end": 10.96,
+        "text": "جن ماشتمی کی",
+        "words": [
+          {
+            "word": "جن",
+            "start": 9.4,
+            "end": 10.02,
+            "highlight": false
+          },
+          {
+            "word": "ماشتمی",
+            "start": 10.02,
+            "end": 10.76,
+            "highlight": false
+          },
+          {
+            "word": "کی",
+            "start": 10.76,
+            "end": 10.96,
+            "highlight": false
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "start": 10.96,
+        "end": 14.2,
+        "text": "آپ سبھی کو ہار دیکھشو گامنائے",
+        "words": [
+          {
+            "word": "آپ",
+            "start": 10.96,
+            "end": 11.66,
+            "highlight": false
+          },
+          {
+            "word": "سبھی",
+            "start": 11.66,
+            "end": 12.2,
+            "highlight": false
+          },
+          {
+            "word": "کو",
+            "start": 12.2,
+            "end": 12.42,
+            "highlight": false
+          },
+          {
+            "word": "ہار",
+            "start": 12.42,
+            "end": 12.82,
+            "highlight": false
+          },
+          {
+            "word": "دیکھشو",
+            "start": 12.82,
+            "end": 13.42,
+            "highlight": false
+          },
+          {
+            "word": "گامنائے",
+            "start": 13.42,
+            "end": 14.2,
+            "highlight": false
+          }
+        ]
+      }
+    ],
+    "style": {
+      "fontFamily": "Montserrat",
+      "fontWeight": "900",
+      "fontSize": 34,
+      "textTransform": "uppercase",
+      "textAlign": "center",
+      "posX": 50,
+      "posY": 80,
+      "color": "#FFFFFF",
+      "highlightColor": "#FFE600",
+      "strokeWidth": 2,
+      "strokeColor": "#000000",
+      "shadow": true,
+      "shadowColor": "rgba(0,0,0,0.9)",
+      "bgBox": false,
+      "bgColor": "transparent",
+      "animation": "pop",
+      "activeScale": 1.15,
+      "displayMode": "chunk"
+    }
+  },
+  {
+    "id": "proj_1788428115399",
+    "title": "3 Sep E-Surfer Krishan Janmashtmi reel 1",
+    "filename": "3 Sep E-Surfer Krishan Janmashtmi reel 1.mp4",
+    "video_url": "/uploads/0229feb3c80d_3 Sep E-Surfer Krishan Janmashtmi reel 1.mp4",
+    "file_path": "C:\\Users\\Abc\\Documents\\KalakarWebStudio\\uploads\\0229feb3c80d_3 Sep E-Surfer Krishan Janmashtmi reel 1.mp4",
+    "created_at": "Just now",
+    "language": "Hinglish",
+    "duration": 17.067,
+    "segments": [
+      {
+        "id": 1,
+        "start": 0,
+        "end": 2.16,
+        "text": "Mahasumiyat میں چھوپی شرارت",
+        "words": [
+          {
+            "word": "Mahasumiyat",
+            "start": 0,
+            "end": 0.86,
+            "highlight": false
+          },
+          {
+            "word": "میں",
+            "start": 0.86,
+            "end": 0.98,
+            "highlight": false
+          },
+          {
+            "word": "چھوپی",
+            "start": 0.98,
+            "end": 1.42,
+            "highlight": false
+          },
+          {
+            "word": "شرارت",
+            "start": 1.42,
+            "end": 2.16,
+            "highlight": false
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "start": 2.16,
+        "end": 4.8,
+        "text": "شرارت میں گلی وہ مستی",
+        "words": [
+          {
+            "word": "شرارت",
+            "start": 2.16,
+            "end": 3.32,
+            "highlight": false
+          },
+          {
+            "word": "میں",
+            "start": 3.32,
+            "end": 3.52,
+            "highlight": false
+          },
+          {
+            "word": "گلی",
+            "start": 3.52,
+            "end": 3.92,
+            "highlight": false
+          },
+          {
+            "word": "وہ",
+            "start": 3.92,
+            "end": 4.12,
+            "highlight": false
+          },
+          {
+            "word": "مستی",
+            "start": 4.12,
+            "end": 4.8,
+            "highlight": false
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "start": 5.36,
+        "end": 7.24,
+        "text": "مستی میں بساگانھا کا",
+        "words": [
+          {
+            "word": "مستی",
+            "start": 5.28,
+            "end": 5.9,
+            "highlight": false
+          },
+          {
+            "word": "میں",
+            "start": 5.9,
+            "end": 6.06,
+            "highlight": false
+          },
+          {
+            "word": "بساگانھا",
+            "start": 6.06,
+            "end": 7.06,
+            "highlight": false
+          },
+          {
+            "word": "کا",
+            "start": 7.06,
+            "end": 7.24,
+            "highlight": false
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "start": 7.24,
+        "end": 9.16,
+        "text": "وہ پیارا بچپن",
+        "words": [
+          {
+            "word": "وہ",
+            "start": 7.24,
+            "end": 7.9,
+            "highlight": false
+          },
+          {
+            "word": "پیارا",
+            "start": 7.9,
+            "end": 8.52,
+            "highlight": false
+          },
+          {
+            "word": "بچپن",
+            "start": 8.52,
+            "end": 9.16,
+            "highlight": false
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "start": 9.7,
+        "end": 10.96,
+        "text": "جن ماشتمی کی",
+        "words": [
+          {
+            "word": "جن",
+            "start": 9.4,
+            "end": 10.02,
+            "highlight": false
+          },
+          {
+            "word": "ماشتمی",
+            "start": 10.02,
+            "end": 10.76,
+            "highlight": false
+          },
+          {
+            "word": "کی",
+            "start": 10.76,
+            "end": 10.96,
+            "highlight": false
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "start": 10.96,
+        "end": 14.2,
+        "text": "آپ سبھی کو ہار دیکھشو گامنائے",
+        "words": [
+          {
+            "word": "آپ",
+            "start": 10.96,
+            "end": 11.66,
+            "highlight": false
+          },
+          {
+            "word": "سبھی",
+            "start": 11.66,
+            "end": 12.2,
+            "highlight": false
+          },
+          {
+            "word": "کو",
+            "start": 12.2,
+            "end": 12.42,
+            "highlight": false
+          },
+          {
+            "word": "ہار",
+            "start": 12.42,
+            "end": 12.82,
+            "highlight": false
+          },
+          {
+            "word": "دیکھشو",
+            "start": 12.82,
+            "end": 13.42,
+            "highlight": false
+          },
+          {
+            "word": "گامنائے",
+            "start": 13.42,
+            "end": 14.2,
+            "highlight": false
+          }
+        ]
+      }
+    ],
+    "style": {
+      "fontFamily": "Montserrat",
+      "fontWeight": "900",
+      "fontSize": 34,
+      "textTransform": "uppercase",
+      "textAlign": "center",
+      "posX": 50,
+      "posY": 80,
+      "color": "#FFFFFF",
+      "highlightColor": "#FFE600",
+      "strokeWidth": 2,
+      "strokeColor": "#000000",
+      "shadow": true,
+      "shadowColor": "rgba(0,0,0,0.9)",
+      "bgBox": false,
+      "bgColor": "transparent",
+      "animation": "pop",
+      "activeScale": 1.15,
+      "displayMode": "chunk"
+    }
+  },
+  {
     "id": "proj_1788422519404",
     "title": "11 Aug Namaste Dwaar reel 1",
     "filename": "11 Aug Namaste Dwaar reel 1.mp4",

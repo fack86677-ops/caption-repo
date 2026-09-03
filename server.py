@@ -227,9 +227,93 @@ def format_timestamp_vtt(seconds):
     hours = int(seconds // 3600)
     minutes = int((seconds % 3600) // 60)
     secs = int(seconds % 60)
-    millis = int(round((seconds - int(seconds)) * 1000))
-    if millis >= 1000: millis = 999
-    return f"{hours:02d}:{minutes:02d}:{secs:02d}.{millis:03d}"
+def hex_to_ass_color(c_str, alpha="00", default="&H00FFFFFF&"):
+    if not c_str: return default
+    c_str = str(c_str).strip().lstrip('#')
+    if len(c_str) == 6:
+        r, g, b = c_str[0:2], c_str[2:4], c_str[4:6]
+        return f"&H{alpha}{b}{g}{r}&"
+    return default
+
+def format_timestamp_ass(seconds):
+    hours = int(seconds // 3600)
+    minutes = int((seconds % 3600) // 60)
+    secs = int(seconds % 60)
+    centis = int(round((seconds - int(seconds)) * 100))
+    if centis >= 100: centis = 99
+    return f"{hours}:{minutes:02d}:{secs:02d}.{centis:02d}"
+
+def generate_ass_content(segments, style, play_res_x=1080, play_res_y=1920):
+    font_name = style.get("fontFamily", "Montserrat")
+    font_size = int(style.get("fontSize", 34) * (play_res_y / 1080.0) * 1.5)
+    
+    primary_color = hex_to_ass_color(style.get("color", "#FFFFFF"))
+    highlight_color = hex_to_ass_color(style.get("highlightColor", "#FFE600"))
+    outline_color = hex_to_ass_color(style.get("strokeColor", "#000000"))
+    back_color = "&H80000000&" if style.get("shadow", True) else "&H00000000&"
+    
+    stroke_width = 4 if style.get("strokeWidth", 2) > 0 else 0
+    shadow_depth = 2 if style.get("shadow", True) else 0
+    
+    pos_y = style.get("posY", 80)
+    # Alignment 2 is Bottom-Center in ASS, MarginV is distance from bottom
+    margin_v = max(40, int((100 - pos_y) * (play_res_y / 100.0)))
+    
+    display_mode = style.get("displayMode", "chunk")
+    text_transform = style.get("textTransform", "uppercase")
+    
+    lines = [
+        "[Script Info]",
+        "ScriptType: v4.00+",
+        f"PlayResX: {play_res_x}",
+        f"PlayResY: {play_res_y}",
+        "",
+        "[V4+ Styles]",
+        "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding",
+        f"Style: HarshCaptions,{font_name},{font_size},{primary_color},&H000000FF&,{outline_color},{back_color},-1,0,0,0,100,100,0,0,1,{stroke_width},{shadow_depth},2,40,40,{margin_v},1",
+        "",
+        "[Events]",
+        "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text"
+    ]
+    
+    for seg in segments:
+        words = seg.get("words", [])
+        if not words or display_mode == "full":
+            s = format_timestamp_ass(seg.get("start", 0))
+            e = format_timestamp_ass(seg.get("end", 0))
+            text = seg.get("text", "")
+            if text_transform == "uppercase": text = text.upper()
+            elif text_transform == "capitalize": text = text.title()
+            lines.append(f"Dialogue: 0,{s},{e},HarshCaptions,,0,0,0,,{text}")
+        elif display_mode == "single":
+            for w in words:
+                s = format_timestamp_ass(w.get("start", 0))
+                e = format_timestamp_ass(w.get("end", 0))
+                w_text = w.get("word", "") + (" " + w.get("emoji") if w.get("emoji") else "")
+                if text_transform == "uppercase": w_text = w_text.upper()
+                elif text_transform == "capitalize": w_text = w_text.title()
+                c = highlight_color if w.get("highlight") else primary_color
+                lines.append(f"Dialogue: 0,{s},{e},HarshCaptions,,0,0,0,,{{\\c{c}}}{w_text}")
+        else: # chunk (2-3 words)
+            chunk_size = 3
+            for i in range(0, len(words), chunk_size):
+                chunk = words[i:i + chunk_size]
+                if not chunk: continue
+                s = format_timestamp_ass(chunk[0].get("start", 0))
+                e = format_timestamp_ass(chunk[-1].get("end", 0))
+                
+                parts = []
+                for w in chunk:
+                    w_text = w.get("word", "") + (" " + w.get("emoji") if w.get("emoji") else "")
+                    if text_transform == "uppercase": w_text = w_text.upper()
+                    elif text_transform == "capitalize": w_text = w_text.title()
+                    c = highlight_color if w.get("highlight") else primary_color
+                    parts.append(f"{{\\c{c}}}{w_text}")
+                
+                line_str = " ".join(parts)
+                lines.append(f"Dialogue: 0,{s},{e},HarshCaptions,,0,0,0,,{line_str}")
+                
+    return "\n".join(lines)
 
 def generate_srt_content(segments, display_mode="chunk", text_transform="uppercase"):
     lines = []
@@ -708,22 +792,16 @@ class HarshRequestHandler(SimpleHTTPRequestHandler):
 
             elif export_type == "alpha":
                 # Alpha Channel / Green Screen for Premiere Pro & DaVinci Resolve
-                srt_content = generate_srt_content(segments, display_mode=display_mode, text_transform=text_transform)
-                temp_srt = os.path.join(EXPORTS_DIR, f"temp_{export_id}.srt")
-                with open(temp_srt, "w", encoding="utf-8") as f:
-                    f.write(srt_content)
+                ass_content = generate_ass_content(segments, style, play_res_x=scale_w, play_res_y=scale_h)
+                temp_ass = os.path.join(EXPORTS_DIR, f"temp_{export_id}.ass")
+                with open(temp_ass, "w", encoding="utf-8") as f:
+                    f.write(ass_content)
 
                 out_name = f"alpha_captions_{export_id}_{resolution}.mp4"
                 out_path = os.path.join(EXPORTS_DIR, out_name)
                 ffmpeg = get_ffmpeg_path()
-                escaped_srt = temp_srt.replace("\\", "/").replace(":", "\\:")
-                font_size = int(style.get("fontSize", 34) * multiplier)
-                pos_y = style.get("posY", 80)
-                margin_v = max(40, int((100 - pos_y) * (scale_h / 100.0)))
-                primary_color = "&H0000FFFF&" if style.get("highlightColor") == "#FFE600" else "&H00FFFFFF&"
-                font_name = style.get("fontFamily", "Montserrat")
-                style_str = f"FontName={font_name},FontSize={font_size},Bold=1,PrimaryColour={primary_color},OutlineColour=&H00000000,BorderStyle=1,Outline=3,Shadow=2,Alignment=2,MarginV={margin_v}"
-                sub_filter = f"subtitles='{escaped_srt}':force_style='{style_str}'"
+                escaped_ass = temp_ass.replace("\\", "/").replace(":", "\\:")
+                sub_filter = f"subtitles='{escaped_ass}'"
 
                 # Green screen background for instant keying in NLEs
                 dur = segments[-1].get("end", 15.0) + 1.0 if segments else 15.0
@@ -740,16 +818,16 @@ class HarshRequestHandler(SimpleHTTPRequestHandler):
                     startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
                     startupinfo.wShowWindow = subprocess.SW_HIDE
                 subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, startupinfo=startupinfo)
-                if os.path.exists(temp_srt):
-                    try: os.remove(temp_srt)
+                if os.path.exists(temp_ass):
+                    try: os.remove(temp_ass)
                     except: pass
                 res = {"success": True, "download_url": f"/exports/{out_name}", "filename": out_name}
 
             else: # MP4 burned video
-                srt_content = generate_srt_content(segments, display_mode=display_mode, text_transform=text_transform)
-                temp_srt = os.path.join(EXPORTS_DIR, f"temp_{export_id}.srt")
-                with open(temp_srt, "w", encoding="utf-8") as f:
-                    f.write(srt_content)
+                ass_content = generate_ass_content(segments, style, play_res_x=scale_w, play_res_y=scale_h)
+                temp_ass = os.path.join(EXPORTS_DIR, f"temp_{export_id}.ass")
+                with open(temp_ass, "w", encoding="utf-8") as f:
+                    f.write(ass_content)
                     
                 out_name = f"harsh_video_{export_id}_{resolution}.mp4"
                 out_path = os.path.join(EXPORTS_DIR, out_name)
@@ -759,14 +837,8 @@ class HarshRequestHandler(SimpleHTTPRequestHandler):
                     video_path = os.path.join(STATIC_DIR, "assets", "demo_video.mp4")
                     
                 ffmpeg = get_ffmpeg_path()
-                escaped_srt = temp_srt.replace("\\", "/").replace(":", "\\:")
-                font_size = int(style.get("fontSize", 34) * multiplier)
-                pos_y = style.get("posY", 80)
-                margin_v = max(40, int((100 - pos_y) * (scale_h / 100.0)))
-                primary_color = "&H00FFFFFF&" if style.get("color") == "#FFFFFF" else "&H0000FFFF&"
-                font_name = style.get("fontFamily", "Montserrat")
-                style_str = f"FontName={font_name},FontSize={font_size},Bold=1,PrimaryColour={primary_color},OutlineColour=&H00000000,BorderStyle=1,Outline=3,Shadow=2,Alignment=2,MarginV={margin_v}"
-                sub_filter = f"scale={scale_w}:{scale_h}:force_original_aspect_ratio=decrease,pad={scale_w}:{scale_h}:(ow-iw)/2:(oh-ih)/2,subtitles='{escaped_srt}':force_style='{style_str}'"
+                escaped_ass = temp_ass.replace("\\", "/").replace(":", "\\:")
+                sub_filter = f"scale={scale_w}:{scale_h}:force_original_aspect_ratio=decrease,pad={scale_w}:{scale_h}:(ow-iw)/2:(oh-ih)/2,subtitles='{escaped_ass}'"
                 
                 cmd = [
                     ffmpeg, "-y",
@@ -783,8 +855,8 @@ class HarshRequestHandler(SimpleHTTPRequestHandler):
                     startupinfo.wShowWindow = subprocess.SW_HIDE
                 subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, startupinfo=startupinfo)
                 
-                if os.path.exists(temp_srt):
-                    try: os.remove(temp_srt)
+                if os.path.exists(temp_ass):
+                    try: os.remove(temp_ass)
                     except: pass
                     
                 res = {"success": True, "download_url": f"/exports/{out_name}", "filename": out_name}
