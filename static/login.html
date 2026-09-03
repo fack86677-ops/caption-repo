@@ -1104,6 +1104,71 @@
     </div>
   </footer>
 
+  <!-- ========================================== -->
+  <!-- GOOGLE AUTHENTICATION & ONBOARDING MODAL   -->
+  <!-- ========================================== -->
+  <div id="modal-google-auth" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); backdrop-filter:blur(12px); z-index:99999; align-items:center; justify-content:center; padding:16px;">
+    <div style="background:#0E1318; border:1px solid #232D3B; border-radius:24px; max-width:440px; width:100%; padding:28px; box-shadow:0 25px 60px rgba(0,0,0,0.8); position:relative; font-family:'Inter',sans-serif;">
+      <button onclick="closeGoogleAuthModal()" style="position:absolute; top:20px; right:20px; background:none; border:none; color:#9CA3AF; font-size:20px; cursor:pointer;">✕</button>
+      
+      <!-- Google Logo & Header -->
+      <div style="display:flex; align-items:center; gap:12px; margin-bottom:20px;">
+        <svg viewBox="0 0 24 24" style="width:36px; height:36px;" xmlns="http://www.w3.org/2000/svg">
+          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+        </svg>
+        <div>
+          <h3 style="margin:0; font-size:17px; font-weight:800; color:#FFF;">Sign in with Google</h3>
+          <p style="margin:0; font-size:12px; color:#9CA3AF;">Harsh Caption Generator Workspace</p>
+        </div>
+      </div>
+
+      <div id="google-auth-error" style="display:none; margin-bottom:14px; padding:10px 12px; background:rgba(239,68,68,0.15); border:1px solid rgba(239,68,68,0.3); border-radius:10px; color:#F87171; font-size:12px; font-weight:600;">
+        ⚠️ Kripya apna Naam, Google Email aur Age sahi bharein!
+      </div>
+
+      <form id="google-onboarding-form" onsubmit="handleGoogleAuthSubmit(event)" style="display:flex; flex-direction:column; gap:14px;">
+        <div>
+          <label style="display:block; font-size:11px; font-weight:700; color:#9CA3AF; margin-bottom:6px; text-transform:uppercase;">Full Name / Creator Name <span style="color:#00C48C;">*</span></label>
+          <input type="text" id="g-name" placeholder="e.g. Harsh Sharma" required style="width:100%; box-sizing:border-box; background:rgba(0,0,0,0.5); border:1.5px solid #232D3B; border-radius:12px; padding:11px 14px; font-size:14px; color:#fff; outline:none;" />
+        </div>
+
+        <div>
+          <label style="display:block; font-size:11px; font-weight:700; color:#9CA3AF; margin-bottom:6px; text-transform:uppercase;">Google Account Email <span style="color:#00C48C;">*</span></label>
+          <input type="email" id="g-email" placeholder="e.g. harsh.creator@gmail.com" required style="width:100%; box-sizing:border-box; background:rgba(0,0,0,0.5); border:1.5px solid #232D3B; border-radius:12px; padding:11px 14px; font-size:14px; color:#fff; outline:none;" />
+        </div>
+
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+          <div>
+            <label style="display:block; font-size:11px; font-weight:700; color:#9CA3AF; margin-bottom:6px; text-transform:uppercase;">Your Age <span style="color:#00C48C;">*</span></label>
+            <input type="number" id="g-age" min="13" max="100" placeholder="e.g. 21" required style="width:100%; box-sizing:border-box; background:rgba(0,0,0,0.5); border:1.5px solid #232D3B; border-radius:12px; padding:11px 14px; font-size:14px; color:#fff; outline:none;" />
+          </div>
+          <div>
+            <label style="display:block; font-size:11px; font-weight:700; color:#9CA3AF; margin-bottom:6px; text-transform:uppercase;">Niche</label>
+            <select id="g-niche" style="width:100%; box-sizing:border-box; background:rgba(0,0,0,0.5); border:1.5px solid #232D3B; border-radius:12px; padding:11px 14px; font-size:13px; color:#fff; outline:none;">
+              <option value="Reels & Shorts">Reels & Shorts</option>
+              <option value="YouTube Longform">YouTube Video</option>
+              <option value="Podcasts">Podcast Host</option>
+              <option value="Agency / Video Editor">Agency / Editor</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="background:rgba(0,196,140,0.08); border:1px solid rgba(0,196,140,0.25); border-radius:12px; padding:10px 14px; display:flex; align-items:center; gap:8px; font-size:12px; color:#00C48C; font-weight:600;">
+          <span>🎁</span>
+          <span>Google verification gives <strong>100 Free AI Credits</strong> immediately!</span>
+        </div>
+
+        <button type="submit" id="g-auth-btn" style="width:100%; padding:13px; border-radius:50px; border:none; background:#00C48C; color:#032E20; font-size:14px; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; margin-top:6px; box-shadow:0 0 20px rgba(0,196,140,0.3);">
+          <span>Confirm & Open Studio</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+
   <script>
     // If already logged in, redirect directly to studio
     if (localStorage.getItem('isLoggedIn') === 'true') {
@@ -1112,10 +1177,15 @@
 
     const form = document.getElementById('login-form');
     const errorMsg = document.getElementById('error-msg');
-    function successLogin(userName) {
+    
+    function successLogin(userName, userEmail, userAge, userNiche) {
       const isNew = !localStorage.getItem('hcg_credits_init');
       localStorage.setItem('isLoggedIn', 'true');
       localStorage.setItem('hcg_username', userName || 'Creator');
+      if (userEmail) localStorage.setItem('hcg_email', userEmail);
+      if (userAge) localStorage.setItem('hcg_age', userAge);
+      if (userNiche) localStorage.setItem('hcg_niche', userNiche);
+      
       if (isNew) {
         localStorage.setItem('hcg_credits', '100');
         localStorage.setItem('hcg_credits_init', 'true');
@@ -1126,6 +1196,7 @@
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       errorMsg.style.display = 'none';
+      const btn = document.getElementById('login-btn');
       btn.classList.add('loading');
 
       const username = document.getElementById('username').value.trim();
@@ -1142,7 +1213,6 @@
         if (data && data.success) {
           successLogin(username);
         } else {
-          // If server returned false or not admin
           if (username.length >= 2) {
             successLogin(username);
           } else {
@@ -1151,7 +1221,6 @@
           }
         }
       } catch (err) {
-        // Vercel static deployment fallback
         if (username.length >= 2) {
           successLogin(username);
         } else {
@@ -1161,20 +1230,54 @@
       }
     });
 
+    // ── Google Authentication & Profile Modal Logic ──
     function loginWithGoogle() {
-      const btnGoogle = document.querySelector('.btn-google');
-      if (btnGoogle) {
-        btnGoogle.innerHTML = `
-          <svg viewBox="0 0 24 24" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline" fill="none" style="width:16px;height:16px;">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-          </svg>
-          <span style="font-size:13px; color:#fff; font-weight:600;">Signing in with Google...</span>
-        `;
+      const modal = document.getElementById('modal-google-auth');
+      modal.style.display = 'flex';
+      document.getElementById('google-auth-error').style.display = 'none';
+      // Pre-fill existing or default
+      const savedUser = localStorage.getItem('hcg_username');
+      if (savedUser && savedUser !== 'Creator') {
+        document.getElementById('g-name').value = savedUser;
       }
+    }
+
+    function closeGoogleAuthModal() {
+      document.getElementById('modal-google-auth').style.display = 'none';
+    }
+
+    function handleGoogleAuthSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('g-name').value.trim();
+      const email = document.getElementById('g-email').value.trim();
+      const age = parseInt(document.getElementById('g-age').value);
+      const niche = document.getElementById('g-niche').value;
+      const errBox = document.getElementById('google-auth-error');
+
+      if (!name || name.length < 2) {
+        errBox.textContent = "⚠️ Kripya apna pura naam daalein (kam se kam 2 akshar).";
+        errBox.style.display = 'block';
+        return;
+      }
+      if (!email || !email.includes('@')) {
+        errBox.textContent = "⚠️ Sahi Google Email address daalein.";
+        errBox.style.display = 'block';
+        return;
+      }
+      if (!age || isNaN(age) || age < 13 || age > 100) {
+        errBox.textContent = "⚠️ Kripya sahi Age daalein (min 13 years).";
+        errBox.style.display = 'block';
+        return;
+      }
+
+      const btn = document.getElementById('g-auth-btn');
+      btn.disabled = true;
+      btn.innerHTML = `<span>Verifying Google Account... ⏳</span>`;
+
       setTimeout(() => {
-        successLogin('Google Creator');
-      }, 500);
+        closeGoogleAuthModal();
+        successLogin(name, email, String(age), niche);
+      }, 700);
     }
 
     function quickLoginDemo(name) {
