@@ -3,10 +3,11 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# Large binaries (>100MB exceed GitHub limits)
+# Ignore large binaries and generated files
 ffmpeg.exe
 ffprobe.exe
 *.zip
+tools/
 
 # Dynamic User Uploads & Rendered Exports
 uploads/*
