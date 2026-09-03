@@ -1,0 +1,20 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Large binaries (>100MB exceed GitHub limits)
+ffmpeg.exe
+ffprobe.exe
+*.zip
+
+# Dynamic User Uploads & Rendered Exports
+uploads/*
+!uploads/.gitkeep
+exports/*
+!exports/.gitkeep
+
+# Environment / Local settings
+.env
+.DS_Store
+Thumbs.db

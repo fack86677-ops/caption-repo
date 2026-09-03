@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pricing – Harsh Caption Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --green: #00C48C;
+      --green-hover: #00E0A0;
+      --dark: #060A08;
+      --card: #0E1410;
+      --card2: #111812;
+      --border: #1a2820;
+      --border2: #243020;
+      --text: #F3F4F6;
+      --muted: #6B7280;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--dark);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,196,140,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,196,140,0.035) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 50;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 48px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(6,10,8,0.85);
+      backdrop-filter: blur(12px);
+    }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .logo-icon {
+      width: 34px; height: 34px;
+      background: rgba(0,196,140,0.12);
+      border: 1.5px solid rgba(0,196,140,0.4);
+      border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: 17px; color: var(--green);
+      box-shadow: 0 0 14px rgba(0,196,140,0.22);
+    }
+    .logo-text { font-size: 16px; font-weight: 800; color: #fff; letter-spacing: -0.4px; }
+    .logo-dot { display: inline-block; width: 6px; height: 6px; background: var(--green); border-radius: 50%; margin-left: 2px; vertical-align: middle; }
+    .nav-right { display: flex; align-items: center; gap: 16px; }
+    .credit-badge {
+      display: flex; align-items: center; gap: 7px;
+      background: rgba(0,196,140,0.08);
+      border: 1px solid rgba(0,196,140,0.25);
+      border-radius: 50px; padding: 6px 14px;
+      font-size: 13px; font-weight: 700; color: var(--green);
+    }
+    .credit-badge svg { width: 15px; height: 15px; }
+    .btn-signin {
+      display: flex; align-items: center; gap: 6px;
+      background: var(--green); color: #032E20;
+      font-weight: 700; font-size: 13px;
+      padding: 8px 18px; border-radius: 50px;
+      text-decoration: none;
+      transition: background 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 16px rgba(0,196,140,0.2);
+    }
+    .btn-signin:hover { background: var(--green-hover); box-shadow: 0 0 24px rgba(0,196,140,0.35); }
+
+    /* HERO */
+    .page-hero {
+      position: relative; z-index: 1;
+      text-align: center;
+      padding: 72px 24px 48px;
+    }
+    .page-hero h1 { font-size: clamp(32px, 5vw, 52px); font-weight: 900; letter-spacing: -1.5px; line-height: 1.1; }
+    .page-hero h1 span { color: var(--green); }
+    .page-hero p { margin-top: 14px; font-size: 16px; color: var(--muted); max-width: 500px; margin-left: auto; margin-right: auto; }
+
+    /* NEW USER BANNER */
+    .new-user-banner {
+      position: relative; z-index: 1;
+      margin: 0 auto 40px;
+      max-width: 540px;
+      background: linear-gradient(135deg, rgba(0,196,140,0.12), rgba(0,196,140,0.04));
+      border: 1px solid rgba(0,196,140,0.3);
+      border-radius: 14px;
+      padding: 16px 24px;
+      display: flex; align-items: center; gap: 16px;
+    }
+    .new-user-banner .icon {
+      width: 44px; height: 44px; flex-shrink: 0;
+      background: rgba(0,196,140,0.15);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+    }
+    .new-user-banner .text h4 { font-size: 14px; font-weight: 700; color: #fff; }
+    .new-user-banner .text p { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .new-user-banner .badge {
+      margin-left: auto; flex-shrink: 0;
+      background: var(--green); color: #032E20;
+      font-weight: 800; font-size: 13px;
+      padding: 6px 14px; border-radius: 50px;
+    }
+
+    /* CREDIT USAGE GUIDE */
+    .usage-section {
+      position: relative; z-index: 1;
+      max-width: 860px; margin: 0 auto 56px;
+      padding: 0 24px;
+    }
+    .usage-section h2 {
+      text-align: center; font-size: 20px; font-weight: 800;
+      margin-bottom: 20px; letter-spacing: -0.4px;
+    }
+    .usage-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;
+    }
+    .usage-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px; padding: 18px 16px;
+      text-align: center;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .usage-card:hover { border-color: rgba(0,196,140,0.3); transform: translateY(-2px); }
+    .usage-card .duration {
+      font-size: 22px; font-weight: 900; color: var(--green); margin-bottom: 4px;
+    }
+    .usage-card .label { font-size: 11px; color: var(--muted); margin-bottom: 10px; }
+    .usage-card .credits {
+      display: inline-flex; align-items: center; gap: 4px;
+      background: rgba(0,196,140,0.08);
+      border: 1px solid rgba(0,196,140,0.18);
+      border-radius: 50px; padding: 4px 12px;
+      font-size: 13px; font-weight: 700; color: var(--text);
+    }
+    .usage-card .credits svg { width: 13px; height: 13px; color: var(--green); }
+
+    /* PRICING CARDS */
+    .pricing-section {
+      position: relative; z-index: 1;
+      max-width: 960px; margin: 0 auto 80px;
+      padding: 0 24px;
+    }
+    .pricing-section h2 {
+      text-align: center; font-size: 20px; font-weight: 800;
+      margin-bottom: 24px; letter-spacing: -0.4px;
+    }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    .plan-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px 28px;
+      position: relative;
+      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+      overflow: hidden;
+    }
+    .plan-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at top center, rgba(0,196,140,0.04) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .plan-card:hover {
+      border-color: rgba(0,196,140,0.3);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 40px rgba(0,196,140,0.06);
+    }
+    .plan-card.popular {
+      border-color: rgba(0,196,140,0.5);
+      background: linear-gradient(160deg, rgba(0,196,140,0.07) 0%, var(--card) 60%);
+      box-shadow: 0 0 0 1px rgba(0,196,140,0.2), 0 24px 60px rgba(0,0,0,0.4);
+    }
+    .popular-badge {
+      position: absolute; top: -1px; left: 50%; transform: translateX(-50%);
+      background: var(--green); color: #032E20;
+      font-size: 10px; font-weight: 800; letter-spacing: 0.5px;
+      padding: 4px 14px;
+      border-radius: 0 0 10px 10px;
+      text-transform: uppercase;
+    }
+    .plan-icon {
+      width: 44px; height: 44px;
+      background: rgba(0,196,140,0.1);
+      border: 1px solid rgba(0,196,140,0.2);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; margin-bottom: 16px;
+    }
+    .plan-name { font-size: 15px; font-weight: 700; color: var(--muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .plan-price { display: flex; align-items: baseline; gap: 2px; margin-bottom: 4px; }
+    .plan-price .rupee { font-size: 22px; font-weight: 800; color: var(--green); }
+    .plan-price .amount { font-size: 52px; font-weight: 900; color: #fff; letter-spacing: -2px; line-height: 1; }
+    .plan-price .gst { font-size: 11px; color: var(--muted); margin-left: 4px; align-self: flex-end; padding-bottom: 8px; }
+    .plan-credit-count {
+      font-size: 14px; color: var(--muted); margin-bottom: 24px;
+    }
+    .plan-credit-count strong { color: var(--green); }
+    .btn-plan {
+      width: 100%; padding: 12px;
+      border-radius: 12px; border: none;
+      font-size: 14px; font-weight: 700;
+      cursor: pointer; transition: all 0.2s;
+      margin-bottom: 24px;
+    }
+    .btn-plan.outline {
+      background: transparent;
+      border: 1.5px solid var(--border2);
+      color: #fff;
+    }
+    .btn-plan.outline:hover {
+      border-color: var(--green);
+      color: var(--green);
+    }
+    .btn-plan.solid {
+      background: var(--green);
+      color: #032E20;
+      box-shadow: 0 0 20px rgba(0,196,140,0.3);
+    }
+    .btn-plan.solid:hover { background: var(--green-hover); box-shadow: 0 0 28px rgba(0,196,140,0.45); }
+    .plan-divider { height: 1px; background: var(--border); margin-bottom: 20px; }
+    .plan-features { list-style: none; }
+    .plan-features li {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 13px; color: #D1D5DB;
+      padding: 5px 0;
+    }
+    .plan-features li .chk {
+      width: 16px; height: 16px; flex-shrink: 0;
+      background: rgba(0,196,140,0.15);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin-top: 1px;
+    }
+    .plan-features li .chk svg { width: 10px; height: 10px; color: var(--green); }
+    .per-credit {
+      font-size: 11px; color: var(--muted);
+      background: rgba(0,0,0,0.3);
+      border-radius: 8px; padding: 4px 10px;
+      display: inline-block; margin-bottom: 12px;
+    }
+    .per-credit strong { color: var(--green); }
+
+    /* CREDIT CALCULATOR */
+    .calc-section {
+      position: relative; z-index: 1;
+      max-width: 620px; margin: 0 auto 80px;
+      padding: 0 24px;
+    }
+    .calc-section h2 { text-align: center; font-size: 20px; font-weight: 800; margin-bottom: 20px; }
+    .calc-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px 28px;
+    }
+    .calc-card label { font-size: 13px; color: var(--muted); font-weight: 600; display: block; margin-bottom: 8px; }
+    .calc-slider {
+      width: 100%; -webkit-appearance: none; appearance: none;
+      height: 6px; border-radius: 3px;
+      background: linear-gradient(to right, var(--green) var(--pct, 20%), #1F2B25 var(--pct, 20%));
+      outline: none; margin-bottom: 6px;
+    }
+    .calc-slider::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 20px; height: 20px;
+      border-radius: 50%; background: var(--green);
+      border: 3px solid #060A08;
+      box-shadow: 0 0 8px rgba(0,196,140,0.4);
+      cursor: pointer;
+    }
+    .calc-val { text-align: right; font-size: 13px; font-weight: 700; color: var(--green); margin-bottom: 24px; }
+    .calc-result {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 4px;
+    }
+    .calc-result-item {
+      background: rgba(0,0,0,0.3);
+      border: 1px solid var(--border);
+      border-radius: 12px; padding: 16px;
+      text-align: center;
+    }
+    .calc-result-item .num { font-size: 28px; font-weight: 900; color: var(--green); line-height: 1; }
+    .calc-result-item .desc { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+    /* FOOTER */
+    footer {
+      position: relative; z-index: 1;
+      border-top: 1px solid var(--border);
+      text-align: center; padding: 24px;
+      font-size: 12px; color: var(--muted);
+    }
+
+    /* TOAST */
+    #toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+      background: rgba(0,196,140,0.12);
+      border: 1px solid rgba(0,196,140,0.3);
+      color: var(--green); font-weight: 600; font-size: 14px;
+      padding: 12px 24px; border-radius: 50px;
+      backdrop-filter: blur(12px);
+      z-index: 999; pointer-events: none;
+      opacity: 0; transition: opacity 0.3s;
+    }
+    #toast.show { opacity: 1; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="logo" href="/">
+    <div class="logo-icon">H</div>
+    <span class="logo-text">Harsh Captions<span class="logo-dot"></span></span>
+  </a>
+  <div class="nav-right">
+    <div class="credit-badge" id="nav-credits">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      <span id="nav-credit-count">— </span> Credits
+    </div>
+    <a href="/" class="btn-signin">
+      ← Back to Studio
+    </a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="page-hero">
+  <h1>Unbeatable <span>Pricing</span><br>Across the Industry</h1>
+  <p>Pay only for what you use. Buy credits, generate captions, grow your channel.</p>
+</div>
+
+<!-- NEW USER BANNER -->
+<div class="new-user-banner" id="new-user-banner" style="display:none">
+  <div class="icon">🎁</div>
+  <div class="text">
+    <h4>Welcome Gift — Free Credits!</h4>
+    <p>Aapke account mein <strong style="color:var(--green)">100 Free Credits</strong> already add ho gaye hain. Start karo abhi!</p>
+  </div>
+  <div class="badge">100 FREE</div>
+</div>
+
+<!-- CREDIT USAGE GUIDE -->
+<div class="usage-section">
+  <h2>💡 Credit Usage — Video Length ke Hisaab se</h2>
+  <div class="usage-grid">
+    <div class="usage-card">
+      <div class="duration">≤10 sec</div>
+      <div class="label">Short clip / Reel teaser</div>
+      <div class="credits">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        25–30 Credits
+      </div>
+    </div>
+    <div class="usage-card">
+      <div class="duration">≤30 sec</div>
+      <div class="label">Instagram / YouTube Shorts</div>
+      <div class="credits">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        50–55 Credits
+      </div>
+    </div>
+    <div class="usage-card">
+      <div class="duration">≤1 min</div>
+      <div class="label">Standard Reels / TikTok</div>
+      <div class="credits">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        70–80 Credits
+      </div>
+    </div>
+    <div class="usage-card">
+      <div class="duration">1–2 min</div>
+      <div class="label">Long Reels / Vlogs</div>
+      <div class="credits">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        80–120 Credits
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRICING CARDS -->
+<div class="pricing-section">
+  <h2>🪙 Credit Packs — Ek Baar kharido, Kabhi bhi use karo</h2>
+  <div class="pricing-grid">
+
+    <!-- Starter -->
+    <div class="plan-card">
+      <div class="plan-icon">🌱</div>
+      <div class="plan-name">Starter</div>
+      <div class="plan-price">
+        <span class="rupee">₹</span>
+        <span class="amount">60</span>
+        <span class="gst">+GST</span>
+      </div>
+      <div class="per-credit">≈ <strong>0.06₹</strong> per credit</div>
+      <div class="plan-credit-count"><strong>1,000 Credits</strong> — approx 13–15 short clips</div>
+      <button class="btn-plan outline" onclick="buyCredits(1000, 60, 'Starter')">Buy 1,000 Credits →</button>
+      <div class="plan-divider"></div>
+      <ul class="plan-features">
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span> 1,000 caption credits</li>
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span> All languages supported</li>
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span> All viral templates</li>
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span> SRT / VTT export</li>
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span> Credits never expire</li>
+      </ul>
+    </div>
+
+    <!-- Creator — Most Popular -->
+    <div class="plan-card popular">
+      <div class="popular-badge">⭐ Most Popular</div>
+      <div class="plan-icon" style="margin-top:12px">🚀</div>
+      <div class="plan-name">Creator</div>
+      <div class="plan-price">
+        <span class="rupee">₹</span>
+        <span class="amount">100</span>
+        <span class="gst">+GST</span>
+      </div>
+      <div class="per-credit">≈ <strong>0.05₹</strong> per credit</div>
+      <div class="plan-credit-count"><strong>2,000 Credits</strong> — approx 25–30 videos</div>
+      <button class="btn-plan solid" onclick="buyCredits(2000, 100, 'Creator')">Buy 2,000 Credits →</button>
+      <div class="plan-divider"></div>
+      <ul class="plan-features">
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span> 2,000 caption credits</li>
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span> All languages supported</li>
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span> All viral templates</li>
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span> SRT / VTT / MP4 export</li>
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span> Credits never expire</li>
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span> Priority processing</li>
+      </ul>
+    </div>
+
+    <!-- Pro -->
+    <div class="plan-card">
+      <div class="plan-icon">💎</div>
+      <div class="plan-name">Pro</div>
+      <div class="plan-price">
+        <span class="rupee">₹</span>
+        <span class="amount">150</span>
+        <span class="gst">+GST</span>
+      </div>
+      <div class="per-credit">≈ <strong>0.03₹</strong> per credit</div>
+      <div class="plan-credit-count"><strong>5,000 Credits</strong> — approx 60–70 videos</div>
+      <button class="btn-plan outline" onclick="buyCredits(5000, 150, 'Pro')">Buy 5,000 Credits →</button>
+      <div class="plan-divider"></div>
+      <ul class="plan-features">
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span> 5,000 caption credits</li>
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span> All languages supported</li>
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span> All viral templates</li>
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span> SRT / VTT / MP4 export</li>
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span> Credits never expire</li>
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span> Priority processing</li>
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span> Bulk video upload</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<!-- CALCULATOR -->
+<div class="calc-section">
+  <h2>🧮 Credit Calculator</h2>
+  <div class="calc-card">
+    <label>Video length: <span id="calc-label" style="color:var(--green)">30 seconds</span></label>
+    <input type="range" class="calc-slider" id="calc-slider" min="5" max="120" value="30" oninput="updateCalc(this)" />
+    <div class="calc-val" id="calc-val">30 sec</div>
+    <div class="calc-result">
+      <div class="calc-result-item">
+        <div class="num" id="calc-credits">52</div>
+        <div class="desc">Credits used (approx)</div>
+      </div>
+      <div class="calc-result-item">
+        <div class="num" id="calc-cost">₹3.12</div>
+        <div class="desc">Cost from Creator pack</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COMPETITOR COMPARISON MATRIX -->
+<div class="usage-section" style="max-width: 960px;">
+  <h2>📊 How Harsh Captions Compares with Competitors</h2>
+  <div style="overflow-x: auto; background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 20px;">
+    <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 13px;">
+      <thead>
+        <tr style="border-bottom: 1.5px solid var(--border); color: #fff;">
+          <th style="padding: 14px 16px;">Feature</th>
+          <th style="padding: 14px 16px; color: var(--green); background: rgba(0,196,140,0.06); border-radius: 8px 8px 0 0;">✨ Harsh Captions</th>
+          <th style="padding: 14px 16px; color: #9CA3AF;">Descript</th>
+          <th style="padding: 14px 16px; color: #9CA3AF;">CapCut</th>
+          <th style="padding: 14px 16px; color: #9CA3AF;">VEED.io</th>
+        </tr>
+      </thead>
+      <tbody style="color: #D1D5DB;">
+        <tr style="border-bottom: 1px solid var(--border);">
+          <td style="padding: 14px 16px; font-weight: 600;">Desi Languages Support</td>
+          <td style="padding: 14px 16px; color: var(--green); font-weight: 700; background: rgba(0,196,140,0.06);">20+ Languages (97% Acc)</td>
+          <td style="padding: 14px 16px;">Hindi only (English-first)</td>
+          <td style="padding: 14px 16px;">Buggy on Indic scripts</td>
+          <td style="padding: 14px 16px;">Limited Indian support</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--border);">
+          <td style="padding: 14px 16px; font-weight: 600;">Hinglish (Roman Script)</td>
+          <td style="padding: 14px 16px; color: var(--green); font-weight: 700; background: rgba(0,196,140,0.06);">✅ Automatic Transliteration</td>
+          <td style="padding: 14px 16px;">❌ No</td>
+          <td style="padding: 14px 16px;">❌ Manual fixes needed</td>
+          <td style="padding: 14px 16px;">❌ No</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--border);">
+          <td style="padding: 14px 16px; font-weight: 600;">Premiere & DaVinci Plugins</td>
+          <td style="padding: 14px 16px; color: var(--green); font-weight: 700; background: rgba(0,196,140,0.06);">✅ Included (Mac & Win)</td>
+          <td style="padding: 14px 16px;">❌ Standalone only</td>
+          <td style="padding: 14px 16px;">❌ Standalone only</td>
+          <td style="padding: 14px 16px;">❌ Web only</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--border);">
+          <td style="padding: 14px 16px; font-weight: 600;">Alpha Channel Export</td>
+          <td style="padding: 14px 16px; color: var(--green); font-weight: 700; background: rgba(0,196,140,0.06);">✅ Included (.mov/Chroma)</td>
+          <td style="padding: 14px 16px;">🔒 $24/mo Tier</td>
+          <td style="padding: 14px 16px;">❌ No</td>
+          <td style="padding: 14px 16px;">🔒 $40/mo Tier</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--border);">
+          <td style="padding: 14px 16px; font-weight: 600;">Cost Model</td>
+          <td style="padding: 14px 16px; color: var(--green); font-weight: 700; background: rgba(0,196,140,0.06);">Pay-per-video (from ₹2)</td>
+          <td style="padding: 14px 16px;">$15–$24/month</td>
+          <td style="padding: 14px 16px;">$10–$20/month</td>
+          <td style="padding: 14px 16px;">$18–$40/month</td>
+        </tr>
+        <tr>
+          <td style="padding: 14px 16px; font-weight: 600;">Credits Expiration</td>
+          <td style="padding: 14px 16px; color: var(--green); font-weight: 700; background: rgba(0,196,140,0.06); border-radius: 0 0 8px 8px;">✅ Never Expire</td>
+          <td style="padding: 14px 16px;">Monthly Reset</td>
+          <td style="padding: 14px 16px;">Monthly Reset</td>
+          <td style="padding: 14px 16px;">Monthly Reset</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<footer>© 2026 Harsh Caption Generator · Made with ❤️ for Indian & South Asian Creators</footer>
+
+<!-- PAYMENT CHECKOUT MODAL -->
+<div id="payment-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); backdrop-filter:blur(10px); z-index:9999; align-items:center; justify-content:center; padding:16px;">
+  <div style="background:#0E1318; border:1px solid #232D3B; border-radius:24px; max-width:440px; width:100%; padding:28px; box-shadow:0 25px 60px rgba(0,0,0,0.8); position:relative; font-family:Inter,sans-serif;">
+    <button onclick="closePaymentModal()" style="position:absolute; top:20px; right:20px; background:none; border:none; color:#9CA3AF; font-size:20px; cursor:pointer;">✕</button>
+    
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:18px;">
+      <div style="width:36px; height:36px; border-radius:10px; background:#00C48C; color:#000; font-weight:900; display:flex; align-items:center; justify-content:center; font-size:18px;">H</div>
+      <div>
+        <h3 style="margin:0; font-size:16px; font-weight:800; color:#FFF;">Harsh Caption Secure Pay</h3>
+        <p style="margin:0; font-size:11px; color:#9CA3AF;">Instant Credit Activation</p>
+      </div>
+    </div>
+
+    <div style="background:#141A21; border:1px solid #1F2732; border-radius:14px; padding:14px; margin-bottom:18px; display:flex; justify-content:space-between; align-items:center;">
+      <div>
+        <div style="font-size:12px; color:#9CA3AF;" id="checkout-plan-name">Creator Pack</div>
+        <div style="font-size:16px; font-weight:800; color:#00C48C;" id="checkout-credits">2,000 Credits</div>
+      </div>
+      <div style="font-size:22px; font-weight:900; color:#FFF;" id="checkout-price">₹100</div>
+    </div>
+
+    <!-- Tabs -->
+    <div style="display:flex; gap:6px; margin-bottom:16px;">
+      <button id="tab-upi" onclick="switchPayTab('upi')" style="flex:1; padding:8px; border-radius:8px; border:1px solid #00C48C; background:rgba(0,196,140,0.15); color:#00C48C; font-size:12px; font-weight:700; cursor:pointer;">UPI / QR</button>
+      <button id="tab-card" onclick="switchPayTab('card')" style="flex:1; padding:8px; border-radius:8px; border:1px solid #1F2732; background:#141A21; color:#9CA3AF; font-size:12px; font-weight:600; cursor:pointer;">Card / Netbanking</button>
+    </div>
+
+    <!-- UPI Content -->
+    <div id="pay-content-upi" style="text-align:center; padding:10px 0;">
+      <div style="background:#FFF; padding:12px; border-radius:16px; display:inline-block; margin-bottom:12px; box-shadow:0 4px 14px rgba(0,0,0,0.3);">
+        <!-- QR placeholder -->
+        <svg width="130" height="130" viewBox="0 0 100 100" fill="none">
+          <rect width="100" height="100" fill="white"/>
+          <rect x="10" y="10" width="30" height="30" fill="black"/>
+          <rect x="15" y="15" width="20" height="20" fill="white"/>
+          <rect x="20" y="20" width="10" height="10" fill="black"/>
+          <rect x="60" y="10" width="30" height="30" fill="black"/>
+          <rect x="65" y="15" width="20" height="20" fill="white"/>
+          <rect x="70" y="20" width="10" height="10" fill="black"/>
+          <rect x="10" y="60" width="30" height="30" fill="black"/>
+          <rect x="15" y="65" width="20" height="20" fill="white"/>
+          <rect x="20" y="70" width="10" height="10" fill="black"/>
+          <rect x="50" y="50" width="10" height="10" fill="black"/>
+          <rect x="70" y="60" width="15" height="10" fill="black"/>
+          <rect x="60" y="80" width="25" height="10" fill="black"/>
+        </svg>
+      </div>
+      <p style="margin:0 0 6px 0; font-size:12px; color:#D1D5DB; font-weight:600;">Scan with GPay, PhonePe, or Paytm</p>
+      <p style="margin:0; font-size:11px; color:#6B7280;">UPI ID: <span style="color:#00C48C;">harshcaptions@okhdfcbank</span></p>
+    </div>
+
+    <!-- Card Content -->
+    <div id="pay-content-card" style="display:none; padding:10px 0;">
+      <input type="text" placeholder="Card Number (4000 1234 5678 9010)" style="width:100%; box-sizing:border-box; background:#141A21; border:1px solid #232D3B; border-radius:10px; padding:10px 14px; color:#FFF; font-size:13px; margin-bottom:10px;" value="4532 •••• •••• 8892">
+      <div style="display:flex; gap:10px;">
+        <input type="text" placeholder="MM/YY" style="flex:1; box-sizing:border-box; background:#141A21; border:1px solid #232D3B; border-radius:10px; padding:10px 14px; color:#FFF; font-size:13px;" value="12/28">
+        <input type="text" placeholder="CVV" style="flex:1; box-sizing:border-box; background:#141A21; border:1px solid #232D3B; border-radius:10px; padding:10px 14px; color:#FFF; font-size:13px;" value="•••">
+      </div>
+    </div>
+
+    <button id="btn-complete-pay" onclick="processPayment()" style="width:100%; margin-top:16px; padding:14px; border-radius:12px; border:none; background:#00C48C; color:#051A14; font-size:14px; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;">
+      <span>Pay & Activate Credits</span>
+    </button>
+  </div>
+</div>
+
+<script>
+  let pendingPack = null;
+
+  // ── Credit system helpers ──
+  function getCredits() {
+    return parseInt(localStorage.getItem('hcg_credits') || '0');
+  }
+  function setCredits(n) {
+    localStorage.setItem('hcg_credits', String(n));
+    document.getElementById('nav-credit-count').textContent = n.toLocaleString('en-IN') + ' ';
+  }
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3500);
+  }
+
+  // ── Init credits ──
+  function init() {
+    const isNew = !localStorage.getItem('hcg_credits_init');
+    if (isNew) {
+      localStorage.setItem('hcg_credits_init', 'true');
+      setCredits(100); // 100 free credits for new users
+      document.getElementById('new-user-banner').style.display = 'flex';
+    } else {
+      setCredits(getCredits());
+    }
+  }
+  init();
+
+  // ── Buy credits Modal trigger ──
+  function buyCredits(amount, price, plan) {
+    pendingPack = { amount, price, plan };
+    document.getElementById('checkout-plan-name').textContent = plan || 'Credit Pack';
+    document.getElementById('checkout-credits').textContent = `${amount.toLocaleString('en-IN')} Credits`;
+    document.getElementById('checkout-price').textContent = `₹${price}`;
+    const modal = document.getElementById('payment-modal');
+    modal.style.display = 'flex';
+  }
+
+  function closePaymentModal() {
+    document.getElementById('payment-modal').style.display = 'none';
+  }
+
+  function switchPayTab(tab) {
+    const tabUpi = document.getElementById('tab-upi');
+    const tabCard = document.getElementById('tab-card');
+    const contentUpi = document.getElementById('pay-content-upi');
+    const contentCard = document.getElementById('pay-content-card');
+
+    if (tab === 'upi') {
+      tabUpi.style.border = '1px solid #00C48C';
+      tabUpi.style.background = 'rgba(0,196,140,0.15)';
+      tabUpi.style.color = '#00C48C';
+
+      tabCard.style.border = '1px solid #1F2732';
+      tabCard.style.background = '#141A21';
+      tabCard.style.color = '#9CA3AF';
+
+      contentUpi.style.display = 'block';
+      contentCard.style.display = 'none';
+    } else {
+      tabCard.style.border = '1px solid #00C48C';
+      tabCard.style.background = 'rgba(0,196,140,0.15)';
+      tabCard.style.color = '#00C48C';
+
+      tabUpi.style.border = '1px solid #1F2732';
+      tabUpi.style.background = '#141A21';
+      tabUpi.style.color = '#9CA3AF';
+
+      contentCard.style.display = 'block';
+      contentUpi.style.display = 'none';
+    }
+  }
+
+  function processPayment() {
+    if (!pendingPack) return;
+    const btn = document.getElementById('btn-complete-pay');
+    btn.disabled = true;
+    btn.innerHTML = 'Verifying with Bank... ⏳';
+
+    setTimeout(() => {
+      const current = getCredits();
+      setCredits(current + pendingPack.amount);
+      closePaymentModal();
+      showToast(`🎉 Payment Verified! ${pendingPack.amount.toLocaleString('en-IN')} credits added to your account!`);
+      btn.disabled = false;
+      btn.innerHTML = 'Pay & Activate Credits';
+    }, 1200);
+  }
+
+  // ── Calculator ──
+  function updateCalc(slider) {
+    const val = parseInt(slider.value);
+    const pct = ((val - 5) / (120 - 5)) * 100;
+    slider.style.setProperty('--pct', pct + '%');
+    document.getElementById('calc-val').textContent = val < 60 ? val + ' sec' : (val / 60).toFixed(1) + ' min';
+    document.getElementById('calc-label').textContent = val < 60 ? val + ' seconds' : (val/60).toFixed(1) + ' minutes';
+
+    let credits;
+    if (val <= 10) credits = Math.round(25 + Math.random() * 5);
+    else if (val <= 30) credits = Math.round(50 + (val-10)/(30-10) * 5);
+    else if (val <= 60) credits = Math.round(70 + (val-30)/30 * 10);
+    else credits = Math.round(80 + (val-60)/60 * 40);
+
+    const costPer = 100 / 2000; // Creator pack rate
+    const cost = (credits * costPer).toFixed(2);
+    document.getElementById('calc-credits').textContent = credits;
+    document.getElementById('calc-cost').textContent = '₹' + cost;
+  }
+  updateCalc(document.getElementById('calc-slider'));
+</script>
+
+</body>
+</html>
