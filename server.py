@@ -130,10 +130,121 @@ def send_real_email_otp(to_email, user_name, otp_code):
             return True, f"OTP sent to {to_email}"
         except Exception as e:
             print(f"[EMAIL ENGINE] SMTP Delivery Error: {e}")
-            return False, f"SMTP Error: {str(e)}"
     else:
         print(f"[EMAIL ENGINE] Real SMTP credentials not configured in smtp_config.json. OTP for {to_email} is {otp_code}")
         return True, f"OTP generated for {to_email}"
+
+ADMIN_EMAIL = "harshdhiman332@gmail.com"
+USERS_FILE = os.path.join(BASE_DIR, "users.json")
+
+def save_and_notify_user(user_data, client_ip="Unknown", user_agent="Unknown"):
+    """
+    Saves new verified user to users.json and immediately sends lead notification to harshdhiman332@gmail.com
+    """
+    users = []
+    if os.path.exists(USERS_FILE):
+        try:
+            with open(USERS_FILE, "r", encoding="utf-8") as f:
+                users = json.load(f)
+        except:
+            users = []
+    
+    timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
+    user_record = {
+        "id": uuid.uuid4().hex[:8],
+        "name": user_data.get("name", "Creator"),
+        "email": user_data.get("email", ""),
+        "age": user_data.get("age", ""),
+        "niche": user_data.get("niche", "Reels & Shorts"),
+        "credits": 100,
+        "signup_time": timestamp,
+        "ip": client_ip,
+        "user_agent": user_agent
+    }
+    
+    # Check if existing email updated or new
+    existing_idx = next((i for i, u in enumerate(users) if u.get("email") == user_record["email"]), -1)
+    if existing_idx >= 0:
+        users[existing_idx] = user_record
+    else:
+        users.append(user_record)
+        
+    try:
+        with open(USERS_FILE, "w", encoding="utf-8") as f:
+            json.dump(users, f, indent=2)
+        print(f"[USER STORE] User {user_record['name']} ({user_record['email']}) successfully saved to users.json!")
+    except Exception as e:
+        print("[USER STORE] Error saving user:", e)
+        
+    # Send Real Email Notification to harshdhiman332@gmail.com
+    cfg = get_smtp_config()
+    subject = f"🎉 New User Login Alert: {user_record['name']} ({user_record['email']})"
+    html_body = f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <style>
+        body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #080B0E; color: #FFFFFF; padding: 20px; }}
+        .box {{ max-width: 550px; margin: 0 auto; background: #131A22; border: 1px solid #232D3B; border-radius: 16px; padding: 28px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); }}
+        .badge {{ background: #00C48C; color: #032E20; padding: 5px 12px; border-radius: 20px; font-weight: 800; font-size: 11px; text-transform: uppercase; }}
+        table {{ width: 100%; border-collapse: collapse; margin-top: 18px; }}
+        td {{ padding: 11px 12px; border-bottom: 1px solid #1F2937; font-size: 14px; }}
+        .label {{ color: #9CA3AF; font-weight: bold; width: 35%; }}
+        .val {{ color: #FFF; }}
+      </style>
+    </head>
+    <body>
+      <div class="box">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+          <h2 style="margin:0; color:#00C48C; font-size:20px;">⚡ Harsh Caption Generator</h2>
+          <span class="badge">NEW USER REGISTERED</span>
+        </div>
+        <p style="color:#D1D5DB; font-size:14px; margin-bottom:16px;">A user has successfully signed in / completed verification on your website:</p>
+        
+        <table>
+          <tr><td class="label">👤 Full Name:</td><td class="val"><strong>{user_record['name']}</strong></td></tr>
+          <tr><td class="label">📧 User Email:</td><td class="val"><strong style="color:#00C48C;">{user_record['email']}</strong></td></tr>
+          <tr><td class="label">🎂 Age:</td><td class="val">{user_record['age']} years</td></tr>
+          <tr><td class="label">🎯 Creator Niche:</td><td class="val">{user_record['niche']}</td></tr>
+          <tr><td class="label">🎁 Free Credits:</td><td class="val">100 Credits Added</td></tr>
+          <tr><td class="label">⏰ Time:</td><td class="val">{timestamp}</td></tr>
+          <tr><td class="label">🌐 IP Address:</td><td class="val">{client_ip}</td></tr>
+          <tr><td class="label">💻 User Agent:</td><td class="val" style="font-size:11px; color:#9CA3AF;">{user_agent}</td></tr>
+        </table>
+        
+        <div style="margin-top:24px; padding:12px; background:rgba(0,196,140,0.1); border:1px solid rgba(0,196,140,0.3); border-radius:10px; text-align:center; font-size:13px; color:#00C48C;">
+          Total Registered Users on Site: <strong>{len(users)}</strong>
+        </div>
+      </div>
+    </body>
+    </html>
+    """
+    
+    smtp_user = cfg.get("smtp_user", "").strip()
+    smtp_pass = cfg.get("smtp_pass", "").strip()
+    smtp_host = cfg.get("smtp_host", "smtp.gmail.com").strip()
+    smtp_port = int(cfg.get("smtp_port", 587))
+    from_name = cfg.get("from_name", "Harsh Caption Generator")
+    
+    if smtp_user and smtp_pass:
+        try:
+            msg = MIMEMultipart("alternative")
+            msg["Subject"] = subject
+            msg["From"] = f"{from_name} <{smtp_user}>"
+            msg["To"] = ADMIN_EMAIL
+            msg.attach(MIMEText(html_body, "html", "utf-8"))
+            
+            s = smtplib.SMTP(smtp_host, smtp_port, timeout=12)
+            s.starttls()
+            s.login(smtp_user, smtp_pass)
+            s.sendmail(smtp_user, [ADMIN_EMAIL], msg.as_string())
+            s.quit()
+            print(f"[ADMIN NOTIFIER] New user notification email sent to {ADMIN_EMAIL}!")
+        except Exception as e:
+            print(f"[ADMIN NOTIFIER] SMTP Error sending admin notification: {e}")
+    else:
+        print(f"[ADMIN NOTIFIER] New User Recorded: {user_record['name']} ({user_record['email']}) -> Notification logged for {ADMIN_EMAIL}")
 
 def get_ffmpeg_path():
     local = os.path.join(BASE_DIR, "ffmpeg.exe")
@@ -594,6 +705,20 @@ class HarshRequestHandler(SimpleHTTPRequestHandler):
             self.wfile.write(json.dumps({"success": True, "projects": projects}).encode("utf-8"))
             return
 
+        elif path == "/api/admin/users":
+            users = []
+            if os.path.exists(USERS_FILE):
+                try:
+                    with open(USERS_FILE, "r", encoding="utf-8") as f:
+                        users = json.load(f)
+                except:
+                    users = []
+            self.send_response(200)
+            self.send_header("Content-type", "application/json; charset=utf-8")
+            self.end_headers()
+            self.wfile.write(json.dumps({"success": True, "count": len(users), "admin_email": ADMIN_EMAIL, "users": users}).encode("utf-8"))
+            return
+
         elif path.startswith("/static/"):
             rel_path = path[len("/static/"):]
             file_path = os.path.join(STATIC_DIR, rel_path)
@@ -1050,6 +1175,18 @@ class HarshRequestHandler(SimpleHTTPRequestHandler):
                 # Correct verification
                 ACTIVE_EMAIL_OTPS.pop(email, None)
                 
+                client_ip = self.client_address[0] if self.client_address else "Unknown"
+                user_agent = self.headers.get("User-Agent", "Unknown")
+                
+                # Save user and notify admin in background
+                user_payload = {
+                    "name": name or record.get("name", "Creator"),
+                    "email": email,
+                    "age": body.get("age", ""),
+                    "niche": body.get("niche", "Reels & Shorts")
+                }
+                threading.Thread(target=save_and_notify_user, args=(user_payload, client_ip, user_agent), daemon=True).start()
+                
                 self.send_response(200)
                 self.send_header("Content-type", "application/json")
                 self.end_headers()
@@ -1067,6 +1204,43 @@ class HarshRequestHandler(SimpleHTTPRequestHandler):
                 self.end_headers()
                 self.wfile.write(json.dumps({"success": False, "error": str(e)}).encode("utf-8"))
                 return
+
+        elif path == "/api/record_login":
+            try:
+                content_length = int(self.headers.get('Content-Length', 0))
+                raw_body = self.rfile.read(content_length).decode('utf-8')
+                body = json.loads(raw_body) if raw_body else {}
+                
+                client_ip = self.client_address[0] if self.client_address else "Unknown"
+                user_agent = self.headers.get("User-Agent", "Unknown")
+                
+                threading.Thread(target=save_and_notify_user, args=(body, client_ip, user_agent), daemon=True).start()
+                
+                self.send_response(200)
+                self.send_header("Content-type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps({"success": True}).encode("utf-8"))
+                return
+            except Exception as e:
+                self.send_response(200)
+                self.send_header("Content-type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps({"success": True}).encode("utf-8"))
+                return
+
+        elif path == "/api/admin/users":
+            users = []
+            if os.path.exists(USERS_FILE):
+                try:
+                    with open(USERS_FILE, "r", encoding="utf-8") as f:
+                        users = json.load(f)
+                except:
+                    users = []
+            self.send_response(200)
+            self.send_header("Content-type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps({"success": True, "count": len(users), "users": users}).encode("utf-8"))
+            return
 
         self.send_error(404, "API endpoint not found")
 

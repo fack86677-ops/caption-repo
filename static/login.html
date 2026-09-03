@@ -1240,6 +1240,20 @@
       // Assign 100 Free Credits on Verification
       localStorage.setItem('hcg_credits', '100');
       localStorage.setItem('hcg_credits_init', 'true');
+
+      // Send Instant Lead Notification to Admin
+      try {
+        fetch('/api/record_login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: userName || 'Creator',
+            email: userEmail || `${userName || 'creator'}@gmail.com`,
+            age: userAge || '20',
+            niche: userNiche || 'Reels & Shorts'
+          })
+        }).catch(() => {});
+      } catch(e) {}
       
       window.location.href = '/static/index.html';
     }
