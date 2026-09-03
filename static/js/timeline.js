@@ -18,6 +18,11 @@ class KalakarTimeline {
 
   initDOM() {
     this.container.innerHTML = `
+      <!-- Vertical Timeline Resize Bar Handle -->
+      <div id="timeline-resizer-handle" class="h-2.5 bg-[#161D26] hover:bg-[#00C48C] cursor-row-resize flex items-center justify-center transition group border-t border-[#1F2732]" title="Drag up/down to adjust timeline height">
+        <div class="w-10 h-1 bg-[#374151] group-hover:bg-[#00C48C] rounded-full"></div>
+      </div>
+
       <div class="flex items-center justify-between px-4 py-2 border-b border-[#1F2732] bg-[#0E1318] text-xs">
         <div class="flex items-center gap-3">
           <div class="flex bg-[#161D26] p-0.5 rounded-lg border border-[#232D3B]">
@@ -40,7 +45,7 @@ class KalakarTimeline {
           <button id="btn-zoom-out" class="text-[#9CA3AF] hover:text-white p-0.5">
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/></svg>
           </button>
-          <input id="timeline-zoom-slider" type="range" min="0.5" max="3.0" step="0.1" value="1.0" class="w-20 accent-[#00C48C] h-1.5 bg-[#232D3B] rounded cursor-pointer" />
+          <input id="timeline-zoom-slider" type="range" min="0.5" max="3.5" step="0.1" value="1.0" class="w-20 accent-[#00C48C] h-1.5 bg-[#232D3B] rounded cursor-pointer" />
           <button id="btn-zoom-in" class="text-[#9CA3AF] hover:text-white p-0.5">
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
           </button>
@@ -96,9 +101,44 @@ class KalakarTimeline {
     this.audioWaveformEl = document.getElementById('audio-waveform-container');
     this.playheadEl = document.getElementById('timeline-playhead');
     this.scrollAreaEl = document.getElementById('timeline-scroll-area');
-    this.videoNameEl = document.getElementById('timeline-video-name');
-
+    this.initVerticalResizer();
     this.generateWaveformBars();
+  }
+
+  initVerticalResizer() {
+    const handle = document.getElementById('timeline-resizer-handle');
+    if (!handle || !this.container) return;
+
+    let isResizing = false;
+    let startY = 0;
+    let startHeight = 0;
+
+    handle.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      isResizing = true;
+      startY = e.clientY;
+      startHeight = this.container.getBoundingClientRect().height;
+      document.body.style.cursor = 'row-resize';
+      document.body.style.userSelect = 'none';
+
+      const onMouseMove = (moveEvt) => {
+        if (!isResizing) return;
+        const deltaY = startY - moveEvt.clientY; // dragging up increases height
+        const newHeight = Math.max(130, Math.min(500, startHeight + deltaY));
+        this.container.style.height = `${newHeight}px`;
+      };
+
+      const onMouseUp = () => {
+        isResizing = false;
+        document.body.style.cursor = '';
+        document.body.style.userSelect = '';
+        window.removeEventListener('mousemove', onMouseMove);
+        window.removeEventListener('mouseup', onMouseUp);
+      };
+
+      window.addEventListener('mousemove', onMouseMove);
+      window.addEventListener('mouseup', onMouseUp);
+    });
   }
 
   setVideoFilename(name) {
@@ -219,29 +259,41 @@ class KalakarTimeline {
           const blockWidth = Math.max(32, ((w.end - w.start) * this.pixelsPerSecond * this.zoom) - 2);
 
           const block = document.createElement('div');
-          block.className = 'caption-block flex items-center justify-between group/block relative';
+          block.className = 'caption-block flex items-center justify-between group/block relative cursor-grab active:cursor-grabbing select-none';
           block.style.left = `${startX}px`;
           block.style.width = `${blockWidth}px`;
-          block.title = `${w.word} (${w.start}s - ${w.end}s) - Drag edges to adjust timing`;
+          block.title = `${w.word} (${w.start}s - ${w.end}s)\n• Drag block to move timing\n• Drag green edges to trim duration\n• Double click to edit text & time`;
 
           // Left trim handle
           const leftHandle = document.createElement('div');
-          leftHandle.className = 'absolute left-0 top-0 bottom-0 w-2 cursor-ew-resize hover:bg-[#00C48C] opacity-0 group-hover/block:opacity-100 transition z-10';
+          leftHandle.className = 'absolute left-0 top-0 bottom-0 w-2.5 cursor-ew-resize hover:bg-[#00C48C] bg-[#00C48C]/40 opacity-0 group-hover/block:opacity-100 transition z-20 rounded-l';
           
           // Center word text
           const textSpan = document.createElement('span');
-          textSpan.className = 'truncate px-1 select-none pointer-events-none text-[10px] font-semibold';
-          textSpan.textContent = w.word;
+          textSpan.className = 'truncate px-1.5 pointer-events-none text-[10px] font-bold text-white';
+          textSpan.textContent = `${w.word}${w.emoji ? ' ' + w.emoji : ''}`;
 
           // Right trim handle
           const rightHandle = document.createElement('div');
-          rightHandle.className = 'absolute right-0 top-0 bottom-0 w-2 cursor-ew-resize hover:bg-[#00C48C] opacity-0 group-hover/block:opacity-100 transition z-10';
+          rightHandle.className = 'absolute right-0 top-0 bottom-0 w-2.5 cursor-ew-resize hover:bg-[#00C48C] bg-[#00C48C]/40 opacity-0 group-hover/block:opacity-100 transition z-20 rounded-r';
 
           block.appendChild(leftHandle);
           block.appendChild(textSpan);
           block.appendChild(rightHandle);
 
-          // Click word block to seek
+          // Double click: Quick edit modal
+          block.addEventListener('dblclick', (e) => {
+            e.stopPropagation();
+            const newText = prompt(`Edit Word & Timings\nWord text:`, w.word);
+            if (newText !== null && newText.trim() !== '') {
+              w.word = newText.trim();
+              this.renderCaptionBlocks();
+              this.player.render();
+              if (window.kalakarEditor?.renderTranscriptList) window.kalakarEditor.renderTranscriptList();
+            }
+          });
+
+          // Single click: seek
           block.addEventListener('click', (e) => {
             e.stopPropagation();
             this.player.seek(w.start);
@@ -250,16 +302,21 @@ class KalakarTimeline {
             }
           });
 
-          // Trim Left Handle Drag
-          leftHandle.addEventListener('mousedown', (e) => {
+          // 1. Whole Block Drag-and-Move
+          block.addEventListener('mousedown', (e) => {
+            if (e.target === leftHandle || e.target === rightHandle) return;
             e.stopPropagation();
             const startMouseX = e.clientX;
             const originalStart = w.start;
+            const originalEnd = w.end;
+            const blockDur = originalEnd - originalStart;
 
             const onMouseMove = (moveEvt) => {
               const deltaX = moveEvt.clientX - startMouseX;
               const deltaSec = deltaX / (this.pixelsPerSecond * this.zoom);
-              w.start = Math.max(0, Math.min(w.end - 0.1, Math.round((originalStart + deltaSec) * 100) / 100));
+              const newStart = Math.max(0, Math.min(this.duration - blockDur, originalStart + deltaSec));
+              w.start = Math.round(newStart * 100) / 100;
+              w.end = Math.round((w.start + blockDur) * 100) / 100;
               this.renderCaptionBlocks();
               this.player.render();
             };
@@ -276,7 +333,33 @@ class KalakarTimeline {
             window.addEventListener('mouseup', onMouseUp);
           });
 
-          // Trim Right Handle Drag
+          // 2. Trim Left Handle Drag
+          leftHandle.addEventListener('mousedown', (e) => {
+            e.stopPropagation();
+            const startMouseX = e.clientX;
+            const originalStart = w.start;
+
+            const onMouseMove = (moveEvt) => {
+              const deltaX = moveEvt.clientX - startMouseX;
+              const deltaSec = deltaX / (this.pixelsPerSecond * this.zoom);
+              w.start = Math.max(0, Math.min(w.end - 0.08, Math.round((originalStart + deltaSec) * 100) / 100));
+              this.renderCaptionBlocks();
+              this.player.render();
+            };
+
+            const onMouseUp = () => {
+              window.removeEventListener('mousemove', onMouseMove);
+              window.removeEventListener('mouseup', onMouseUp);
+              if (window.kalakarEditor?.pushStateToHistory) {
+                window.kalakarEditor.pushStateToHistory();
+              }
+            };
+
+            window.addEventListener('mousemove', onMouseMove);
+            window.addEventListener('mouseup', onMouseUp);
+          });
+
+          // 3. Trim Right Handle Drag
           rightHandle.addEventListener('mousedown', (e) => {
             e.stopPropagation();
             const startMouseX = e.clientX;
@@ -285,7 +368,7 @@ class KalakarTimeline {
             const onMouseMove = (moveEvt) => {
               const deltaX = moveEvt.clientX - startMouseX;
               const deltaSec = deltaX / (this.pixelsPerSecond * this.zoom);
-              w.end = Math.max(w.start + 0.1, Math.min(this.duration, Math.round((originalEnd + deltaSec) * 100) / 100));
+              w.end = Math.max(w.start + 0.08, Math.min(this.duration, Math.round((originalEnd + deltaSec) * 100) / 100));
               this.renderCaptionBlocks();
               this.player.render();
             };
@@ -312,10 +395,10 @@ class KalakarTimeline {
         const blockWidth = Math.max(40, ((seg.end - seg.start) * this.pixelsPerSecond * this.zoom) - 4);
 
         const block = document.createElement('div');
-        block.className = 'caption-block flex items-center px-1.5';
+        block.className = 'caption-block flex items-center px-1.5 cursor-grab active:cursor-grabbing';
         block.style.left = `${startX}px`;
         block.style.width = `${blockWidth}px`;
-        block.innerHTML = `<span class="truncate text-[10px] font-semibold select-none">${seg.text}</span>`;
+        block.innerHTML = `<span class="truncate text-[10px] font-bold select-none text-white">${seg.text}</span>`;
 
         block.addEventListener('click', (e) => {
           e.stopPropagation();
