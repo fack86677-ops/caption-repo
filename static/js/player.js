@@ -20,6 +20,20 @@ class KalakarPlayer {
 
   setSegments(segments) {
     this.segments = segments || [];
+    let maxSegmentTime = 0;
+    this.segments.forEach(seg => {
+      if (seg.end > maxSegmentTime) maxSegmentTime = seg.end;
+      (seg.words || []).forEach(w => {
+        if (w.end > maxSegmentTime) maxSegmentTime = w.end;
+      });
+    });
+    if (maxSegmentTime > this.duration) {
+      this.duration = maxSegmentTime;
+      if (window.kalakarTimeline) {
+        window.kalakarTimeline.setDuration(this.duration);
+      }
+      this.updateTimeDisplay();
+    }
     this.render();
   }
 
@@ -32,11 +46,15 @@ class KalakarPlayer {
 
   initEvents() {
     const updateDur = () => {
-      if (this.video.duration && !isNaN(this.video.duration) && this.video.duration > 0) {
-        this.duration = this.video.duration;
+      const vidDur = this.video ? this.video.duration : 0;
+      if (vidDur && !isNaN(vidDur) && vidDur > 0 && isFinite(vidDur)) {
+        this.duration = vidDur;
         this.updateTimeDisplay();
         if (window.kalakarTimeline) {
           window.kalakarTimeline.setDuration(this.duration);
+        }
+        if (window.currentProject) {
+          window.currentProject.duration = this.duration;
         }
       }
     };
@@ -44,11 +62,16 @@ class KalakarPlayer {
     this.video.addEventListener('loadedmetadata', updateDur);
     this.video.addEventListener('durationchange', updateDur);
     this.video.addEventListener('canplay', updateDur);
+    this.video.addEventListener('loadeddata', updateDur);
 
     this.video.addEventListener('timeupdate', () => {
       this.currentTime = this.video.currentTime;
-      if (this.video.duration && !isNaN(this.video.duration) && this.video.duration > 0) {
-        this.duration = this.video.duration;
+      const vidDur = this.video.duration;
+      if (vidDur && !isNaN(vidDur) && vidDur > 0 && isFinite(vidDur) && vidDur > this.duration) {
+        this.duration = vidDur;
+        if (window.kalakarTimeline) {
+          window.kalakarTimeline.setDuration(this.duration);
+        }
       }
       this.render();
       if (window.kalakarTimeline) {
@@ -127,10 +150,19 @@ class KalakarPlayer {
   }
 
   seek(timeInSeconds) {
-    this.video.currentTime = Math.max(0, Math.min(this.duration, timeInSeconds));
-    this.currentTime = this.video.currentTime;
+    const vidDur = (this.video && this.video.duration && !isNaN(this.video.duration) && this.video.duration > 0 && isFinite(this.video.duration))
+      ? this.video.duration
+      : (this.duration || 3600);
+    const target = Math.max(0, Math.min(vidDur, timeInSeconds));
+    if (this.video) {
+      this.video.currentTime = target;
+    }
+    this.currentTime = target;
     this.render();
     this.updateTimeDisplay();
+    if (window.kalakarTimeline) {
+      window.kalakarTimeline.updatePlayhead(this.currentTime);
+    }
   }
 
   initAspectRatioControls() {

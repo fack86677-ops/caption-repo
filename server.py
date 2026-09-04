@@ -246,13 +246,28 @@ def get_media_info(file_path):
     try:
         res = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, startupinfo=startupinfo)
         data = json.loads(res.stdout.decode('utf-8'))
-        duration = float(data.get("format", {}).get("duration", 15.0))
+        format_dur = data.get("format", {}).get("duration")
+        duration = float(format_dur) if format_dur else 0.0
+        
         width, height = 1080, 1920
         for stream in data.get("streams", []):
             if stream.get("codec_type") == "video":
-                width = int(stream.get("width", 1080))
-                height = int(stream.get("height", 1920))
-                break
+                width = int(stream.get("width", width))
+                height = int(stream.get("height", height))
+                if duration <= 0 and "duration" in stream:
+                    try:
+                        duration = float(stream["duration"])
+                    except Exception:
+                        pass
+            elif stream.get("codec_type") == "audio" and duration <= 0 and "duration" in stream:
+                try:
+                    duration = float(stream["duration"])
+                except Exception:
+                    pass
+                    
+        if duration <= 0:
+            duration = 30.0
+
         return {
             "duration": round(duration, 3),
             "width": width,
@@ -261,7 +276,7 @@ def get_media_info(file_path):
         }
     except Exception as e:
         print(f"Error reading media info: {e}")
-        return {"duration": 15.0, "width": 1080, "height": 1920, "aspect_ratio": "9:16"}
+        return {"duration": 30.0, "width": 1080, "height": 1920, "aspect_ratio": "9:16"}
 
 def extract_audio(video_path, output_wav, enhance=True):
     ffmpeg = get_ffmpeg_path()

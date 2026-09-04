@@ -343,25 +343,50 @@ function openStudioEditor(project) {
 
   // Initialize Player
   kalakarPlayer = new KalakarPlayer(videoEl, captionOverlay, safeZone);
-  kalakarPlayer.setSegments(project.segments);
-  if (project.style) {
-    kalakarPlayer.setStyle(project.style);
-  }
   window.kalakarPlayer = kalakarPlayer;
 
   // Initialize Timeline
   const timelineContainer = document.getElementById('timeline-container');
   kalakarTimeline = new KalakarTimeline(timelineContainer, kalakarPlayer);
-  kalakarTimeline.setDuration(project.duration || 15.0);
+  window.kalakarTimeline = kalakarTimeline;
+
+  // Set initial duration & sync
+  const initialDuration = project.duration || 30.0;
+  kalakarPlayer.duration = initialDuration;
+  kalakarTimeline.setDuration(initialDuration);
   kalakarTimeline.setVideoFilename(project.filename || project.title || 'video.mp4');
+
+  kalakarPlayer.setSegments(project.segments);
+  if (project.style) {
+    kalakarPlayer.setStyle(project.style);
+  }
   kalakarTimeline.setSegments(project.segments);
   kalakarTimeline.extractRealAudioWaveform(project.video_url);
-  window.kalakarTimeline = kalakarTimeline;
 
   // Initialize Editor
   kalakarEditor = new KalakarEditor(kalakarPlayer, kalakarTimeline);
   kalakarEditor.setSegments(project.segments);
   window.kalakarEditor = kalakarEditor;
+
+  // Listen to video element metadata load to dynamically adjust to exact video duration
+  const onMetadata = () => {
+    if (videoEl && videoEl.duration && !isNaN(videoEl.duration) && videoEl.duration > 0 && isFinite(videoEl.duration)) {
+      project.duration = videoEl.duration;
+      kalakarPlayer.duration = videoEl.duration;
+      kalakarTimeline.setDuration(videoEl.duration);
+      kalakarPlayer.updateTimeDisplay();
+    }
+  };
+
+  if (videoEl) {
+    videoEl.addEventListener('loadedmetadata', onMetadata);
+    videoEl.addEventListener('durationchange', onMetadata);
+    videoEl.addEventListener('canplay', onMetadata);
+    videoEl.addEventListener('loadeddata', onMetadata);
+    if (videoEl.readyState >= 1) {
+      onMetadata();
+    }
+  }
 
   // Save to recent projects
   saveCurrentProject();

@@ -157,7 +157,7 @@ class KalakarTimeline {
       const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
       
       const rawData = audioBuffer.getChannelData(0);
-      const totalSamples = 200;
+      const totalSamples = Math.max(100, Math.floor((this.duration || 30) * 12 * this.zoom));
       const blockSize = Math.floor(rawData.length / totalSamples);
       const peaks = [];
 
@@ -167,7 +167,7 @@ class KalakarTimeline {
         for (let j = 0; j < blockSize; j++) {
           sum += Math.abs(rawData[start + j] || 0);
         }
-        peaks.push(sum / blockSize);
+        peaks.push(sum / Math.max(1, blockSize));
       }
 
       // Normalize peaks
@@ -185,7 +185,7 @@ class KalakarTimeline {
     if (this.audioPeaks && this.audioPeaks.length) {
       let html = '';
       this.audioPeaks.forEach(h => {
-        html += `<div class="w-1 bg-[#10B981] rounded-full opacity-80" style="height: ${h}px;"></div>`;
+        html += `<div class="w-1 bg-[#10B981] rounded-full opacity-80 shrink-0" style="height: ${h}px;"></div>`;
       });
       this.audioWaveformEl.innerHTML = html;
     } else {
@@ -195,10 +195,10 @@ class KalakarTimeline {
 
   generateWaveformBars() {
     let barsHtml = '';
-    const numBars = 180;
+    const numBars = Math.max(100, Math.floor((this.duration || 30) * 10 * this.zoom));
     for (let i = 0; i < numBars; i++) {
       const height = Math.floor(Math.sin(i * 0.25) * 12 + Math.cos(i * 0.15) * 10 + 14);
-      barsHtml += `<div class="w-1 bg-[#10B981] rounded-full opacity-70" style="height: ${Math.max(4, height)}px;"></div>`;
+      barsHtml += `<div class="w-1 bg-[#10B981] rounded-full opacity-70 shrink-0" style="height: ${Math.max(4, height)}px;"></div>`;
     }
     if (this.audioWaveformEl) {
       this.audioWaveformEl.innerHTML = barsHtml;
@@ -206,13 +206,24 @@ class KalakarTimeline {
   }
 
   setDuration(duration) {
-    this.duration = Math.max(1, duration);
+    if (!duration || isNaN(duration) || duration <= 0) return;
+    this.duration = duration;
     this.updateDimensions();
   }
 
   setSegments(segments) {
     this.segments = segments || [];
-    this.render();
+    let maxSegmentTime = 0;
+    this.segments.forEach(seg => {
+      if (seg.end > maxSegmentTime) maxSegmentTime = seg.end;
+      (seg.words || []).forEach(w => {
+        if (w.end > maxSegmentTime) maxSegmentTime = w.end;
+      });
+    });
+    if (maxSegmentTime > this.duration) {
+      this.duration = maxSegmentTime;
+    }
+    this.updateDimensions();
   }
 
   updateDimensions() {
@@ -221,15 +232,23 @@ class KalakarTimeline {
     this.trackWrapperEl.style.width = `${totalWidth}px`;
     this.renderRuler();
     this.renderCaptionBlocks();
+    this.renderWaveform();
   }
 
   renderRuler() {
     if (!this.rulerEl) return;
     this.rulerEl.innerHTML = '';
-    const step = this.zoom > 1.5 ? 0.5 : 1.0;
+    
+    // Adaptive step size based on duration and zoom
+    let step = 1.0;
+    if (this.duration > 300) step = 10.0;
+    else if (this.duration > 120) step = 5.0;
+    else if (this.duration > 60) step = 2.0;
+    else if (this.zoom > 1.5) step = 0.5;
+
     const offsetLeft = 80;
 
-    for (let t = 0; t <= this.duration; t += step) {
+    for (let t = 0; t <= this.duration + 0.05; t += step) {
       const x = offsetLeft + (t * this.pixelsPerSecond * this.zoom);
       const marker = document.createElement('div');
       marker.className = 'absolute top-0 bottom-0 flex flex-col justify-end';
@@ -241,7 +260,7 @@ class KalakarTimeline {
       const label = `${String(mm).padStart(2, '0')}:${String(ss).padStart(2, '0')}.${ms}`;
 
       marker.innerHTML = `
-        <span class="text-[9px] text-[#6B7280] leading-none mb-1">${label}</span>
+        <span class="text-[9px] text-[#6B7280] leading-none mb-1 select-none">${label}</span>
         <div class="h-2 w-[1px] bg-[#232D3B]"></div>
       `;
       this.rulerEl.appendChild(marker);
