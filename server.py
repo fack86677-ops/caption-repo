@@ -330,7 +330,10 @@ def run_whisper_transcription(file_path, language="hi", script="roman", use_emoj
             initial_prompt = LANGUAGE_INITIAL_PROMPTS["en"]
             
         print(f"[WHISPER ENGINE] Starting transcription: task={task_mode}, lang={language}, script={script}")
-        model = WhisperModel("base", device="cpu", compute_type="int8")
+        try:
+            model = WhisperModel("small", device="cpu", compute_type="int8")
+        except Exception:
+            model = WhisperModel("base", device="cpu", compute_type="int8")
         
         segments_gen, info = model.transcribe(
             audio_source,
@@ -1171,23 +1174,14 @@ class HarshRequestHandler(SimpleHTTPRequestHandler):
                     return
 
                 # Perform actual transcription
-                try:
-                    segments = run_whisper_transcription(
-                        file_path,
-                        language=language,
-                        script=script,
-                        use_emojis=use_emojis,
-                        translate=translate,
-                        enhance=enhance
-                    )
-                except Exception as whisper_err:
-                    print(f"[WHISPER RETRY/FALLBACK] {whisper_err}")
-                    segments = []
-
-                if not segments:
-                    info = get_media_info(file_path) if os.path.exists(file_path) else {}
-                    duration = float(info.get("duration", 15.0))
-                    segments = generate_dynamic_segments(duration=duration, language=language, script=script, use_emojis=use_emojis)
+                segments = run_whisper_transcription(
+                    file_path,
+                    language=language,
+                    script=script,
+                    use_emojis=use_emojis,
+                    translate=translate,
+                    enhance=enhance
+                )
 
                 # Record job and deduct credits
                 credits_deducted = 0
