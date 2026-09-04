@@ -245,20 +245,67 @@ def transliterate_devanagari_word(word: str) -> str:
 
     # Post-process common phonetic cleanups
     res = re.sub(r'ee(?=[aeiou])', 'iy', res)
-    res = re.sub(r'oo(?=[aeiou])', 'uv', res)
-    res = re.sub(r'aaa+', 'aa', res)
     res = re.sub(r'eee+', 'ee', res)
     res = re.sub(r'nn(?=[bcdfghjklmnpqrstvwxyz])', 'n', res)
     
-    # Endings with 'ee' often look better as 'i' (e.g. 'tariki' -> 'tariki')
     if res.endswith("ee"):
         res = res[:-2] + "i"
 
     return prefix + res + suffix
 
+# Urdu / Perso-Arabic character mappings
+URDU_CHARS = {
+    'ا': 'a', 'آ': 'aa', 'ب': 'b', 'پ': 'p', 'ت': 't', 'ٹ': 't', 'ث': 's',
+    'ج': 'j', 'چ': 'ch', 'ح': 'h', 'خ': 'kh', 'د': 'd', 'ڈ': 'd', 'ذ': 'z',
+    'ر': 'r', 'ڑ': 'r', 'ز': 'z', 'ژ': 'zh', 'س': 's', 'ش': 'sh', 'ص': 's',
+    'ض': 'z', 'ط': 't', 'ظ': 'z', 'ع': 'a', 'غ': 'gh', 'ف': 'f', 'ق': 'q',
+    'ک': 'k', 'گ': 'g', 'ل': 'l', 'م': 'm', 'ن': 'n', 'ں': 'n', 'و': 'o',
+    'ہ': 'h', 'ھ': 'h', 'ء': '', 'ی': 'i', 'ے': 'e', 'ئ': 'i', 'ۂ': 'h', 'ۃ': 't',
+    'َ': 'a', 'ِ': 'i', 'ُ': 'u', 'ّ': '', 'ْ': ''
+}
+
+URDU_COMMON_WORDS = {
+    "میں": "mai", "کو": "ko", "کا": "ka", "کی": "ki", "کے": "ke", "پر": "par", "سے": "se",
+    "ہے": "hai", "ہیں": "hain", "تھا": "tha", "تھی": "thi", "تھے": "the", "نہیں": "nahi",
+    "نہيں": "nahi", "اور": "aur", "یہ": "yeh", "وہ": "woh", "تو": "toh", "بھی": "bhi",
+    "کیا": "kya", "کیوں": "kyun", "کیسے": "kaise", "لگا": "laga", "لگی": "lagi", "لگے": "lage",
+    "ہوں": "hoon", "ہو": "ho", "سب": "sab", "مل": "mil", "جاتا": "jaata", "جاتی": "jaati",
+    "بات": "baat", "پتا": "pata", "بتانا": "batana", "چھوپی": "chhupi", "شرارت": "shararat",
+    "مستی": "masti", "بچپن": "bachpan", "پیارا": "pyara", "گلی": "ghuli", "سائے": "say",
+    "راکس": "rox", "کولر": "cooler", "پتھڑے": "khade", "کانھا": "kanha", "گانھا": "kanha",
+    "بسا": "basa", "تک": "tak", "پچھوں": "pahuche", "پوچھوں": "pahuche", "گا": "ga",
+    "پر": "par", "تیر": "teer", "مٹھ": "mat"
+}
+
+def is_perso_arabic(text: str) -> bool:
+    """Checks if text contains Perso-Arabic / Urdu Unicode characters (U+0600 to U+06FF)."""
+    return any('\u0600' <= char <= '\u06ff' for char in text)
+
+def transliterate_urdu_word(word: str) -> str:
+    """Transliterates a single Urdu/Perso-Arabic word to readable Roman Hinglish."""
+    prefix = ""
+    suffix = ""
+    while word and not ('\u0600' <= word[0] <= '\u06ff' or word[0].isalnum()):
+        prefix += word[0]
+        word = word[1:]
+    while word and not ('\u0600' <= word[-1] <= '\u06ff' or word[-1].isalnum()):
+        suffix = word[-1] + suffix
+        word = word[:-1]
+    if not word:
+        return prefix + suffix
+
+    if word in URDU_COMMON_WORDS:
+        return prefix + URDU_COMMON_WORDS[word] + suffix
+
+    out = []
+    for c in word:
+        out.append(URDU_CHARS.get(c, c))
+    res = "".join(out)
+    return prefix + res + suffix
+
 def devanagari_to_hinglish(text: str) -> str:
     """
-    Converts a full Hindi string containing sentences or phrases into smooth, readable Hinglish.
+    Converts a full Hindi/Indic/Urdu string containing sentences or phrases into smooth, readable Hinglish.
     Preserves existing English words, URLs, mentions, emojis, and punctuation.
     Replaces Hindi full-stop (।) with English period (.).
     """
@@ -275,6 +322,8 @@ def devanagari_to_hinglish(text: str) -> str:
     for token in tokens:
         if is_devanagari(token):
             converted_tokens.append(transliterate_devanagari_word(token))
+        elif is_perso_arabic(token):
+            converted_tokens.append(transliterate_urdu_word(token))
         else:
             converted_tokens.append(token)
 

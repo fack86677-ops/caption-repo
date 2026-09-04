@@ -27,6 +27,18 @@ from email.mime.multipart import MIMEMultipart
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 from socketserver import ThreadingMixIn
 
+# Configure UTF-8 for stdout and stderr on Windows
+if sys.stdout and hasattr(sys.stdout, 'reconfigure'):
+    try:
+        sys.stdout.reconfigure(encoding='utf-8')
+    except Exception:
+        pass
+if sys.stderr and hasattr(sys.stderr, 'reconfigure'):
+    try:
+        sys.stderr.reconfigure(encoding='utf-8')
+    except Exception:
+        pass
+
 # Add current directory to path
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 if BASE_DIR not in sys.path:
@@ -253,7 +265,8 @@ def get_media_info(file_path):
 
 def extract_audio(video_path, output_wav, enhance=True):
     ffmpeg = get_ffmpeg_path()
-    audio_filters = "highpass=f=80,lowpass=f=8000,afftdn=nf=-25,volume=1.2" if enhance else "anull"
+    # High-pass 70Hz cuts low-frequency rumble, loudnorm provides clear speech levels without distortion
+    audio_filters = "highpass=f=70,loudnorm=I=-16:TP=-1.5:LRA=11" if enhance else "anull"
     cmd = [
         ffmpeg, "-y", "-i", video_path,
         "-vn", "-af", audio_filters, "-acodec", "pcm_s16le", "-ar", "16000", "-ac", "1",
@@ -278,6 +291,18 @@ EMOJI_KEYWORDS = {
 
 RTL_LANGUAGES = ["ur", "ar", "fa", "ps", "sd", "ks"]
 
+LANGUAGE_INITIAL_PROMPTS = {
+    "hi": "नमस्ते, यह वीडियो हिंदी भाषा और देवनागरी लिपि में है।",
+    "pa": "ਸਤਿ ਸ਼੍ਰੀ ਅਕਾਲ, ਇਹ ਵੀਡੀਓ ਪੰਜਾਬੀ ਵਿੱਚ ਹੈ।",
+    "ur": "یہ ویڈیو اردو زبان میں ہے۔",
+    "bn": "নমস্কার, এই ভিডিওটি বাংলা ভাষায়।",
+    "gu": "નમસ્તે, આ વિડિઓ ગુજરાતીમાં છે.",
+    "mr": "नमस्कार, हा व्हिडिओ मराठी भाषेत आहे.",
+    "ta": "வணக்கம், இந்த காணொளி தமிழில் உள்ளது.",
+    "te": "నమస్కారం, ఈ ویڈیو తెలుగులో ఉంది.",
+    "en": "Hello, welcome to this video transcript with accurate punctuation."
+}
+
 def attach_emojis_to_segments(segments):
     for seg in segments:
         for w in seg.get("words", []):
@@ -288,26 +313,30 @@ def attach_emojis_to_segments(segments):
 
 def run_whisper_transcription(file_path, language="hi", script="roman", use_emojis=True, translate=False, enhance=True):
     """
-    Runs faster-whisper on media file with translation and noise reduction.
+    Runs faster-whisper on media file with translation, prompt biasing and noise reduction.
     Returns real word-level and line-level timestamps from the actual audio without any placeholder text.
     """
     temp_wav = os.path.join(UPLOADS_DIR, f"temp_{uuid.uuid4().hex[:8]}.wav")
     extract_audio(file_path, temp_wav, enhance=enhance)
     
-    is_rtl = language in RTL_LANGUAGES and script != "roman"
     segments_data = []
-    
     audio_source = temp_wav if os.path.exists(temp_wav) else file_path
     
     try:
         from faster_whisper import WhisperModel
         task_mode = "translate" if translate else "transcribe"
+        initial_prompt = LANGUAGE_INITIAL_PROMPTS.get(language, "नमस्ते, यह वीडियो हिंदी भाषा और देवनागरी लिपि में है।")
+        if language == "en":
+            initial_prompt = LANGUAGE_INITIAL_PROMPTS["en"]
+            
         print(f"[WHISPER ENGINE] Starting transcription: task={task_mode}, lang={language}, script={script}")
         model = WhisperModel("base", device="cpu", compute_type="int8")
+        
         segments_gen, info = model.transcribe(
             audio_source,
             language=None if language == "auto" else language,
             task=task_mode,
+            initial_prompt=initial_prompt,
             word_timestamps=True,
             beam_size=5
         )
@@ -318,7 +347,7 @@ def run_whisper_transcription(file_path, language="hi", script="roman", use_emoj
             for w in (seg.words or []):
                 raw_word = w.word.strip()
                 processed_word = raw_word
-                if script == "roman" and any('\u0900' <= c <= '\u097F' for c in raw_word):
+                if script == "roman":
                     processed_word = devanagari_to_hinglish(raw_word)
                 words.append({
                     "word": processed_word,
@@ -328,7 +357,7 @@ def run_whisper_transcription(file_path, language="hi", script="roman", use_emoj
                 })
             
             line_text = " ".join([w["word"] for w in words]) if words else seg.text.strip()
-            if script == "roman" and any('\u0900' <= c <= '\u097F' for c in line_text):
+            if script == "roman":
                 line_text = devanagari_to_hinglish(line_text)
                 
             segments_data.append({
