@@ -62,6 +62,7 @@ class KalakarPlayer {
     this.video.addEventListener('loadedmetadata', updateDur);
     this.video.addEventListener('durationchange', updateDur);
     this.video.addEventListener('canplay', updateDur);
+    this.video.addEventListener('canplaythrough', updateDur);
     this.video.addEventListener('loadeddata', updateDur);
 
     this.video.addEventListener('timeupdate', () => {
@@ -88,7 +89,12 @@ class KalakarPlayer {
     this.video.addEventListener('pause', () => {
       this.isPlaying = false;
       this.updatePlayBtn();
-      this.render(); // Ensure captions remain crisp on pause
+      this.render();
+    });
+
+    this.video.addEventListener('ended', () => {
+      this.isPlaying = false;
+      this.updatePlayBtn();
     });
 
     // Click on video player frame to play/pause
@@ -139,24 +145,31 @@ class KalakarPlayer {
 
   togglePlay() {
     if (!this.video) return;
-    if (this.video.paused) {
+    if (this.video.paused || this.video.ended) {
+      if (this.video.ended || (this.duration > 0 && this.video.currentTime >= this.duration - 0.05)) {
+        this.video.currentTime = 0;
+      }
       const p = this.video.play();
       if (p !== undefined) {
-        p.catch(e => console.warn("Video playback resumed:", e));
+        p.then(() => {
+          this.isPlaying = true;
+          this.updatePlayBtn();
+        }).catch(e => console.warn("Video play error:", e));
       }
     } else {
       this.video.pause();
+      this.isPlaying = false;
+      this.updatePlayBtn();
     }
   }
 
   seek(timeInSeconds) {
-    const vidDur = (this.video && this.video.duration && !isNaN(this.video.duration) && this.video.duration > 0 && isFinite(this.video.duration))
+    if (!this.video) return;
+    const vidDur = (this.video.duration && !isNaN(this.video.duration) && this.video.duration > 0 && isFinite(this.video.duration))
       ? this.video.duration
       : (this.duration || 3600);
     const target = Math.max(0, Math.min(vidDur, timeInSeconds));
-    if (this.video) {
-      this.video.currentTime = target;
-    }
+    this.video.currentTime = target;
     this.currentTime = target;
     this.render();
     this.updateTimeDisplay();
@@ -221,11 +234,21 @@ class KalakarPlayer {
     this.captionOverlay.style.top = `${s.posY}%`;
     this.captionOverlay.style.fontFamily = s.fontFamily || 'Montserrat';
     this.captionOverlay.style.fontWeight = s.fontWeight || '900';
-    this.captionOverlay.style.fontSize = `${s.fontSize}px`;
+    this.captionOverlay.style.fontSize = `${s.fontSize || 32}px`;
     this.captionOverlay.style.textAlign = s.textAlign || 'center';
     this.captionOverlay.style.textTransform = (s.textTransform !== undefined) ? s.textTransform : 'uppercase';
     this.captionOverlay.style.color = s.color || '#FFFFFF';
     this.captionOverlay.style.paintOrder = 'stroke fill markers';
+
+    if (this.displayMode === 'full') {
+      this.captionOverlay.classList.add('mode-full');
+      this.captionOverlay.style.whiteSpace = 'normal';
+      this.captionOverlay.style.flexWrap = 'wrap';
+    } else {
+      this.captionOverlay.classList.remove('mode-full');
+      this.captionOverlay.style.whiteSpace = 'nowrap';
+      this.captionOverlay.style.flexWrap = 'nowrap';
+    }
 
     if (s.bgBox) {
       this.captionOverlay.style.backgroundColor = s.bgColor || 'rgba(0,0,0,0.75)';
@@ -273,20 +296,19 @@ class KalakarPlayer {
     }
 
     // Determine words to display based on displayMode
-    let visibleWords = words;
+    let visibleWords = [];
 
     if (this.displayMode === 'single') {
-      // Show ONLY the single active word currently spoken
-      const activeWord = words.find(w => now >= w.start && now <= w.end);
-      if (activeWord) {
-        visibleWords = [activeWord];
-      } else {
-        visibleWords = [words[0]];
-      }
-    } else if (this.displayMode === 'chunk') {
-      // Chunk into 2-3 words per burst (Modern Reels / Hormozi style)
+      // 1 Word Mode: Show exactly ONE word at a time, strictly centered in fixed position
+      const activeWord = words.find(w => now >= (w.start - 0.02) && now <= (w.end + 0.05));
+      visibleWords = [activeWord || words[0]];
+    } else if (this.displayMode === 'full') {
+      // Full Line Mode: Show entire sentence horizontally (wrapping to max 2 lines if long)
+      visibleWords = words;
+    } else {
+      // 2-3 Words Mode (default chunk): Display 2-3 words together horizontally side by side
       const chunkSize = 3;
-      const activeWordIdx = words.findIndex(w => now >= w.start && now <= w.end);
+      const activeWordIdx = words.findIndex(w => now >= (w.start - 0.02) && now <= (w.end + 0.05));
       let chunkStart = 0;
       if (activeWordIdx >= 0) {
         chunkStart = Math.floor(activeWordIdx / chunkSize) * chunkSize;
@@ -294,25 +316,25 @@ class KalakarPlayer {
       visibleWords = words.slice(chunkStart, chunkStart + chunkSize);
     }
 
-    // Render words cleanly with vibrant highlight
+    // Render words in a clean single horizontal row with uniform spacing
     let html = '';
     visibleWords.forEach(w => {
       const isWordActive = (now >= (w.start - 0.02) && now <= (w.end + 0.05));
-      let wordStyle = 'display: inline-block; margin: 0 4px; paint-order: stroke fill markers;';
+      let wordStyle = 'display: inline-flex; align-items: center; margin: 0 5px; vertical-align: middle; paint-order: stroke fill markers;';
       let wordClass = 'word-span';
 
       if (isWordActive) {
         wordClass += ' active';
         const hlColor = s.highlightColor || '#FFE600';
-        wordStyle += `color: ${hlColor}; font-weight: 900; filter: drop-shadow(0 0 10px ${hlColor}); transform: scale(1.15);`;
+        wordStyle += `color: ${hlColor}; font-weight: 900; filter: drop-shadow(0 0 10px ${hlColor}); transform: scale(1.12);`;
       } else if (w.highlight) {
-        wordStyle += `color: ${s.highlightColor || '#FFE600'};`;
+        wordStyle += `color: ${s.highlightColor || '#FFE600'}; font-weight: 800;`;
       } else {
         wordStyle += `color: ${s.color || '#FFFFFF'};`;
       }
 
-      const emojiBadge = w.emoji ? `<span style="margin-left: 3px;">${w.emoji}</span>` : '';
-      html += `<span class="${wordClass}" style="${wordStyle}">${w.word}${emojiBadge}</span> `;
+      const emojiBadge = w.emoji ? `<span style="margin-left: 4px; font-size: 0.9em;">${w.emoji}</span>` : '';
+      html += `<span class="${wordClass}" style="${wordStyle}">${w.word}${emojiBadge}</span>`;
     });
 
     this.captionOverlay.innerHTML = html;

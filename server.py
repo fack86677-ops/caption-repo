@@ -857,9 +857,13 @@ class HarshRequestHandler(SimpleHTTPRequestHandler):
         elif file_path.endswith(".png"): mime = "image/png"
         elif file_path.endswith(".jpg") or file_path.endswith(".jpeg"): mime = "image/jpeg"
         elif file_path.endswith(".svg"): mime = "image/svg+xml"
-        elif file_path.endswith(".mp4"): mime = "video/mp4"
-        elif file_path.endswith(".webm"): mime = "video/webm"
-        elif file_path.endswith(".mov"): mime = "video/quicktime"
+        elif file_path.endswith(".mov"):
+            mp4_alt = os.path.splitext(file_path)[0] + ".mp4"
+            if os.path.exists(mp4_alt):
+                file_path = mp4_alt
+                mime = "video/mp4"
+            else:
+                mime = "video/mp4"
         elif file_path.endswith(".mp3") or file_path.endswith(".wav"): mime = "audio/mpeg"
         elif file_path.endswith(".srt"): mime = "text/plain"
         elif file_path.endswith(".vtt"): mime = "text/vtt"
@@ -1136,6 +1140,28 @@ class HarshRequestHandler(SimpleHTTPRequestHandler):
 
                 info = get_media_info(save_path)
                 
+                # Auto-convert/remux non-mp4 or MOV uploads to faststart MP4 for 100% browser video playback
+                if not save_path.lower().endswith(".mp4"):
+                    ffmpeg = get_ffmpeg_path()
+                    mp4_filename = os.path.splitext(filename)[0] + ".mp4"
+                    mp4_save_path = os.path.join(UPLOADS_DIR, f"{file_id}_{mp4_filename}")
+                    cmd = [
+                        ffmpeg, "-y", "-i", save_path,
+                        "-c:v", "libx264", "-pix_fmt", "yuv420p", "-preset", "veryfast",
+                        "-c:a", "aac", "-movflags", "+faststart",
+                        mp4_save_path
+                    ]
+                    startupinfo = None
+                    if os.name == 'nt':
+                        startupinfo = subprocess.STARTUPINFO()
+                        startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+                        startupinfo.wShowWindow = subprocess.SW_HIDE
+                    res = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, startupinfo=startupinfo)
+                    if res.returncode == 0 and os.path.exists(mp4_save_path):
+                        save_path = mp4_save_path
+                        filename = mp4_filename
+                        info = get_media_info(save_path)
+
                 response = {
                     "success": True,
                     "file_id": file_id,

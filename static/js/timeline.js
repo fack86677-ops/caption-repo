@@ -437,13 +437,33 @@ class KalakarTimeline {
   }
 
   initEvents() {
-    // Click on timeline to seek
-    this.scrollAreaEl.addEventListener('click', (e) => {
+    // Click and continuous drag scrubbing on timeline
+    let isScrubbing = false;
+
+    const handleSeek = (clientX) => {
       const rect = this.trackWrapperEl.getBoundingClientRect();
-      const clickX = e.clientX - rect.left - 80;
+      const clickX = clientX - rect.left - 80;
       if (clickX >= 0) {
-        const targetTime = clickX / (this.pixelsPerSecond * this.zoom);
+        const targetTime = Math.max(0, Math.min(this.duration, clickX / (this.pixelsPerSecond * this.zoom)));
         this.player.seek(targetTime);
+      }
+    };
+
+    this.scrollAreaEl.addEventListener('mousedown', (e) => {
+      if (e.target.closest('.caption-block')) return; // caption blocks handle their own drags
+      isScrubbing = true;
+      handleSeek(e.clientX);
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (isScrubbing) {
+        handleSeek(e.clientX);
+      }
+    });
+
+    window.addEventListener('mouseup', () => {
+      if (isScrubbing) {
+        isScrubbing = false;
       }
     });
 

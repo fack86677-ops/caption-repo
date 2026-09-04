@@ -1,5 +1,1075 @@
 [
   {
+    "id": "proj_1788504660184",
+    "title": "reel 40",
+    "filename": "reel 40.mov",
+    "video_url": "/uploads/334a0a5c9c6c_reel 40.mp4",
+    "file_path": "C:\\Users\\Abc\\Documents\\KalakarWebStudio\\uploads\\334a0a5c9c6c_reel 40.mp4",
+    "created_at": "Just now",
+    "language": "Hinglish",
+    "duration": 26.795,
+    "segments": [
+      {
+        "id": 1,
+        "start": 0,
+        "end": 1.74,
+        "text": "Shahar Me Hai Aajagan Taai Me Hai.",
+        "words": [
+          {
+            "word": "Shahar",
+            "start": 0,
+            "end": 0.46,
+            "highlight": false
+          },
+          {
+            "word": "Me",
+            "start": 0.46,
+            "end": 0.6,
+            "highlight": false
+          },
+          {
+            "word": "Hai",
+            "start": 0.6,
+            "end": 0.64,
+            "highlight": false
+          },
+          {
+            "word": "Aajagan",
+            "start": 0.64,
+            "end": 0.92,
+            "highlight": false
+          },
+          {
+            "word": "Taai",
+            "start": 0.92,
+            "end": 1.12,
+            "highlight": false
+          },
+          {
+            "word": "Me",
+            "start": 1.12,
+            "end": 1.28,
+            "highlight": false
+          },
+          {
+            "word": "Hai.",
+            "start": 1.28,
+            "end": 1.74,
+            "highlight": false
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "start": 1.74,
+        "end": 4.1,
+        "text": "Mujhe Oi Ke Bijge Leeji Mire Likye.",
+        "words": [
+          {
+            "word": "Mujhe",
+            "start": 1.74,
+            "end": 2.08,
+            "highlight": false
+          },
+          {
+            "word": "Oi",
+            "start": 2.08,
+            "end": 2.24,
+            "highlight": false
+          },
+          {
+            "word": "Ke",
+            "start": 2.24,
+            "end": 2.38,
+            "highlight": false
+          },
+          {
+            "word": "Bijge",
+            "start": 2.38,
+            "end": 2.66,
+            "highlight": false
+          },
+          {
+            "word": "Leeji",
+            "start": 2.66,
+            "end": 2.88,
+            "highlight": false
+          },
+          {
+            "word": "Mire",
+            "start": 2.88,
+            "end": 3.24,
+            "highlight": false
+          },
+          {
+            "word": "Likye.",
+            "start": 3.24,
+            "end": 4.1,
+            "highlight": false
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "start": 4.1,
+        "end": 6.38,
+        "text": "Aur Sarke Chusvo Bade Bade Brnt Hain",
+        "words": [
+          {
+            "word": "Aur",
+            "start": 4.1,
+            "end": 4.26,
+            "highlight": false
+          },
+          {
+            "word": "Sarke",
+            "start": 4.26,
+            "end": 4.58,
+            "highlight": false
+          },
+          {
+            "word": "Chusvo",
+            "start": 4.58,
+            "end": 4.86,
+            "highlight": false
+          },
+          {
+            "word": "Bade",
+            "start": 4.86,
+            "end": 5.14,
+            "highlight": false
+          },
+          {
+            "word": "Bade",
+            "start": 5.14,
+            "end": 5.62,
+            "highlight": false
+          },
+          {
+            "word": "Brnt",
+            "start": 5.62,
+            "end": 5.92,
+            "highlight": false
+          },
+          {
+            "word": "Hain",
+            "start": 5.92,
+            "end": 6.38,
+            "highlight": false
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "start": 6.38,
+        "end": 7.9,
+        "text": "Jini Ki Maarkir Me Aur Saaktaale The.",
+        "words": [
+          {
+            "word": "Jini",
+            "start": 6.38,
+            "end": 6.64,
+            "highlight": false
+          },
+          {
+            "word": "Ki",
+            "start": 6.64,
+            "end": 6.7,
+            "highlight": false
+          },
+          {
+            "word": "Maarkir",
+            "start": 6.7,
+            "end": 6.98,
+            "highlight": false
+          },
+          {
+            "word": "Me",
+            "start": 6.98,
+            "end": 7.12,
+            "highlight": false
+          },
+          {
+            "word": "Aur",
+            "start": 7.12,
+            "end": 7.22,
+            "highlight": false
+          },
+          {
+            "word": "Saaktaale",
+            "start": 7.22,
+            "end": 7.5,
+            "highlight": false
+          },
+          {
+            "word": "The.",
+            "start": 7.5,
+            "end": 7.9,
+            "highlight": false
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "start": 7.9,
+        "end": 10.4,
+        "text": "Toh Tueek Khnaauke Kalar Chaart Se Leke Ni Kaugti Se Leke",
+        "words": [
+          {
+            "word": "Toh",
+            "start": 7.9,
+            "end": 8.22,
+            "highlight": false
+          },
+          {
+            "word": "Tueek",
+            "start": 8.22,
+            "end": 8.26,
+            "highlight": false
+          },
+          {
+            "word": "Khnaauke",
+            "start": 8.26,
+            "end": 8.44,
+            "highlight": false
+          },
+          {
+            "word": "Kalar",
+            "start": 8.44,
+            "end": 8.56,
+            "highlight": false
+          },
+          {
+            "word": "Chaart",
+            "start": 8.56,
+            "end": 8.86,
+            "highlight": false
+          },
+          {
+            "word": "Se",
+            "start": 8.86,
+            "end": 8.96,
+            "highlight": false
+          },
+          {
+            "word": "Leke",
+            "start": 8.96,
+            "end": 9.24,
+            "highlight": false
+          },
+          {
+            "word": "Ni",
+            "start": 9.24,
+            "end": 9.4,
+            "highlight": false
+          },
+          {
+            "word": "Kaugti",
+            "start": 9.4,
+            "end": 10,
+            "highlight": false
+          },
+          {
+            "word": "Se",
+            "start": 10,
+            "end": 10.16,
+            "highlight": false
+          },
+          {
+            "word": "Leke",
+            "start": 10.16,
+            "end": 10.4,
+            "highlight": false
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "start": 10.4,
+        "end": 12.64,
+        "text": "Kabare Kolti Se Leke Sab Baish Dekhti Hai",
+        "words": [
+          {
+            "word": "Kabare",
+            "start": 10.4,
+            "end": 10.7,
+            "highlight": false
+          },
+          {
+            "word": "Kolti",
+            "start": 10.7,
+            "end": 11.1,
+            "highlight": false
+          },
+          {
+            "word": "Se",
+            "start": 11.1,
+            "end": 11.26,
+            "highlight": false
+          },
+          {
+            "word": "Leke",
+            "start": 11.26,
+            "end": 11.52,
+            "highlight": false
+          },
+          {
+            "word": "Sab",
+            "start": 11.52,
+            "end": 12,
+            "highlight": false
+          },
+          {
+            "word": "Baish",
+            "start": 12,
+            "end": 12.18,
+            "highlight": false
+          },
+          {
+            "word": "Dekhti",
+            "start": 12.18,
+            "end": 12.56,
+            "highlight": false
+          },
+          {
+            "word": "Hai",
+            "start": 12.56,
+            "end": 12.64,
+            "highlight": false
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "start": 12.64,
+        "end": 16.4,
+        "text": "Aur Ret Ki Baat Rahi, Ret Me None Kuchh Algi Subheedaa Dekhti Hai",
+        "words": [
+          {
+            "word": "Aur",
+            "start": 12.64,
+            "end": 13.22,
+            "highlight": false
+          },
+          {
+            "word": "Ret",
+            "start": 13.22,
+            "end": 13.42,
+            "highlight": false
+          },
+          {
+            "word": "Ki",
+            "start": 13.42,
+            "end": 13.56,
+            "highlight": false
+          },
+          {
+            "word": "Baat",
+            "start": 13.56,
+            "end": 13.78,
+            "highlight": false
+          },
+          {
+            "word": "Rahi,",
+            "start": 13.78,
+            "end": 13.96,
+            "highlight": false
+          },
+          {
+            "word": "Ret",
+            "start": 14.2,
+            "end": 14.4,
+            "highlight": false
+          },
+          {
+            "word": "Me",
+            "start": 14.4,
+            "end": 14.5,
+            "highlight": false
+          },
+          {
+            "word": "None",
+            "start": 14.5,
+            "end": 15.04,
+            "highlight": false
+          },
+          {
+            "word": "Kuchh",
+            "start": 15.04,
+            "end": 15.38,
+            "highlight": false
+          },
+          {
+            "word": "Algi",
+            "start": 15.38,
+            "end": 15.66,
+            "highlight": false
+          },
+          {
+            "word": "Subheedaa",
+            "start": 15.66,
+            "end": 15.92,
+            "highlight": false
+          },
+          {
+            "word": "Dekhti",
+            "start": 15.92,
+            "end": 16.3,
+            "highlight": false
+          },
+          {
+            "word": "Hai",
+            "start": 16.3,
+            "end": 16.4,
+            "highlight": false
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "start": 16.4,
+        "end": 18.02,
+        "text": "Poori Maarkir Me Sab Ssthaa Leelo",
+        "words": [
+          {
+            "word": "Poori",
+            "start": 16.4,
+            "end": 16.9,
+            "highlight": false
+          },
+          {
+            "word": "Maarkir",
+            "start": 16.9,
+            "end": 17.22,
+            "highlight": false
+          },
+          {
+            "word": "Me",
+            "start": 17.22,
+            "end": 17.34,
+            "highlight": false
+          },
+          {
+            "word": "Sab",
+            "start": 17.34,
+            "end": 17.42,
+            "highlight": false
+          },
+          {
+            "word": "Ssthaa",
+            "start": 17.42,
+            "end": 17.78,
+            "highlight": false
+          },
+          {
+            "word": "Leelo",
+            "start": 17.78,
+            "end": 18.02,
+            "highlight": false
+          }
+        ]
+      },
+      {
+        "id": 9,
+        "start": 18.02,
+        "end": 20.04,
+        "text": "Aur Pement Me Bhi Vor Achha Karta Hai",
+        "words": [
+          {
+            "word": "Aur",
+            "start": 18.02,
+            "end": 18.72,
+            "highlight": false
+          },
+          {
+            "word": "Pement",
+            "start": 18.72,
+            "end": 19.04,
+            "highlight": false
+          },
+          {
+            "word": "Me",
+            "start": 19.04,
+            "end": 19.2,
+            "highlight": false
+          },
+          {
+            "word": "Bhi",
+            "start": 19.2,
+            "end": 19.26,
+            "highlight": false
+          },
+          {
+            "word": "Vor",
+            "start": 19.26,
+            "end": 19.44,
+            "highlight": false
+          },
+          {
+            "word": "Achha",
+            "start": 19.44,
+            "end": 19.58,
+            "highlight": false
+          },
+          {
+            "word": "Karta",
+            "start": 19.58,
+            "end": 19.84,
+            "highlight": false
+          },
+          {
+            "word": "Hai",
+            "start": 19.84,
+            "end": 20.04,
+            "highlight": false
+          }
+        ]
+      },
+      {
+        "id": 10,
+        "start": 20.04,
+        "end": 22.52,
+        "text": "Pement Ke Koi Visho Nahi Hai, Kaise Pement Dekhlo Aanko",
+        "words": [
+          {
+            "word": "Pement",
+            "start": 20.04,
+            "end": 20.56,
+            "highlight": false
+          },
+          {
+            "word": "Ke",
+            "start": 20.56,
+            "end": 20.66,
+            "highlight": false
+          },
+          {
+            "word": "Koi",
+            "start": 20.66,
+            "end": 20.78,
+            "highlight": false
+          },
+          {
+            "word": "Visho",
+            "start": 20.78,
+            "end": 20.98,
+            "highlight": false
+          },
+          {
+            "word": "Nahi",
+            "start": 20.98,
+            "end": 21.34,
+            "highlight": false
+          },
+          {
+            "word": "Hai,",
+            "start": 21.34,
+            "end": 21.34,
+            "highlight": false
+          },
+          {
+            "word": "Kaise",
+            "start": 21.5,
+            "end": 21.72,
+            "highlight": false
+          },
+          {
+            "word": "Pement",
+            "start": 21.72,
+            "end": 22.1,
+            "highlight": false
+          },
+          {
+            "word": "Dekhlo",
+            "start": 22.1,
+            "end": 22.26,
+            "highlight": false
+          },
+          {
+            "word": "Aanko",
+            "start": 22.26,
+            "end": 22.52,
+            "highlight": false
+          }
+        ]
+      },
+      {
+        "id": 11,
+        "start": 22.94,
+        "end": 25.12,
+        "text": "Na Bhi Do, Mennaa Pement Ke Bhi Kaan Chal Raha Hai",
+        "words": [
+          {
+            "word": "Na",
+            "start": 22.94,
+            "end": 23.3,
+            "highlight": false
+          },
+          {
+            "word": "Bhi",
+            "start": 23.3,
+            "end": 23.42,
+            "highlight": false
+          },
+          {
+            "word": "Do,",
+            "start": 23.42,
+            "end": 23.58,
+            "highlight": false
+          },
+          {
+            "word": "Mennaa",
+            "start": 23.84,
+            "end": 24.08,
+            "highlight": false
+          },
+          {
+            "word": "Pement",
+            "start": 24.08,
+            "end": 24.38,
+            "highlight": false
+          },
+          {
+            "word": "Ke",
+            "start": 24.38,
+            "end": 24.44,
+            "highlight": false
+          },
+          {
+            "word": "Bhi",
+            "start": 24.44,
+            "end": 24.56,
+            "highlight": false
+          },
+          {
+            "word": "Kaan",
+            "start": 24.56,
+            "end": 24.74,
+            "highlight": false
+          },
+          {
+            "word": "Chal",
+            "start": 24.74,
+            "end": 24.9,
+            "highlight": false
+          },
+          {
+            "word": "Raha",
+            "start": 24.9,
+            "end": 25.08,
+            "highlight": false
+          },
+          {
+            "word": "Hai",
+            "start": 25.08,
+            "end": 25.12,
+            "highlight": false
+          }
+        ]
+      },
+      {
+        "id": 12,
+        "start": 25.12,
+        "end": 26.76,
+        "text": "Sab Sab Baish Dekhti Hai",
+        "words": [
+          {
+            "word": "Sab",
+            "start": 25.12,
+            "end": 25.56,
+            "highlight": false
+          },
+          {
+            "word": "Sab",
+            "start": 25.56,
+            "end": 25.7,
+            "highlight": false
+          },
+          {
+            "word": "Baish",
+            "start": 25.7,
+            "end": 25.88,
+            "highlight": false
+          },
+          {
+            "word": "Dekhti",
+            "start": 25.88,
+            "end": 26.22,
+            "highlight": false
+          },
+          {
+            "word": "Hai",
+            "start": 26.22,
+            "end": 26.76,
+            "highlight": false
+          }
+        ]
+      }
+    ],
+    "style": {
+      "fontFamily": "Montserrat",
+      "fontWeight": "900",
+      "fontSize": 34,
+      "textTransform": "uppercase",
+      "textAlign": "center",
+      "posX": 50,
+      "posY": 80,
+      "color": "#FFFFFF",
+      "highlightColor": "#FFE600",
+      "strokeWidth": 2.5,
+      "strokeColor": "#000000",
+      "shadow": true,
+      "shadowColor": "rgba(0,0,0,0.95)",
+      "bgBox": false,
+      "bgColor": "transparent",
+      "animation": "pop",
+      "activeScale": 1.15,
+      "displayMode": "chunk"
+    }
+  },
+  {
+    "id": "proj_1788503243176",
+    "title": "reel 36",
+    "filename": "reel 36.mov",
+    "video_url": "/uploads/f518bfad2ac5_reel 36.mp4",
+    "file_path": "C:\\Users\\Abc\\Documents\\KalakarWebStudio\\uploads\\f518bfad2ac5_reel 36.mp4",
+    "created_at": "Just now",
+    "language": "Hinglish",
+    "duration": 21.333,
+    "segments": [
+      {
+        "id": 1,
+        "start": 0,
+        "end": 1.74,
+        "text": "But Bdeeghaa, Fsklaans.",
+        "words": [
+          {
+            "word": "But",
+            "start": 0,
+            "end": 0.4,
+            "highlight": false
+          },
+          {
+            "word": "Bdeeghaa,",
+            "start": 0.4,
+            "end": 0.76,
+            "highlight": false
+          },
+          {
+            "word": "Fsklaans.",
+            "start": 0.86,
+            "end": 1.74,
+            "highlight": false
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "start": 2.56,
+        "end": 7.92,
+        "text": "Do Sal Si Mai Regular Kaam Krojhon, Aur Bhod Achhi Brthi Me Tel Karte Hain,",
+        "words": [
+          {
+            "word": "Do",
+            "start": 2.56,
+            "end": 2.78,
+            "highlight": false
+          },
+          {
+            "word": "Sal",
+            "start": 2.78,
+            "end": 3,
+            "highlight": false
+          },
+          {
+            "word": "Si",
+            "start": 3,
+            "end": 3.2,
+            "highlight": false
+          },
+          {
+            "word": "Mai",
+            "start": 3.2,
+            "end": 3.64,
+            "highlight": false
+          },
+          {
+            "word": "Regular",
+            "start": 3.64,
+            "end": 4.08,
+            "highlight": false
+          },
+          {
+            "word": "Kaam",
+            "start": 4.08,
+            "end": 4.32,
+            "highlight": false
+          },
+          {
+            "word": "Krojhon,",
+            "start": 4.32,
+            "end": 5.42,
+            "highlight": false
+          },
+          {
+            "word": "Aur",
+            "start": 5.42,
+            "end": 5.7,
+            "highlight": false
+          },
+          {
+            "word": "Bhod",
+            "start": 5.7,
+            "end": 6.04,
+            "highlight": false
+          },
+          {
+            "word": "Achhi",
+            "start": 6.04,
+            "end": 6.3,
+            "highlight": false
+          },
+          {
+            "word": "Brthi",
+            "start": 6.3,
+            "end": 6.66,
+            "highlight": false
+          },
+          {
+            "word": "Me",
+            "start": 6.66,
+            "end": 6.86,
+            "highlight": false
+          },
+          {
+            "word": "Tel",
+            "start": 6.86,
+            "end": 7.06,
+            "highlight": false
+          },
+          {
+            "word": "Karte",
+            "start": 7.06,
+            "end": 7.4,
+            "highlight": false
+          },
+          {
+            "word": "Hain,",
+            "start": 7.4,
+            "end": 7.92,
+            "highlight": false
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "start": 8.02,
+        "end": 12.06,
+        "text": "Saare Gar Jitne Bhi Aap Sab Pchvandhchhte, Nmbar Val,",
+        "words": [
+          {
+            "word": "Saare",
+            "start": 8.02,
+            "end": 8.36,
+            "highlight": false
+          },
+          {
+            "word": "Gar",
+            "start": 8.36,
+            "end": 8.56,
+            "highlight": false
+          },
+          {
+            "word": "Jitne",
+            "start": 8.56,
+            "end": 8.9,
+            "highlight": false
+          },
+          {
+            "word": "Bhi",
+            "start": 8.9,
+            "end": 9.04,
+            "highlight": false
+          },
+          {
+            "word": "Aap",
+            "start": 9.04,
+            "end": 9.32,
+            "highlight": false
+          },
+          {
+            "word": "Sab",
+            "start": 9.32,
+            "end": 9.6,
+            "highlight": false
+          },
+          {
+            "word": "Pchvandhchhte,",
+            "start": 9.6,
+            "end": 11.5,
+            "highlight": false
+          },
+          {
+            "word": "Nmbar",
+            "start": 11.5,
+            "end": 11.9,
+            "highlight": false
+          },
+          {
+            "word": "Val,",
+            "start": 11.9,
+            "end": 12.06,
+            "highlight": false
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "start": 12.92,
+        "end": 17.52,
+        "text": "Raajaa Antarnaashinal Hamare Ediye Ka Namabar Var Raajaa Antarnaashinal Hai",
+        "words": [
+          {
+            "word": "Raajaa",
+            "start": 12.92,
+            "end": 13.44,
+            "highlight": false
+          },
+          {
+            "word": "Antarnaashinal",
+            "start": 13.44,
+            "end": 13.96,
+            "highlight": false
+          },
+          {
+            "word": "Hamare",
+            "start": 13.96,
+            "end": 15.2,
+            "highlight": false
+          },
+          {
+            "word": "Ediye",
+            "start": 15.2,
+            "end": 15.54,
+            "highlight": false
+          },
+          {
+            "word": "Ka",
+            "start": 15.54,
+            "end": 15.66,
+            "highlight": false
+          },
+          {
+            "word": "Namabar",
+            "start": 15.66,
+            "end": 15.94,
+            "highlight": false
+          },
+          {
+            "word": "Var",
+            "start": 15.94,
+            "end": 16.12,
+            "highlight": false
+          },
+          {
+            "word": "Raajaa",
+            "start": 16.12,
+            "end": 16.8,
+            "highlight": false
+          },
+          {
+            "word": "Antarnaashinal",
+            "start": 16.8,
+            "end": 17.34,
+            "highlight": false
+          },
+          {
+            "word": "Hai",
+            "start": 17.34,
+            "end": 17.52,
+            "highlight": false
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "start": 18.08,
+        "end": 20.68,
+        "text": "Al Gut, Al Gut, Al Gut, Vog Bhriyaa",
+        "words": [
+          {
+            "word": "Al",
+            "start": 18.08,
+            "end": 18.6,
+            "highlight": false
+          },
+          {
+            "word": "Gut,",
+            "start": 18.6,
+            "end": 18.76,
+            "highlight": false
+          },
+          {
+            "word": "Al",
+            "start": 18.84,
+            "end": 19,
+            "highlight": false
+          },
+          {
+            "word": "Gut,",
+            "start": 19,
+            "end": 19.26,
+            "highlight": false
+          },
+          {
+            "word": "Al",
+            "start": 19.28,
+            "end": 19.48,
+            "highlight": false
+          },
+          {
+            "word": "Gut,",
+            "start": 19.48,
+            "end": 19.74,
+            "highlight": false
+          },
+          {
+            "word": "Vog",
+            "start": 20.1,
+            "end": 20.34,
+            "highlight": false
+          },
+          {
+            "word": "Bhriyaa",
+            "start": 20.34,
+            "end": 20.68,
+            "highlight": false
+          }
+        ]
+      }
+    ],
+    "style": {
+      "fontFamily": "Montserrat",
+      "fontWeight": "900",
+      "fontSize": 34,
+      "textTransform": "uppercase",
+      "textAlign": "center",
+      "posX": 50,
+      "posY": 80,
+      "color": "#FFFFFF",
+      "highlightColor": "#FFE600",
+      "strokeWidth": 2.5,
+      "strokeColor": "#000000",
+      "shadow": true,
+      "shadowColor": "rgba(0,0,0,0.95)",
+      "bgBox": false,
+      "bgColor": "transparent",
+      "animation": "pop",
+      "activeScale": 1.15,
+      "displayMode": "chunk"
+    }
+  },
+  {
     "id": "proj_1788428142102",
     "title": "3 Sep E-Surfer Krishan Janmashtmi reel 1",
     "filename": "3 Sep E-Surfer Krishan Janmashtmi reel 1.mp4",

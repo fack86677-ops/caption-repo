@@ -336,8 +336,15 @@ function openStudioEditor(project) {
   const captionOverlay = document.getElementById('caption-render-box');
   const safeZone = document.getElementById('safe-zone-box');
 
+  let videoSrc = project.video_url;
+  if (videoSrc && videoSrc.toLowerCase().endsWith('.mov')) {
+    videoSrc = videoSrc.slice(0, -4) + '.mp4';
+  }
+
   if (videoEl) {
-    videoEl.src = project.video_url;
+    videoEl.pause();
+    videoEl.currentTime = 0;
+    videoEl.src = videoSrc;
     videoEl.load();
   }
 
@@ -361,7 +368,7 @@ function openStudioEditor(project) {
     kalakarPlayer.setStyle(project.style);
   }
   kalakarTimeline.setSegments(project.segments);
-  kalakarTimeline.extractRealAudioWaveform(project.video_url);
+  kalakarTimeline.extractRealAudioWaveform(videoSrc);
 
   // Initialize Editor
   kalakarEditor = new KalakarEditor(kalakarPlayer, kalakarTimeline);
@@ -382,6 +389,7 @@ function openStudioEditor(project) {
     videoEl.addEventListener('loadedmetadata', onMetadata);
     videoEl.addEventListener('durationchange', onMetadata);
     videoEl.addEventListener('canplay', onMetadata);
+    videoEl.addEventListener('canplaythrough', onMetadata);
     videoEl.addEventListener('loadeddata', onMetadata);
     if (videoEl.readyState >= 1) {
       onMetadata();

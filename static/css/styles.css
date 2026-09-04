@@ -154,18 +154,33 @@ body {
   transform: translate(-50%, -50%);
   cursor: move;
   z-index: 30;
-  max-width: 86%;
+  max-width: 94%;
+  width: max-content;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  line-height: 1.35;
+  line-height: 1.2;
   letter-spacing: 0.5px;
-  transition: transform 0.05s ease-out;
-  padding: 10px 16px;
+  transition: none;
+  padding: 8px 14px;
   border: 1.5px dashed transparent;
   border-radius: 10px;
   paint-order: stroke fill markers;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+.caption-render-container.mode-full {
+  flex-wrap: wrap;
+  white-space: normal;
+  width: auto;
+  max-width: 90%;
+  line-height: 1.3;
 }
 .caption-render-container:hover {
   border-color: rgba(0, 196, 140, 0.6);
@@ -176,19 +191,24 @@ body {
   box-shadow: 0 0 12px var(--primary-green-glow);
 }
 
-/* Word animations - SOLID, CRISP, NEVER SPLIT */
+/* Word animations - SINGLE HORIZONTAL LINE, NO VERTICAL/DIAGONAL JUMPING */
 .word-span {
-  display: inline-block;
-  margin: 0 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  margin: 0 5px;
+  white-space: nowrap;
   paint-order: stroke fill markers;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  transition: transform 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.1s ease;
+  transition: color 0.08s ease, transform 0.08s ease;
+  transform-origin: center center;
 }
 
 .word-span.active {
-  transform: scale(1.15);
-  filter: drop-shadow(0 0 12px currentColor);
+  transform: scale(1.12);
+  filter: drop-shadow(0 0 10px currentColor);
 }
 
 /* Template Card */
