@@ -179,18 +179,28 @@
   </main>
 
   <script>
+    function getApiBase() {
+      if (window.location.origin && window.location.origin.includes(':7860')) return '';
+      if (window.location.protocol === 'file:' || window.location.port === '5500' || window.location.port === '3000' || window.location.port === '8080' || window.location.port === '5173') {
+        return 'http://localhost:7860';
+      }
+      return '';
+    }
+    const API_BASE = getApiBase();
     let allUsers = [];
 
     async function loadAdminData() {
       try {
         // 1. Overview metrics
-        const overviewRes = await fetch('/api/admin/overview', { credentials: 'include' });
+        const overviewRes = await fetch(API_BASE + '/api/admin/overview', { credentials: 'include' });
         if (overviewRes.status === 403 || overviewRes.status === 401) {
           alert('Admin privileges required. Please sign in as harshdhiman332@gmail.com');
           window.location.href = '/login.html?admin_required=1';
           return;
         }
-        const overviewData = await overviewRes.json();
+        const rawText = await overviewRes.text();
+        let overviewData = {};
+        try { overviewData = JSON.parse(rawText); } catch(e) {}
         if (overviewData.success && overviewData.overview) {
           document.getElementById('metric-total-users').textContent = overviewData.overview.total_users || 0;
           document.getElementById('metric-active-users').textContent = overviewData.overview.active_users || 0;
@@ -199,8 +209,10 @@
         }
 
         // 2. Users list
-        const usersRes = await fetch('/api/admin/users', { credentials: 'include' });
-        const usersData = await usersRes.json();
+        const usersRes = await fetch(API_BASE + '/api/admin/users', { credentials: 'include' });
+        const rawUsersText = await usersRes.text();
+        let usersData = {};
+        try { usersData = JSON.parse(rawUsersText); } catch(e) {}
         if (usersData.success) {
           allUsers = usersData.users || [];
           renderUsers(allUsers);

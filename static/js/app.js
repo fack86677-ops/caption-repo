@@ -1,5 +1,14 @@
 // Main Application Controller for Harsh Caption Generator Studio
 
+function getApiBase() {
+  if (window.location.origin && window.location.origin.includes(':7860')) return '';
+  if (window.location.protocol === 'file:' || window.location.port === '5500' || window.location.port === '3000' || window.location.port === '8080' || window.location.port === '5173') {
+    return 'http://localhost:7860';
+  }
+  return '';
+}
+const API_BASE = getApiBase();
+
 let currentProject = null;
 let kalakarPlayer = null;
 let kalakarTimeline = null;
@@ -180,7 +189,7 @@ async function startUploadAndTranscription(file, options) {
     if (file) {
       try {
         // Try real upload to backend
-        const res = await fetch('/api/upload', {
+        const res = await fetch(API_BASE + '/api/upload', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/octet-stream',
@@ -247,7 +256,7 @@ async function startUploadAndTranscription(file, options) {
     let transData = null;
     if (uploadData.file_path) {
       try {
-        const transRes = await fetch('/api/transcribe', {
+        const transRes = await fetch(API_BASE + '/api/transcribe', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -371,7 +380,7 @@ async function loadRecentProjects() {
   if (!container) return;
 
   try {
-    const res = await fetch('/api/projects');
+    const res = await fetch(API_BASE + '/api/projects');
     const data = await res.json();
     const projects = data.projects || [];
 
@@ -413,7 +422,7 @@ async function loadRecentProjects() {
           e.stopPropagation();
           if (confirm(`Kya aap project "${proj.title}" ko permanently delete karna chahte hain?`)) {
             try {
-              await fetch('/api/delete_project', {
+              await fetch(API_BASE + '/api/delete_project', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ id: proj.id })
@@ -445,7 +454,7 @@ async function saveCurrentProject() {
   try {
     currentProject.style = kalakarPlayer?.currentStyle || currentProject.style;
     currentProject.segments = kalakarEditor?.segments || currentProject.segments;
-    await fetch('/api/save_project', {
+    await fetch(API_BASE + '/api/save_project', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(currentProject)

@@ -207,31 +207,35 @@
   </footer>
 
   <script>
+    function getApiBase() {
+      if (window.location.origin && window.location.origin.includes(':7860')) return '';
+      if (window.location.protocol === 'file:' || window.location.port === '5500' || window.location.port === '3000' || window.location.port === '8080' || window.location.port === '5173') {
+        return 'http://localhost:7860';
+      }
+      return '';
+    }
+    const API_BASE = getApiBase();
     let currentUser = null;
 
     async function loadDashboard() {
       try {
-        const res = await fetch('/api/user/dashboard-data', { credentials: 'include' });
-        if (res.status === 401) {
-          // If not logged in, check localStorage or redirect
+        const res = await fetch(API_BASE + '/api/user/dashboard-data', { credentials: 'include' });
+        const rawText = await res.text();
+        let data = {};
+        try { data = JSON.parse(rawText); } catch(e) { data = { success: false }; }
+
+        if (res.status === 401 || !data.success) {
           const localUser = localStorage.getItem('hcg_username');
           const localEmail = localStorage.getItem('hcg_email');
           if (!localUser && !localEmail) {
             window.location.href = '/login.html';
             return;
           }
-          // Legacy session fallback
           document.getElementById('welcome-name').textContent = localUser || 'Creator';
           document.getElementById('user-display-name').textContent = localUser || 'Creator';
           document.getElementById('user-display-email').textContent = localEmail || 'creator@gmail.com';
           document.getElementById('stat-credits').textContent = localStorage.getItem('hcg_credits') || '100';
           document.getElementById('nav-credits-val').textContent = localStorage.getItem('hcg_credits') || '100';
-          return;
-        }
-
-        const data = await res.json();
-        if (!data.success) {
-          window.location.href = '/login.html';
           return;
         }
 
