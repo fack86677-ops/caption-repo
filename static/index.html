@@ -3,29 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Harsh Luxury Real Estate Media – AI Video & Caption Studio</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23D4AF37'><path d='M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5'/></svg>">
+  <title>Harsh AI Studio – Ultra-Premium AI Video & Caption Suite</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%236366F1'><path d='M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5'/></svg>">
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
       darkMode: 'class',
       theme: {
         extend: {
           fontFamily: {
-            serif: ['Playfair Display', 'serif'],
-            sans: ['Plus Jakarta Sans', 'sans-serif']
+            sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif']
           },
           colors: {
             brand: {
-              gold: '#D4AF37',
-              goldLight: '#F3E5AB',
-              goldHover: '#E5C158',
-              goldGlow: 'rgba(212, 175, 55, 0.3)',
-              dark: '#07090D',
-              sidebar: '#0D1219',
-              card: '#121822',
-              border: '#1F2837'
+              primary: '#6366F1',
+              primaryHover: '#4F46E5',
+              cyan: '#06B6D4',
+              pink: '#EC4899',
+              green: '#10B981',
+              dark: '#06080F',
+              sidebar: '#0B0F19',
+              card: '#101626',
+              border: '#1E293B'
             }
           }
         }
@@ -34,86 +34,82 @@
   </script>
   <link rel="stylesheet" href="/static/css/styles.css">
 </head>
-<body class="bg-[#07090D] text-[#F8FAFC] font-sans h-screen flex flex-col overflow-hidden select-none">
+<body class="bg-[#06080F] text-[#F8FAFC] font-sans h-screen flex flex-col overflow-hidden select-none">
 
   <!-- ========================================== -->
   <!-- SCREEN 1: DASHBOARD VIEW                   -->
   <!-- ========================================== -->
   <div id="screen-dashboard" class="app-screen flex-1 flex overflow-hidden">
     <!-- Left Sidebar -->
-    <aside class="w-64 bg-[#0D1219] border-r border-[#1F2837] flex flex-col justify-between p-4 shrink-0">
+    <aside class="w-64 bg-[#0B0F19] border-r border-[#1E293B] flex flex-col justify-between p-4 shrink-0">
       <div>
-        <!-- Logo: Harsh Luxury Estates -->
+        <!-- Logo: Harsh AI Studio -->
         <div class="flex items-center gap-2.5 mb-8 px-2">
-          <div class="w-8 h-8 rounded-lg bg-[#D4AF37]/15 border border-[#D4AF37]/40 flex items-center justify-center text-[#D4AF37] font-black text-lg shadow-[0_0_15px_rgba(212,175,55,0.3)]">
-            🏛️
+          <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#6366F1] to-[#A855F7] flex items-center justify-center text-white font-black text-base shadow-[0_0_15px_rgba(99,102,241,0.5)]">
+            ⚡
           </div>
-          <span class="text-sm font-extrabold tracking-tight text-white flex items-center font-serif">
-            Harsh Luxury Estates<span class="w-2 h-2 rounded-full bg-[#D4AF37] ml-1.5 shadow-[0_0_8px_#D4AF37]"></span>
+          <span class="text-base font-extrabold tracking-tight text-white flex items-center">
+            Harsh AI Studio<span class="w-2 h-2 rounded-full bg-[#06B6D4] ml-1.5 shadow-[0_0_8px_#06B6D4]"></span>
           </span>
         </div>
 
         <!-- Navigation Menu -->
         <nav class="space-y-1">
-          <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-[#D4AF37]/15 text-[#D4AF37] font-bold text-sm border border-[#D4AF37]/30">
+          <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-[#6366F1]/15 text-[#818CF8] font-bold text-sm border border-[#6366F1]/30">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-            Estate Studio
+            Studio Workspace
           </a>
-          <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[#9CA3AF] hover:text-white hover:bg-[#141A21] font-medium text-sm transition">
+          <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[#94A3B8] hover:text-white hover:bg-[#101626] font-medium text-sm transition">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-            Tutorials
+            Video Tutorials
           </a>
-          <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[#9CA3AF] hover:text-white hover:bg-[#141A21] font-medium text-sm transition">
+          <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[#94A3B8] hover:text-white hover:bg-[#101626] font-medium text-sm transition">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
-            Manage Subscription
+            Plans & Pro Features
           </a>
-          <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[#9CA3AF] hover:text-white hover:bg-[#141A21] font-medium text-sm transition">
+          <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[#94A3B8] hover:text-white hover:bg-[#101626] font-medium text-sm transition">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"/></svg>
-            Manage Plugins
+            NLE Plugins (Premiere/DaVinci)
           </a>
-          <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[#9CA3AF] hover:text-white hover:bg-[#141A21] font-medium text-sm transition">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            Refer & Earn Money
-          </a>
-          <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[#9CA3AF] hover:text-white hover:bg-[#141A21] font-medium text-sm transition">
+          <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[#94A3B8] hover:text-white hover:bg-[#101626] font-medium text-sm transition">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-            Help & Support
+            Support & Discord Community
           </a>
         </nav>
       </div>
 
       <!-- Bottom Desktop App & Quota Status -->
       <div class="space-y-4">
-        <div class="p-3 bg-[#141A21] border border-[#1F2732] rounded-xl">
-          <div class="text-[11px] font-bold text-[#6B7280] tracking-wider uppercase mb-1">Desktop App</div>
-          <div class="text-xs text-[#9CA3AF] mb-2.5">Use Harsh Captions on your PC.</div>
+        <div class="p-3 bg-[#101626] border border-[#1E293B] rounded-xl">
+          <div class="text-[11px] font-bold text-[#64748B] tracking-wider uppercase mb-1">Desktop App</div>
+          <div class="text-xs text-[#94A3B8] mb-2.5">Use Harsh Captions on your PC.</div>
           <div class="grid grid-cols-2 gap-2">
-            <button class="px-2 py-1.5 bg-[#1A222C] hover:bg-[#242F3D] border border-[#2A3543] rounded-lg text-xs font-semibold text-white flex items-center justify-center gap-1.5">
+            <button class="px-2 py-1.5 bg-[#172033] hover:bg-[#1E293B] border border-[#2B3952] rounded-lg text-xs font-semibold text-white flex items-center justify-center gap-1.5">
               <span>macOS</span>
             </button>
-            <button class="px-2 py-1.5 bg-[#00C48C]/15 hover:bg-[#00C48C]/25 border border-[#00C48C]/40 rounded-lg text-xs font-semibold text-[#00C48C] flex items-center justify-center gap-1.5">
+            <button class="px-2 py-1.5 bg-[#6366F1]/20 hover:bg-[#6366F1]/30 border border-[#6366F1]/40 rounded-lg text-xs font-semibold text-[#A5B4FC] flex items-center justify-center gap-1.5">
               <span>Windows</span>
             </button>
           </div>
         </div>
 
-        <div class="p-3.5 bg-[#121820] border border-[#1F2732] rounded-xl space-y-2">
+        <div class="p-3.5 bg-[#0B0F19] border border-[#1E293B] rounded-xl space-y-2">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-white uppercase">FREE</span>
-            <span class="text-[10px] font-semibold text-[#00C48C] bg-[#00C48C]/10 px-2 py-0.5 rounded-full">MONTHLY</span>
+            <span class="text-xs font-bold text-white uppercase tracking-wider">CREATOR PRO</span>
+            <span class="text-[10px] font-semibold text-[#10B981] bg-[#10B981]/15 px-2 py-0.5 rounded-full border border-[#10B981]/30">ACTIVE</span>
           </div>
-          <div class="space-y-1.5 text-xs text-[#9CA3AF]">
+          <div class="space-y-1.5 text-xs text-[#94A3B8]">
             <div class="flex justify-between">
-              <span>Storage</span>
-              <span class="text-white font-medium">0 GB / 5.0 GB</span>
+              <span>AI Credits</span>
+              <span class="text-white font-bold"><span id="sidebar-credits-display">100</span> Left</span>
             </div>
             <div class="flex justify-between">
-              <span>Transcription</span>
-              <span class="text-[#00C48C] font-semibold">Unlimited left</span>
+              <span>Export Quality</span>
+              <span class="text-[#06B6D4] font-semibold">4K 60FPS / Alpha</span>
             </div>
             <div class="flex justify-between">
-              <span>Audio Clean</span>
-              <span class="text-white font-medium">Unlimited</span>
+              <span>AI Speech Engine</span>
+              <span class="text-white font-medium">Whisper Neural</span>
             </div>
           </div>
         </div>
@@ -121,32 +117,32 @@
     </aside>
 
     <!-- Main Content Area -->
-    <main class="flex-1 flex flex-col overflow-y-auto bg-[#0B0E11]">
+    <main class="flex-1 flex flex-col overflow-y-auto bg-[#06080F]">
       <!-- Top Bar -->
-      <header class="h-16 border-b border-[#1F2732] px-8 flex items-center justify-between shrink-0 bg-[#0B0E11]/80 backdrop-blur sticky top-0 z-30">
+      <header class="h-16 border-b border-[#1E293B] px-8 flex items-center justify-between shrink-0 bg-[#06080F]/80 backdrop-blur sticky top-0 z-30">
         <!-- Search Input -->
         <div class="relative w-80">
-          <svg class="w-4 h-4 text-[#6B7280] absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-          <input type="text" placeholder="Search by title... (⌘K)" class="w-full bg-[#141A21] border border-[#1F2732] rounded-xl pl-10 pr-4 py-2 text-xs text-white focus:outline-none focus:border-[#00C48C] transition placeholder-[#6B7280]">
+          <svg class="w-4 h-4 text-[#64748B] absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          <input type="text" placeholder="Search projects... (⌘K)" class="w-full bg-[#101626] border border-[#1E293B] rounded-xl pl-10 pr-4 py-2 text-xs text-white focus:outline-none focus:border-[#6366F1] transition placeholder-[#64748B]">
         </div>
         <!-- Right Top Actions -->
         <div class="flex items-center gap-4">
           <!-- Credit Badge -->
-          <a href="/pricing" class="flex items-center gap-1.5 px-3.5 py-1.5 bg-[#171D26] border border-[#D4AF37]/40 rounded-xl text-xs font-extrabold text-[#D4AF37] hover:bg-[#1E2632] transition cursor-pointer shadow-[0_0_12px_rgba(212,175,55,0.15)]" title="Buy estate credits">
-            <span>👑</span>
-            <span id="header-credits">100</span> Estate Credits
+          <a href="/pricing" class="flex items-center gap-1.5 px-3.5 py-1.5 bg-[#101626] border border-[#6366F1]/40 rounded-xl text-xs font-bold text-[#A5B4FC] hover:bg-[#172033] transition cursor-pointer shadow-[0_0_14px_rgba(99,102,241,0.2)]" title="Creator credits balance">
+            <span>⚡</span>
+            <span id="header-credits" class="font-extrabold text-white">100</span> AI Credits
           </a>
-          <a href="/pricing" class="btn-primary text-xs !bg-gradient-to-r !from-[#D4AF37] !to-[#B8860B] !text-black !font-bold" style="text-decoration:none">
-            <span>Buy Credits</span>
+          <a href="/pricing" class="btn-primary text-xs" style="text-decoration:none">
+            <span>Get More Credits</span>
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
           </a>
           <!-- Profile Avatar -->
           <div class="flex items-center gap-2 pl-2">
-            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-[#D4AF37] to-[#F3E5AB] flex items-center justify-center text-xs font-black text-black border border-white/20 avatar-initials-display" id="avatar-initials">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-[#6366F1] to-[#06B6D4] flex items-center justify-center text-xs font-black text-white border border-white/20 avatar-initials-display" id="avatar-initials">
               H
             </div>
             <span class="text-xs font-semibold text-white avatar-name-display" id="avatar-name">Harsh</span>
-            <button onclick="window.logoutUser()" class="p-1.5 text-[#9CA3AF] hover:text-red-400 rounded-lg hover:bg-[#1A222C] transition ml-1" title="Log Out">
+            <button onclick="window.logoutUser()" class="p-1.5 text-[#94A3B8] hover:text-red-400 rounded-lg hover:bg-[#172033] transition ml-1" title="Log Out">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
             </button>
           </div>
@@ -156,19 +152,19 @@
       <!-- Dashboard Body -->
       <div class="p-8 max-w-6xl w-full mx-auto space-y-8">
         <!-- Big Upload Dropzone -->
-        <div id="main-dropzone" class="dropzone p-12 flex flex-col items-center justify-center cursor-pointer group !border-[#D4AF37]/30 hover:!border-[#D4AF37] !bg-[#0E131A] hover:!bg-[#131A24]">
+        <div id="main-dropzone" class="dropzone p-12 flex flex-col items-center justify-center cursor-pointer group">
           <input type="file" id="file-upload-input" accept="video/mp4,video/quicktime,video/webm,audio/mp3,audio/wav" class="hidden">
-          <div class="w-16 h-16 rounded-2xl bg-[#171E28] border border-[#2A3648] group-hover:border-[#D4AF37]/50 flex items-center justify-center text-[#9CA3AF] group-hover:text-[#D4AF37] mb-4 transition transform group-hover:scale-110 shadow-lg">
+          <div class="w-16 h-16 rounded-2xl bg-[#101626] border border-[#2B3952] group-hover:border-[#6366F1]/60 flex items-center justify-center text-[#94A3B8] group-hover:text-[#818CF8] mb-4 transition transform group-hover:scale-110 shadow-lg">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
           </div>
-          <h3 class="text-base font-bold text-white mb-1 group-hover:text-[#D4AF37] transition font-serif">Drop property tour video here or click to upload</h3>
-          <p class="text-xs text-[#9CA3AF] mb-1">Max: 10:00 minutes, 2GB 4K HDR</p>
-          <p class="text-xs text-[#6B7280]">Supports: MP4, MOV, ProRes, Drone 4K</p>
+          <h3 class="text-base font-bold text-white mb-1 group-hover:text-[#818CF8] transition">Drop your videos / audios here or click to upload</h3>
+          <p class="text-xs text-[#94A3B8] mb-1">Max: 15:00 minutes, 2GB (4K 60FPS HDR)</p>
+          <p class="text-xs text-[#64748B]">Supports: MP4, MOV, ProRes, WebM, MP3, WAV</p>
         </div>
 
         <!-- Recent Videos Section -->
         <div class="space-y-4">
-          <h2 class="text-lg font-bold text-white font-serif">Recent Property Videos & Tours</h2>
+          <h2 class="text-lg font-bold text-white">Recent Projects & Videos</h2>
           <div id="recent-videos-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
             <!-- Dynamic Project Cards -->
           </div>
@@ -181,96 +177,99 @@
   <!-- ========================================== -->
   <!-- SCREEN 2: PREPARE YOUR MEDIA MODAL         -->
   <!-- ========================================== -->
+  <!-- ========================================== -->
+  <!-- SCREEN 2: PREPARE YOUR MEDIA MODAL         -->
+  <!-- ========================================== -->
   <div id="modal-prepare-media" class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-[#0E131A] border border-[#D4AF37]/30 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-6">
+    <div class="bg-[#0B0F19] border border-[#1E293B] rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-6">
       <div class="flex items-center justify-between">
         <div>
-          <h3 class="text-lg font-bold text-white font-serif">Prepare Property Media</h3>
-          <p id="prepare-file-name" class="text-xs text-[#D4AF37] font-semibold mt-0.5 truncate max-w-sm"></p>
-          <p class="text-[11px] text-[#9CA3AF]">Select language and AI voice settings for property transcription.</p>
+          <h3 class="text-lg font-bold text-white">Prepare Your Media</h3>
+          <p id="prepare-file-name" class="text-xs text-[#818CF8] font-semibold mt-0.5 truncate max-w-sm"></p>
+          <p class="text-[11px] text-[#94A3B8]">Select language and AI voice settings for millisecond speech transcription.</p>
         </div>
-        <button id="btn-close-prepare" class="text-[#6B7280] hover:text-white p-1 rounded-lg hover:bg-[#1A222C]">
+        <button id="btn-close-prepare" class="text-[#64748B] hover:text-white p-1 rounded-lg hover:bg-[#172033]">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
 
       <!-- Preview Thumbnail -->
-      <div class="relative h-44 bg-[#07090D] rounded-xl overflow-hidden flex items-center justify-center border border-[#1F2837]">
+      <div class="relative h-44 bg-[#06080F] rounded-xl overflow-hidden flex items-center justify-center border border-[#1E293B]">
         <img src="/static/assets/demo_thumb.jpg" class="w-full h-full object-cover" onerror="this.src='/static/assets/demo_thumb.jpg'">
         <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
           <div class="w-12 h-12 rounded-full bg-white/20 backdrop-blur flex items-center justify-center text-white">
             <svg class="w-6 h-6 ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
           </div>
         </div>
-        <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-3 py-1 bg-black/80 rounded-full text-[11px] text-[#D4AF37] font-semibold backdrop-blur border border-[#D4AF37]/30">
-          <span class="w-2 h-2 rounded-full bg-[#D4AF37] animate-pulse"></span>
-          Ready for Real Estate AI processing
+        <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-3.5 py-1 bg-black/80 rounded-full text-[11px] text-[#818CF8] font-semibold backdrop-blur border border-[#6366F1]/30">
+          <span class="w-2 h-2 rounded-full bg-[#6366F1] animate-pulse"></span>
+          Ready for Whisper AI transcription
         </div>
       </div>
 
       <!-- Language Settings Box -->
       <div class="space-y-3">
         <div class="flex items-center gap-2 text-xs font-bold text-white">
-          <svg class="w-4 h-4 text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/></svg>
-          Property Audio & Language Settings
+          <svg class="w-4 h-4 text-[#818CF8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/></svg>
+          Spoken Language & Subtitle Settings
         </div>
 
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block text-[10px] font-bold text-[#9CA3AF] uppercase mb-1">Spoken Language</label>
-            <select id="select-spoken-language" class="w-full bg-[#151D26] border border-[#242F3D] rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[#D4AF37]">
+            <label class="block text-[10px] font-bold text-[#94A3B8] uppercase mb-1">Spoken Language</label>
+            <select id="select-spoken-language" class="w-full bg-[#101626] border border-[#1E293B] rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[#6366F1]">
               <option value="hi" selected>Hindi (हिंदी / Hinglish)</option>
-              <option value="en">English (Global / Luxury)</option>
-              <option value="ur">Urdu (اردو - Dubai/Gulf)</option>
+              <option value="en">English (Global)</option>
+              <option value="ur">Urdu (اردو)</option>
               <option value="pa">Punjabi (ਪੰਜਾਬੀ)</option>
               <option value="mr">Marathi (मराठी)</option>
               <option value="gu">Gujarati (ગુજરાતી)</option>
               <option value="bn">Bengali (বাংলা)</option>
               <option value="ta">Tamil (தமிழ்)</option>
               <option value="te">Telugu (తెలుగు)</option>
-              <option value="auto">Auto-Detect Voice</option>
+              <option value="auto">Auto-Detect Spoken Voice</option>
             </select>
           </div>
           <div>
-            <label class="block text-[10px] font-bold text-[#9CA3AF] uppercase mb-1">Subtitle Style</label>
-            <select id="select-writing-script" class="w-full bg-[#151D26] border border-[#242F3D] rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[#D4AF37]">
+            <label class="block text-[10px] font-bold text-[#94A3B8] uppercase mb-1">Subtitle Script</label>
+            <select id="select-writing-script" class="w-full bg-[#101626] border border-[#1E293B] rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[#6366F1]">
               <option value="roman" selected>Hinglish (Roman Script)</option>
               <option value="native">Native Script (हिंदी/বাংলা)</option>
             </select>
           </div>
         </div>
 
-        <div class="flex items-center justify-between p-3 bg-[#151D26] border border-[#242F3D] rounded-xl">
+        <div class="flex items-center justify-between p-3 bg-[#101626] border border-[#1E293B] rounded-xl">
           <div class="flex items-center gap-3">
             <span class="text-sm">🎙️</span>
             <div>
-              <div class="text-xs font-semibold text-white">Drone & Room Audio Cleaner</div>
-              <div class="text-[11px] text-[#6B7280]">Denoise background room echo, wind & drone propeller noise</div>
+              <div class="text-xs font-semibold text-white">AI Neural Audio Cleaner</div>
+              <div class="text-[11px] text-[#64748B]">Denoise traffic, microphone hiss & room reverb</div>
             </div>
           </div>
           <label class="relative inline-flex items-center cursor-pointer">
             <input type="checkbox" id="toggle-audio-enhance" checked class="sr-only peer">
-            <div class="w-9 h-5 bg-[#26313F] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#D4AF37]"></div>
+            <div class="w-9 h-5 bg-[#1E293B] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#6366F1]"></div>
           </label>
         </div>
 
-        <div class="flex items-center justify-between p-3 bg-[#151D26] border border-[#242F3D] rounded-xl">
+        <div class="flex items-center justify-between p-3 bg-[#101626] border border-[#1E293B] rounded-xl">
           <div class="flex items-center gap-3">
             <span class="text-sm">✨</span>
             <div>
-              <div class="text-xs font-semibold text-white">Real Estate Emojis</div>
-              <div class="text-[11px] text-[#6B7280]">Auto-attach luxury real estate emojis (🏛️, 💎, 👑, 🏡, 💰)</div>
+              <div class="text-xs font-semibold text-white">Viral Emojis Auto-Attach</div>
+              <div class="text-[11px] text-[#64748B]">Auto-detect keywords and attach animated emojis (🔥, 🚀, 💡, 💰)</div>
             </div>
           </div>
           <label class="relative inline-flex items-center cursor-pointer">
             <input type="checkbox" id="toggle-emojis" checked class="sr-only peer">
-            <div class="w-9 h-5 bg-[#26313F] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#D4AF37]"></div>
+            <div class="w-9 h-5 bg-[#1E293B] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#6366F1]"></div>
           </label>
         </div>
       </div>
 
-      <button id="btn-generate-transcription" class="w-full py-3 bg-gradient-to-r from-[#D4AF37] to-[#B8860B] hover:from-[#E5C158] hover:to-[#D4AF37] text-black font-extrabold text-sm rounded-xl flex items-center justify-center gap-2 transition shadow-lg">
-        <span>Generate Estate Video Captions</span>
+      <button id="btn-generate-transcription" class="w-full py-3 bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] hover:from-[#4F46E5] hover:to-[#7C3AED] text-white font-extrabold text-sm rounded-xl flex items-center justify-center gap-2 transition shadow-lg shadow-indigo-500/25">
+        <span>Generate AI Captions</span>
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
       </button>
     </div>
@@ -281,28 +280,28 @@
   <!-- SCREEN 3: UPLOADING & PROCESSING MODAL     -->
   <!-- ========================================== -->
   <div id="modal-processing" class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-[#0E131A] border border-[#D4AF37]/40 rounded-2xl max-w-md w-full p-8 shadow-2xl text-center space-y-6">
+    <div class="bg-[#0B0F19] border border-[#1E293B] rounded-2xl max-w-md w-full p-8 shadow-2xl text-center space-y-6">
       <!-- Animated Graphic -->
       <div class="relative w-28 h-28 mx-auto flex items-center justify-center">
-        <div class="absolute inset-0 bg-[#D4AF37]/20 rounded-full blur-xl animate-pulse"></div>
-        <div class="w-24 h-24 rounded-full bg-[#151D26] border border-[#D4AF37]/40 flex items-center justify-center text-[#D4AF37] text-3xl">
-          🏛️
+        <div class="absolute inset-0 bg-[#6366F1]/25 rounded-full blur-xl animate-pulse"></div>
+        <div class="w-24 h-24 rounded-2xl bg-[#101626] border border-[#6366F1]/50 flex items-center justify-center text-[#818CF8] text-3xl shadow-xl">
+          ⚡
         </div>
       </div>
 
       <div class="space-y-2">
-        <div class="flex justify-between text-xs text-[#9CA3AF] px-1 font-semibold">
-          <span>Processing Property Tour</span>
+        <div class="flex justify-between text-xs text-[#94A3B8] px-1 font-semibold">
+          <span>Processing Video Vocals</span>
           <span id="processing-progress-text">8%</span>
         </div>
-        <div class="w-full h-2.5 bg-[#1C2530] rounded-full overflow-hidden p-0.5">
-          <div id="processing-progress-bar" class="h-full bg-gradient-to-r from-[#D4AF37] to-[#F3E5AB] rounded-full transition-all duration-300" style="width: 8%;"></div>
+        <div class="w-full h-2.5 bg-[#172033] rounded-full overflow-hidden p-0.5">
+          <div id="processing-progress-bar" class="h-full bg-gradient-to-r from-[#6366F1] via-[#8B5CF6] to-[#06B6D4] rounded-full transition-all duration-300" style="width: 8%;"></div>
         </div>
       </div>
 
       <div>
-        <h4 class="text-base font-bold text-white font-serif">Transcribing Property Audio</h4>
-        <p id="processing-status-subtext" class="text-xs text-[#9CA3AF] mt-1">Faster-Whisper AI is syncing vocals with 4K video... <span class="text-[#D4AF37]">Hang tight!</span></p>
+        <h4 class="text-base font-bold text-white">Transcribing Real Voice Vocals</h4>
+        <p id="processing-status-subtext" class="text-xs text-[#94A3B8] mt-1">Faster-Whisper AI neural network syncing timestamps... <span class="text-[#818CF8]">Hang tight!</span></p>
       </div>
     </div>
   </div>
@@ -313,18 +312,75 @@
   <!-- ========================================== -->
   <div id="screen-studio" class="app-screen flex-1 flex flex-col overflow-hidden hidden">
     <!-- Top Studio Bar -->
-    <header class="h-14 border-b border-[#1F2837] px-4 flex items-center justify-between shrink-0 bg-[#0D1219]">
+    <header class="h-14 border-b border-[#1E293B] px-4 flex items-center justify-between shrink-0 bg-[#0B0F19]">
       <div class="flex items-center gap-3">
-        <button id="btn-back-home" class="p-1.5 text-[#9CA3AF] hover:text-white hover:bg-[#1A222C] rounded-lg transition" title="Back to Dashboard">
+        <button id="btn-back-home" class="p-1.5 text-[#94A3B8] hover:text-white hover:bg-[#172033] rounded-lg transition" title="Back to Dashboard">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
         </button>
         <div class="flex items-center gap-2">
-          <span class="w-2 h-2 rounded-full bg-[#D4AF37] shadow-[0_0_6px_#D4AF37]"></span>
-          <span id="project-title-display" contenteditable="true" class="text-sm font-bold text-white px-2 py-1 rounded hover:bg-[#1A222C] focus:bg-[#1A222C] focus:outline-none font-serif">
-            Luxury Villa Tour
+          <span class="w-2 h-2 rounded-full bg-[#06B6D4] shadow-[0_0_8px_#06B6D4]"></span>
+          <span id="project-title-display" contenteditable="true" class="text-sm font-bold text-white px-2 py-1 rounded hover:bg-[#172033] focus:bg-[#172033] focus:outline-none">
+            Untitled Video Project
           </span>
-          <svg class="w-3.5 h-3.5 text-[#6B7280]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+          <svg class="w-3.5 h-3.5 text-[#64748B]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
         </div>
+
+        <!-- Undo / Redo & Save State -->
+        <div class="flex items-center gap-1.5 ml-4 pl-3 border-l border-[#1E293B]">
+          <button id="btn-undo" class="p-1.5 text-[#94A3B8] hover:text-white hover:bg-[#172033] rounded-lg transition text-xs" title="Undo (Ctrl+Z)">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a5 5 0 015 5v2m-15-7l4-4m-4 4l4 4"/></svg>
+          </button>
+          <button id="btn-redo" class="p-1.5 text-[#94A3B8] hover:text-white hover:bg-[#172033] rounded-lg transition text-xs" title="Redo (Ctrl+Y)">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 10H11a5 5 0 00-5 5v2m15-7l-4-4m4 4l-4 4"/></svg>
+          </button>
+          <div id="auto-save-badge" class="flex items-center gap-1.5 px-2 py-0.5 rounded text-[11px] font-medium text-[#10B981] bg-[#10B981]/10 border border-[#10B981]/25 ml-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse"></span>
+            <span>Saved ✓</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <!-- Shortcuts Cheat Sheet Trigger -->
+        <button id="btn-open-shortcuts" class="p-1.5 text-[#94A3B8] hover:text-white hover:bg-[#172033] rounded-lg transition text-xs flex items-center gap-1" title="Keyboard Shortcuts (?)">
+          <span>⌨️ Shortcuts</span>
+        </button>
+
+        <!-- Credit Badge in Studio -->
+        <a href="/pricing" class="flex items-center gap-1.5 px-3 py-1.5 bg-[#101626] border border-[#6366F1]/30 rounded-xl text-xs font-bold text-[#A5B4FC] hover:bg-[#172033] transition cursor-pointer" title="Creator credits balance">
+          <span>⚡</span>
+          <span class="header-credits-display font-extrabold text-white">100</span> Credits
+        </a>
+        <a href="/pricing" class="btn-primary text-xs" style="text-decoration:none">
+          <span>+ Buy Credits</span>
+        </a>
+        <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-[#6366F1] to-[#06B6D4] flex items-center justify-center text-xs font-bold text-white border border-white/20 avatar-initials-display">
+          H
+        </div>
+        <button onclick="window.logoutUser()" class="p-1.5 text-[#94A3B8] hover:text-red-400 rounded-lg hover:bg-[#172033] transition text-xs" title="Log Out">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Studio Main Body (Left Transcript | Center Player | Right Inspector) -->
+    <div class="flex-1 flex overflow-hidden">
+      <!-- Left Panel: Captions Transcript Editor -->
+      <aside class="w-80 bg-[#0B0F19] border-r border-[#1E293B] flex flex-col shrink-0">
+        <!-- Sub-tabs -->
+        <div class="flex border-b border-[#1E293B] px-2">
+          <button id="left-tab-captions" class="flex-1 py-2.5 text-xs font-semibold text-[#818CF8] border-b-2 border-[#6366F1] flex items-center justify-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/></svg>
+            Captions
+          </button>
+          <button id="left-tab-fonts" class="flex-1 py-2.5 text-xs font-medium text-[#94A3B8] hover:text-white flex items-center justify-center gap-1.5 border-b-2 border-transparent">
+            <span class="font-bold text-sm">T</span>
+            Custom Fonts
+          </button>
+          <button id="left-tab-library" class="flex-1 py-2.5 text-xs font-medium text-[#94A3B8] hover:text-white flex items-center justify-center gap-1.5 border-b-2 border-transparent">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            Library
+          </button>
 
         <!-- Undo / Redo & Save State -->
         <div class="flex items-center gap-1.5 ml-4 pl-3 border-l border-[#1F2732]">

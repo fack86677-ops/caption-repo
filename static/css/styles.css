@@ -1,21 +1,20 @@
-/* Harsh Luxury Real Estate Media - Core Styling */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Montserrat:wght@700;800;900&family=Poppins:wght@600;700;800;900&family=Bebas+Neue&family=Outfit:wght@600;700;800;900&family=Oswald:wght@600;700&family=Anton&display=swap');
+/* Harsh AI Studio - Ultra-Premium Creator SaaS Styling */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&family=Montserrat:wght@700;800;900&family=Poppins:wght@600;700;800;900&family=Bebas+Neue&family=Outfit:wght@600;700;800;900&family=Oswald:wght@600;700&family=Anton&display=swap');
 
 :root {
-  --bg-main: #07090D;
-  --bg-sidebar: #0D1219;
-  --bg-card: #121822;
-  --bg-card-hover: #18202D;
-  --border-color: #1F2837;
-  --border-subtle: #19212E;
-  --border-gold: rgba(212, 175, 55, 0.3);
-  --primary-gold: #D4AF37;
-  --primary-gold-light: #F3E5AB;
-  --primary-gold-hover: #E5C158;
-  --primary-gold-glow: rgba(212, 175, 55, 0.35);
-  --accent-yellow: #FFE600;
-  --accent-blue: #38BDF8;
-  --accent-purple: #A855F7;
+  --bg-main: #06080F;
+  --bg-sidebar: #0B0F19;
+  --bg-card: #101626;
+  --bg-card-hover: #172033;
+  --border-color: #1E293B;
+  --border-subtle: #151D2C;
+  --border-glow: rgba(99, 102, 241, 0.3);
+  --primary: #6366F1;
+  --primary-hover: #4F46E5;
+  --primary-glow: rgba(99, 102, 241, 0.4);
+  --accent-cyan: #06B6D4;
+  --accent-pink: #EC4899;
+  --accent-green: #10B981;
   --text-main: #F8FAFC;
   --text-muted: #94A3B8;
   --text-subtle: #64748B;
@@ -47,25 +46,24 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #243042;
+  background: #1E293B;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #364860;
+  background: #334155;
 }
 
 /* Base Utility Classes */
 .bg-sidebar { background-color: var(--bg-sidebar); }
 .bg-card { background-color: var(--bg-card); }
 .border-subtle { border-color: var(--border-color); }
-.text-green { color: var(--primary-gold); }
-.bg-green { background-color: var(--primary-gold); }
-.bg-green:hover { background-color: var(--primary-gold-hover); }
+.text-green { color: var(--accent-green); }
+.bg-green { background-color: var(--accent-green); }
 
 /* Buttons */
 .btn-primary {
-  background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
-  color: #07090D;
+  background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
+  color: #FFFFFF;
   font-weight: 800;
   padding: 9px 20px;
   border-radius: 10px;
@@ -75,17 +73,17 @@ body {
   font-size: 13px;
   cursor: pointer;
   transition: all 0.2s ease;
-  border: 1px solid rgba(243, 229, 171, 0.4);
-  box-shadow: 0 0 16px var(--primary-gold-glow);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 20px var(--primary-glow);
 }
 .btn-primary:hover {
-  background: linear-gradient(135deg, #E5C158 0%, #D4AF37 100%);
-  box-shadow: 0 0 24px rgba(212, 175, 55, 0.55);
+  background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+  box-shadow: 0 0 30px rgba(99, 102, 241, 0.6);
   transform: translateY(-1px);
 }
 
 .btn-secondary {
-  background-color: #171E28;
+  background-color: #101626;
   color: var(--text-main);
   border: 1px solid var(--border-color);
   font-weight: 600;
@@ -99,21 +97,21 @@ body {
   transition: all 0.15s ease;
 }
 .btn-secondary:hover {
-  background-color: #202A38;
-  border-color: var(--primary-gold);
+  background-color: #172033;
+  border-color: #6366F1;
 }
 
 /* Dropzone */
 .dropzone {
-  border: 1.5px dashed #2A3648;
-  border-radius: 16px;
-  background-color: #0E131A;
+  border: 1.5px dashed #2B3952;
+  border-radius: 18px;
+  background-color: #0B0F19;
   transition: all 0.25s ease;
 }
 .dropzone:hover, .dropzone.dragover {
-  border-color: var(--primary-gold);
-  background-color: rgba(212, 175, 55, 0.05);
-  box-shadow: 0 0 30px rgba(212, 175, 55, 0.15);
+  border-color: var(--primary);
+  background-color: rgba(99, 102, 241, 0.05);
+  box-shadow: 0 0 35px rgba(99, 102, 241, 0.15);
 }
 
 /* Video Player Safe Zones */
