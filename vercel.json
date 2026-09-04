@@ -2,20 +2,60 @@
   "version": 2,
   "routes": [
     {
-      "src": "/pricing",
+      "src": "^/dashboard$",
+      "dest": "/static/dashboard.html"
+    },
+    {
+      "src": "^/dashboard.html$",
+      "dest": "/static/dashboard.html"
+    },
+    {
+      "src": "^/admin$",
+      "dest": "/static/admin.html"
+    },
+    {
+      "src": "^/admin.html$",
+      "dest": "/static/admin.html"
+    },
+    {
+      "src": "^/editor$",
+      "dest": "/static/index.html"
+    },
+    {
+      "src": "^/index.html$",
+      "dest": "/static/index.html"
+    },
+    {
+      "src": "^/pricing$",
       "dest": "/static/pricing.html"
     },
     {
-      "src": "/static/(.*)",
-      "dest": "/static/$1"
+      "src": "^/pricing.html$",
+      "dest": "/static/pricing.html"
     },
     {
-      "src": "/",
+      "src": "^/login$",
       "dest": "/static/login.html"
     },
     {
-      "src": "/(.*)",
+      "src": "^/login.html$",
+      "dest": "/static/login.html"
+    },
+    {
+      "src": "^/static/(.*)",
       "dest": "/static/$1"
+    },
+    {
+      "src": "^/$",
+      "dest": "/static/login.html"
+    },
+    {
+      "src": "^/(.*)\\.html$",
+      "dest": "/static/$1.html"
+    },
+    {
+      "src": "^/(.*)$",
+      "dest": "/static/$1.html"
     }
   ]
 }
