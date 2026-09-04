@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-Harsh Caption Generator - Backend Server
+Harsh AI Studio / Kalakar Web Studio - Backend Server
 Provides REST APIs for:
+- User Authentication: Email 6-digit OTP & Google OAuth with Session Management
+- User & Admin Dashboard APIs with Role-Based Access Control
 - Video upload & ffprobe media info extraction
-- AI Speech-to-Text Transcription with Faster-Whisper + Indic transliteration + word-level timestamps
+- Real AI Speech-to-Text Transcription with Faster-Whisper + Indic transliteration + word timestamps (No mock fallback)
 - Subtitle generation & FFmpeg video burning
-- Project state management
+- Project state management & SQLite persistent storage
 """
 
 import os
@@ -16,6 +18,7 @@ import uuid
 import shutil
 import random
 import urllib.parse
+from http.cookies import SimpleCookie
 import subprocess
 import threading
 import smtplib
@@ -29,6 +32,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 if BASE_DIR not in sys.path:
     sys.path.insert(0, BASE_DIR)
 
+import db
 from hinglish_engine import devanagari_to_hinglish
 
 STATIC_DIR = os.path.join(BASE_DIR, "static")
@@ -36,13 +40,14 @@ UPLOADS_DIR = os.path.join(BASE_DIR, "uploads")
 EXPORTS_DIR = os.path.join(BASE_DIR, "exports")
 PROJECTS_FILE = os.path.join(BASE_DIR, "projects.json")
 SMTP_CONFIG_FILE = os.path.join(BASE_DIR, "smtp_config.json")
+USERS_FILE = os.path.join(BASE_DIR, "users.json")
+ADMIN_EMAIL = "harshdhiman332@gmail.com"
 
 os.makedirs(STATIC_DIR, exist_ok=True)
 os.makedirs(UPLOADS_DIR, exist_ok=True)
 os.makedirs(EXPORTS_DIR, exist_ok=True)
 
-# Active OTP Store: email -> {'otp': '123456', 'name': 'Name', 'expires_at': timestamp}
-ACTIVE_EMAIL_OTPS = {}
+# ─── SMTP CONFIGURATION & EMAIL SENDER ─────────────────────────────────
 
 def get_smtp_config():
     config = {
@@ -50,7 +55,7 @@ def get_smtp_config():
         "smtp_port": int(os.environ.get("SMTP_PORT", 587)),
         "smtp_user": os.environ.get("SMTP_USER", ""),
         "smtp_pass": os.environ.get("SMTP_PASS", ""),
-        "from_name": os.environ.get("SMTP_FROM_NAME", "Harsh Caption Generator")
+        "from_name": os.environ.get("SMTP_FROM_NAME", "Harsh AI Studio")
     }
     if os.path.exists(SMTP_CONFIG_FILE):
         try:
@@ -66,7 +71,7 @@ def send_real_email_otp(to_email, user_name, otp_code):
     Sends a real 6-digit OTP email directly to user's Gmail / email inbox.
     """
     cfg = get_smtp_config()
-    subject = f"{otp_code} is your Harsh Caption Generator Verification Code"
+    subject = f"{otp_code} is your Harsh AI Studio Verification Code"
     
     html_body = f"""
     <!DOCTYPE html>
@@ -74,31 +79,31 @@ def send_real_email_otp(to_email, user_name, otp_code):
     <head>
       <meta charset="utf-8">
       <style>
-        body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #080B0E; color: #FFFFFF; padding: 20px; }}
-        .container {{ max-width: 520px; margin: 0 auto; background: #0E1318; border: 1px solid #232D3B; border-radius: 18px; padding: 32px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }}
-        .logo {{ font-size: 20px; font-weight: 900; color: #00C48C; margin-bottom: 20px; }}
+        body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #06080F; color: #FFFFFF; padding: 20px; }}
+        .container {{ max-width: 520px; margin: 0 auto; background: #0B0F19; border: 1px solid #1E293B; border-radius: 18px; padding: 32px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }}
+        .logo {{ font-size: 20px; font-weight: 900; color: #6366F1; margin-bottom: 20px; }}
         .title {{ font-size: 22px; font-weight: 800; color: #FFFFFF; margin-bottom: 8px; }}
-        .desc {{ font-size: 14px; color: #9CA3AF; line-height: 1.6; margin-bottom: 24px; }}
-        .otp-box {{ background: rgba(0, 196, 140, 0.1); border: 2px dashed #00C48C; border-radius: 12px; padding: 18px; text-align: center; margin: 24px 0; }}
-        .otp-code {{ font-size: 34px; font-weight: 900; letter-spacing: 8px; color: #00C48C; font-family: monospace; }}
-        .footer {{ font-size: 12px; color: #6B7280; border-top: 1px solid #1A222C; padding-top: 18px; margin-top: 24px; text-align: center; }}
+        .desc {{ font-size: 14px; color: #94A3B8; line-height: 1.6; margin-bottom: 24px; }}
+        .otp-box {{ background: rgba(99, 102, 241, 0.1); border: 2px dashed #6366F1; border-radius: 12px; padding: 18px; text-align: center; margin: 24px 0; }}
+        .otp-code {{ font-size: 34px; font-weight: 900; letter-spacing: 8px; color: #818CF8; font-family: monospace; }}
+        .footer {{ font-size: 12px; color: #64748B; border-top: 1px solid #1E293B; padding-top: 18px; margin-top: 24px; text-align: center; }}
       </style>
     </head>
     <body>
       <div class="container">
-        <div class="logo">⚡ HARSH CAPTION GENERATOR</div>
+        <div class="logo">⚡ HARSH AI STUDIO</div>
         <div class="title">Verify your Email Address</div>
         <p class="desc">Hello <strong>{user_name or 'Creator'}</strong>,<br>Thank you for signing in. Use the 6-digit verification code below to activate your account and claim your <strong>100 Free AI Credits</strong>:</p>
         
         <div class="otp-box">
-          <div style="font-size: 11px; font-weight: 700; color: #9CA3AF; text-transform: uppercase; margin-bottom: 6px;">Your 6-Digit Verification Code</div>
+          <div style="font-size: 11px; font-weight: 700; color: #94A3B8; text-transform: uppercase; margin-bottom: 6px;">Your 6-Digit Verification Code</div>
           <div class="otp-code">{otp_code}</div>
         </div>
         
         <p class="desc" style="font-size: 12px;">This verification code is valid for <strong>10 minutes</strong>. If you did not request this code, you can safely ignore this email.</p>
         
         <div class="footer">
-          © 2026 Harsh Caption Generator • Fast & Viral Captions for Indian Creators
+          © 2026 Harsh AI Studio • Ultra-Premium AI Video & Caption Suite
         </div>
       </div>
     </body>
@@ -109,7 +114,7 @@ def send_real_email_otp(to_email, user_name, otp_code):
     smtp_pass = cfg.get("smtp_pass", "").strip()
     smtp_host = cfg.get("smtp_host", "smtp.gmail.com").strip()
     smtp_port = int(cfg.get("smtp_port", 587))
-    from_name = cfg.get("from_name", "Harsh Caption Generator")
+    from_name = cfg.get("from_name", "Harsh AI Studio")
     
     if smtp_user and smtp_pass:
         try:
@@ -130,162 +135,107 @@ def send_real_email_otp(to_email, user_name, otp_code):
             return True, f"OTP sent to {to_email}"
         except Exception as e:
             print(f"[EMAIL ENGINE] SMTP Delivery Error: {e}")
+            return False, str(e)
     else:
-        print(f"[EMAIL ENGINE] Real SMTP credentials not configured in smtp_config.json. OTP for {to_email} is {otp_code}")
+        print(f"[EMAIL ENGINE] SMTP not configured in smtp_config.json. OTP for {to_email} is {otp_code}")
         return True, f"OTP generated for {to_email}"
 
-ADMIN_EMAIL = "harshdhiman332@gmail.com"
-USERS_FILE = os.path.join(BASE_DIR, "users.json")
-
-def save_and_notify_user(user_data, client_ip="Unknown", user_agent="Unknown"):
-    """
-    Saves new verified user to users.json and immediately sends lead notification to harshdhiman332@gmail.com
-    """
-    users = []
-    if os.path.exists(USERS_FILE):
-        try:
-            with open(USERS_FILE, "r", encoding="utf-8") as f:
-                users = json.load(f)
-        except:
-            users = []
-    
-    timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
-    user_record = {
-        "id": uuid.uuid4().hex[:8],
-        "name": user_data.get("name", "Creator"),
-        "email": user_data.get("email", ""),
-        "age": user_data.get("age", ""),
-        "niche": user_data.get("niche", "Reels & Shorts"),
-        "credits": 100,
-        "signup_time": timestamp,
-        "ip": client_ip,
-        "user_agent": user_agent
-    }
-    
-    # Check if existing email updated or new
-    existing_idx = next((i for i, u in enumerate(users) if u.get("email") == user_record["email"]), -1)
-    if existing_idx >= 0:
-        users[existing_idx] = user_record
-    else:
-        users.append(user_record)
-        
-    try:
-        with open(USERS_FILE, "w", encoding="utf-8") as f:
-            json.dump(users, f, indent=2)
-        print(f"[USER STORE] User {user_record['name']} ({user_record['email']}) successfully saved to users.json!")
-    except Exception as e:
-        print("[USER STORE] Error saving user:", e)
-        
-    # Send Real Email Notification to harshdhiman332@gmail.com
+def notify_admin_of_lead(user_data, client_ip="Unknown", user_agent="Unknown"):
+    """Sends notification to harshdhiman332@gmail.com on login."""
     cfg = get_smtp_config()
-    subject = f"🎉 New User Login Alert: {user_record['name']} ({user_record['email']})"
-    html_body = f"""
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <meta charset="utf-8">
-      <style>
-        body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #080B0E; color: #FFFFFF; padding: 20px; }}
-        .box {{ max-width: 550px; margin: 0 auto; background: #131A22; border: 1px solid #232D3B; border-radius: 16px; padding: 28px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); }}
-        .badge {{ background: #00C48C; color: #032E20; padding: 5px 12px; border-radius: 20px; font-weight: 800; font-size: 11px; text-transform: uppercase; }}
-        table {{ width: 100%; border-collapse: collapse; margin-top: 18px; }}
-        td {{ padding: 11px 12px; border-bottom: 1px solid #1F2937; font-size: 14px; }}
-        .label {{ color: #9CA3AF; font-weight: bold; width: 35%; }}
-        .val {{ color: #FFF; }}
-      </style>
-    </head>
-    <body>
-      <div class="box">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-          <h2 style="margin:0; color:#00C48C; font-size:20px;">⚡ Harsh Caption Generator</h2>
-          <span class="badge">NEW USER REGISTERED</span>
-        </div>
-        <p style="color:#D1D5DB; font-size:14px; margin-bottom:16px;">A user has successfully signed in / completed verification on your website:</p>
-        
-        <table>
-          <tr><td class="label">👤 Full Name:</td><td class="val"><strong>{user_record['name']}</strong></td></tr>
-          <tr><td class="label">📧 User Email:</td><td class="val"><strong style="color:#00C48C;">{user_record['email']}</strong></td></tr>
-          <tr><td class="label">🎂 Age:</td><td class="val">{user_record['age']} years</td></tr>
-          <tr><td class="label">🎯 Creator Niche:</td><td class="val">{user_record['niche']}</td></tr>
-          <tr><td class="label">🎁 Free Credits:</td><td class="val">100 Credits Added</td></tr>
-          <tr><td class="label">⏰ Time:</td><td class="val">{timestamp}</td></tr>
-          <tr><td class="label">🌐 IP Address:</td><td class="val">{client_ip}</td></tr>
-          <tr><td class="label">💻 User Agent:</td><td class="val" style="font-size:11px; color:#9CA3AF;">{user_agent}</td></tr>
-        </table>
-        
-        <div style="margin-top:24px; padding:12px; background:rgba(0,196,140,0.1); border:1px solid rgba(0,196,140,0.3); border-radius:10px; text-align:center; font-size:13px; color:#00C48C;">
-          Total Registered Users on Site: <strong>{len(users)}</strong>
-        </div>
-      </div>
-    </body>
-    </html>
-    """
-    
     smtp_user = cfg.get("smtp_user", "").strip()
     smtp_pass = cfg.get("smtp_pass", "").strip()
-    smtp_host = cfg.get("smtp_host", "smtp.gmail.com").strip()
-    smtp_port = int(cfg.get("smtp_port", 587))
-    from_name = cfg.get("from_name", "Harsh Caption Generator")
     
-    if smtp_user and smtp_pass:
+    if not (smtp_user and smtp_pass):
+        return
+        
+    try:
+        subject = f"🚀 New Creator Login: {user_data.get('email', 'Unknown')}"
+        body = f"""
+        New User Registered / Logged In:
+        • Name: {user_data.get('name', 'N/A')}
+        • Email: {user_data.get('email', 'N/A')}
+        • Provider: {user_data.get('auth_provider', 'email')}
+        • Role: {user_data.get('role', 'user')}
+        • IP: {client_ip}
+        • User-Agent: {user_agent}
+        • Timestamp: {time.strftime('%Y-%m-%d %H:%M:%S')}
+        """
+        msg = MIMEText(body, "plain", "utf-8")
+        msg["Subject"] = subject
+        msg["From"] = f"Harsh AI Alerts <{smtp_user}>"
+        msg["To"] = ADMIN_EMAIL
+        
+        server = smtplib.SMTP(cfg.get("smtp_host", "smtp.gmail.com"), int(cfg.get("smtp_port", 587)), timeout=10)
+        server.starttls()
+        server.login(smtp_user, smtp_pass)
+        server.sendmail(smtp_user, [ADMIN_EMAIL], msg.as_string())
+        server.quit()
+    except Exception as e:
+        print(f"[LEAD NOTIFIER] Notification notice: {e}")
+
+# ─── AUTHENTICATION HELPERS ───────────────────────────────────────────
+
+def get_authenticated_user(handler):
+    """
+    Extracts authenticated user dict from session_id cookie or Authorization Bearer header.
+    """
+    session_id = None
+    # 1. Cookie
+    cookie_header = handler.headers.get('Cookie')
+    if cookie_header:
         try:
-            msg = MIMEMultipart("alternative")
-            msg["Subject"] = subject
-            msg["From"] = f"{from_name} <{smtp_user}>"
-            msg["To"] = ADMIN_EMAIL
-            msg.attach(MIMEText(html_body, "html", "utf-8"))
+            cookie = SimpleCookie()
+            cookie.load(cookie_header)
+            if 'session_id' in cookie:
+                session_id = cookie['session_id'].value
+        except Exception:
+            pass
             
-            s = smtplib.SMTP(smtp_host, smtp_port, timeout=12)
-            s.starttls()
-            s.login(smtp_user, smtp_pass)
-            s.sendmail(smtp_user, [ADMIN_EMAIL], msg.as_string())
-            s.quit()
-            print(f"[ADMIN NOTIFIER] New user notification email sent to {ADMIN_EMAIL}!")
-        except Exception as e:
-            print(f"[ADMIN NOTIFIER] SMTP Error sending admin notification: {e}")
-    else:
-        print(f"[ADMIN NOTIFIER] New User Recorded: {user_record['name']} ({user_record['email']}) -> Notification logged for {ADMIN_EMAIL}")
+    # 2. Authorization Header
+    if not session_id:
+        auth_header = handler.headers.get('Authorization', '')
+        if auth_header.startswith('Bearer '):
+            session_id = auth_header[7:].strip()
+            
+    if session_id:
+        user = db.get_session(session_id)
+        if user:
+            return user
+            
+    return None
+
+# ─── MEDIA PROCESSING & SPEECH-TO-TEXT ENGINE ─────────────────────────
 
 def get_ffmpeg_path():
-    local = os.path.join(BASE_DIR, "ffmpeg.exe")
-    if os.path.exists(local):
-        return local
-    from_other = os.path.join(r"C:\Users\Abc\Documents\HinglishCaptionGenerator", "ffmpeg.exe")
-    if os.path.exists(from_other):
-        return from_other
-    return shutil.which("ffmpeg") or "ffmpeg"
+    local_ffmpeg = os.path.join(BASE_DIR, "ffmpeg.exe")
+    if os.path.exists(local_ffmpeg):
+        return local_ffmpeg
+    return "ffmpeg"
 
 def get_ffprobe_path():
-    local = os.path.join(BASE_DIR, "ffprobe.exe")
-    if os.path.exists(local):
-        return local
-    from_other = os.path.join(r"C:\Users\Abc\Documents\HinglishCaptionGenerator", "ffprobe.exe")
-    if os.path.exists(from_other):
-        return from_other
-    return shutil.which("ffprobe") or "ffprobe"
+    local_ffprobe = os.path.join(BASE_DIR, "ffprobe.exe")
+    if os.path.exists(local_ffprobe):
+        return local_ffprobe
+    return "ffprobe"
 
 def get_media_info(file_path):
-    """Extracts duration, width, height using ffprobe."""
     ffprobe = get_ffprobe_path()
     cmd = [
-        ffprobe,
-        "-v", "error",
-        "-show_entries", "format=duration:stream=width,height,codec_type",
-        "-of", "json",
-        file_path
+        ffprobe, "-v", "quiet", "-print_format", "json",
+        "-show_format", "-show_streams", file_path
     ]
+    startupinfo = None
+    if os.name == 'nt':
+        startupinfo = subprocess.STARTUPINFO()
+        startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+        startupinfo.wShowWindow = subprocess.SW_HIDE
+
     try:
-        startupinfo = None
-        if os.name == 'nt':
-            startupinfo = subprocess.STARTUPINFO()
-            startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
-            startupinfo.wShowWindow = subprocess.SW_HIDE
-        
-        res = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, startupinfo=startupinfo)
-        data = json.loads(res.stdout)
-        duration = float(data.get("format", {}).get("duration", 10.0))
-        width = 1080
-        height = 1920
+        res = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, startupinfo=startupinfo)
+        data = json.loads(res.stdout.decode('utf-8'))
+        duration = float(data.get("format", {}).get("duration", 15.0))
+        width, height = 1080, 1920
         for stream in data.get("streams", []):
             if stream.get("codec_type") == "video":
                 width = int(stream.get("width", 1080))
@@ -337,19 +287,25 @@ def attach_emojis_to_segments(segments):
     return segments
 
 def run_whisper_transcription(file_path, language="hi", script="roman", use_emojis=True, translate=False, enhance=True):
-    """Runs faster-whisper on media file with translation and noise reduction."""
+    """
+    Runs faster-whisper on media file with translation and noise reduction.
+    Returns real word-level and line-level timestamps from the actual audio without any placeholder text.
+    """
     temp_wav = os.path.join(UPLOADS_DIR, f"temp_{uuid.uuid4().hex[:8]}.wav")
     extract_audio(file_path, temp_wav, enhance=enhance)
     
     is_rtl = language in RTL_LANGUAGES and script != "roman"
     segments_data = []
+    
+    audio_source = temp_wav if os.path.exists(temp_wav) else file_path
+    
     try:
         from faster_whisper import WhisperModel
         task_mode = "translate" if translate else "transcribe"
-        print(f"Loading Whisper model for {task_mode} (lang={language}, script={script}, rtl={is_rtl})...")
+        print(f"[WHISPER ENGINE] Starting transcription: task={task_mode}, lang={language}, script={script}")
         model = WhisperModel("base", device="cpu", compute_type="int8")
         segments_gen, info = model.transcribe(
-            temp_wav if os.path.exists(temp_wav) else file_path,
+            audio_source,
             language=None if language == "auto" else language,
             task=task_mode,
             word_timestamps=True,
@@ -384,8 +340,11 @@ def run_whisper_transcription(file_path, language="hi", script="roman", use_emoj
             })
             line_idx += 1
             
+        print(f"[WHISPER ENGINE] Successfully transcribed {len(segments_data)} speech segments.")
+            
     except Exception as e:
-        print(f"Whisper engine note: {e}. Generating synced high-accuracy captions...")
+        print(f"[WHISPER ENGINE ERROR] {e}")
+        raise e
     finally:
         if os.path.exists(temp_wav):
             try:
@@ -393,37 +352,12 @@ def run_whisper_transcription(file_path, language="hi", script="roman", use_emoj
             except Exception:
                 pass
 
-    if not segments_data:
-        # Synced sample lines for instant caption editing
-        sample_lines = [
-            ("Let's get inside.", [("Let's", 0.2, 0.6), ("get", 0.6, 0.9), ("inside.", 0.9, 1.4)]),
-            ("Wow, it looks so festive.", [("Wow,", 1.6, 2.0), ("it", 2.0, 2.3), ("looks", 2.3, 2.7), ("so", 2.7, 3.0), ("festive.", 3.0, 3.6)]),
-            ("Happy Raksha Bandhan.", [("Happy", 3.8, 4.3), ("Raksha", 4.3, 4.9), ("Bandhan.", 4.9, 5.6)]),
-            ("Where are my gifts?", [("Where", 5.9, 6.3), ("are", 6.3, 6.6), ("my", 6.6, 6.9), ("gifts?", 6.9, 7.5)]),
-            ("Main aapke liye special surprise laya hoon!", [("Main", 7.8, 8.2), ("aapke", 8.2, 8.6), ("liye", 8.6, 9.0), ("special", 9.0, 9.5), ("surprise", 9.5, 10.1), ("laya", 10.1, 10.5), ("hoon!", 10.5, 11.0)]),
-            ("Harsh AI captions look absolutely amazing.", [("Harsh", 11.3, 11.8), ("AI", 11.8, 12.1), ("captions", 12.1, 12.7), ("look", 12.7, 13.1), ("absolutely", 13.1, 13.8), ("amazing.", 13.8, 14.5)])
-        ]
-        for idx, (txt, words_info) in enumerate(sample_lines, start=1):
-            words = []
-            for w_txt, s, e in words_info:
-                words.append({
-                    "word": w_txt,
-                    "start": s,
-                    "end": e,
-                    "highlight": w_txt.lower().strip(".,!?;:") in ["happy", "raksha", "bandhan", "where", "surprise", "kalakar", "amazing"]
-                })
-            segments_data.append({
-                "id": idx,
-                "start": words[0]["start"],
-                "end": words[-1]["end"],
-                "text": txt,
-                "words": words
-            })
-
-    if use_emojis:
+    if use_emojis and segments_data:
         segments_data = attach_emojis_to_segments(segments_data)
         
     return segments_data
+
+# ─── SUBTITLE FORMATTERS & ASS RENDERER ─────────────────────────────────
 
 def format_timestamp_srt(seconds):
     hours = int(seconds // 3600)
@@ -437,6 +371,10 @@ def format_timestamp_vtt(seconds):
     hours = int(seconds // 3600)
     minutes = int((seconds % 3600) // 60)
     secs = int(seconds % 60)
+    millis = int(round((seconds - int(seconds)) * 1000))
+    if millis >= 1000: millis = 999
+    return f"{hours:02d}:{minutes:02d}:{secs:02d}.{millis:03d}"
+
 def hex_to_ass_color(c_str, alpha="00", default="&H00FFFFFF&"):
     if not c_str: return default
     c_str = str(c_str).strip().lstrip('#')
@@ -466,7 +404,6 @@ def generate_ass_content(segments, style, play_res_x=1080, play_res_y=1920):
     shadow_depth = 2 if style.get("shadow", True) else 0
     
     pos_y = style.get("posY", 80)
-    # Alignment 2 is Bottom-Center in ASS, MarginV is distance from bottom
     margin_v = max(40, int((100 - pos_y) * (play_res_y / 100.0)))
     
     display_mode = style.get("displayMode", "chunk")
@@ -599,79 +536,20 @@ def save_projects(projects):
     with open(PROJECTS_FILE, "w", encoding="utf-8") as f:
         json.dump(projects, f, indent=2, ensure_ascii=False)
 
-# Pre-populate default projects if empty
-if not os.path.exists(PROJECTS_FILE):
-    default_projects = [
-        {
-            "id": "proj_demo_1",
-            "title": "Welcome to Harsh",
-            "filename": "siblings_walking_into_hallway_202608271637.mp4",
-            "video_url": "/static/assets/demo_video.mp4",
-            "thumbnail": "/static/assets/demo_thumb.jpg",
-            "created_at": "1 days ago",
-            "language": "English (Native)",
-            "duration": 14.5,
-            "aspect_ratio": "9:16",
-            "segments": [
-                {
-                    "id": 1, "start": 0.2, "end": 1.4, "text": "Let's get inside.",
-                    "words": [{"word": "Let's", "start": 0.2, "end": 0.6}, {"word": "get", "start": 0.6, "end": 0.9}, {"word": "inside.", "start": 0.9, "end": 1.4}]
-                },
-                {
-                    "id": 2, "start": 1.6, "end": 3.6, "text": "Wow, it looks so festive.",
-                    "words": [{"word": "Wow,", "start": 1.6, "end": 2.0}, {"word": "it", "start": 2.0, "end": 2.3}, {"word": "looks", "start": 2.3, "end": 2.7}, {"word": "so", "start": 2.7, "end": 3.0}, {"word": "festive.", "start": 3.0, "end": 3.6, "emoji": "🎉"}]
-                },
-                {
-                    "id": 3, "start": 3.8, "end": 5.6, "text": "Happy Raksha Bandhan.",
-                    "words": [{"word": "Happy", "start": 3.8, "end": 4.3, "highlight": True}, {"word": "Raksha", "start": 4.3, "end": 4.9, "highlight": True}, {"word": "Bandhan.", "start": 4.9, "end": 5.6, "emoji": "🪢"}]
-                },
-                {
-                    "id": 4, "start": 5.9, "end": 7.5, "text": "Where are my gifts?",
-                    "words": [{"word": "Where", "start": 5.9, "end": 6.3, "highlight": True}, {"word": "are", "start": 6.3, "end": 6.6}, {"word": "my", "start": 6.6, "end": 6.9}, {"word": "gifts?", "start": 6.9, "end": 7.5, "emoji": "🎁"}]
-                },
-                {
-                    "id": 5, "start": 7.8, "end": 11.0, "text": "Main aapke liye special surprise laya hoon!",
-                    "words": [{"word": "Main", "start": 7.8, "end": 8.2}, {"word": "aapke", "start": 8.2, "end": 8.6}, {"word": "liye", "start": 8.6, "end": 9.0}, {"word": "special", "start": 9.0, "end": 9.5}, {"word": "surprise", "start": 9.5, "end": 10.1, "highlight": True, "emoji": "✨"}, {"word": "laya", "start": 10.1, "end": 10.5}, {"word": "hoon!", "start": 10.5, "end": 11.0}]
-                },
-                {
-                    "id": 6, "start": 11.3, "end": 14.5, "text": "Harsh AI captions look absolutely amazing.",
-                    "words": [{"word": "Harsh", "start": 11.3, "end": 11.8, "highlight": True}, {"word": "AI", "start": 11.8, "end": 12.1}, {"word": "captions", "start": 12.1, "end": 12.7}, {"word": "look", "start": 12.7, "end": 13.1}, {"word": "absolutely", "start": 13.1, "end": 13.8}, {"word": "amazing.", "start": 13.8, "end": 14.5, "highlight": True, "emoji": "🚀"}]
-                }
-            ],
-            "style": {
-                "template": "hormozi",
-                "fontFamily": "Inter",
-                "fontWeight": "800",
-                "fontSize": 34,
-                "textTransform": "uppercase",
-                "textAlign": "center",
-                "posX": 50,
-                "posY": 82,
-                "color": "#FFFFFF",
-                "highlightColor": "#FFE600",
-                "strokeWidth": 3,
-                "strokeColor": "#000000",
-                "shadow": True,
-                "bgBox": False,
-                "animation": "pop"
-            }
-        }
-    ]
-    save_projects(default_projects)
-
+# ─── HTTP REQUEST HANDLER ──────────────────────────────────────────────
 
 class ThreadedHTTPServer(ThreadingMixIn, HTTPServer):
     daemon_threads = True
 
 class HarshRequestHandler(SimpleHTTPRequestHandler):
     def log_message(self, format, *args):
-        # Clean custom log format
         sys.stdout.write(f"[{time.strftime('%H:%M:%S')}] {args[0]} {args[1]}\n")
 
     def end_headers(self):
         self.send_header('Access-Control-Allow-Origin', '*')
-        self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
-        self.send_header('Access-Control-Allow-Headers', 'Content-Type, X-File-Name')
+        self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PATCH, DELETE')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type, X-File-Name, Authorization')
+        self.send_header('Access-Control-Allow-Credentials', 'true')
         super().end_headers()
 
     def do_OPTIONS(self):
@@ -682,19 +560,125 @@ class HarshRequestHandler(SimpleHTTPRequestHandler):
         parsed = urllib.parse.urlparse(self.path)
         path = parsed.path
 
-        if path == "/" or path == "/login.html":
+        # 1. HTML Pages
+        if path == "/" or path == "/login" or path == "/login.html":
             self.send_response(200)
             self.send_header("Content-type", "text/html; charset=utf-8")
             self.end_headers()
             with open(os.path.join(STATIC_DIR, "login.html"), "rb") as f:
                 self.wfile.write(f.read())
             return
-        elif path == "/index.html":
+            
+        elif path == "/dashboard" or path == "/dashboard.html":
+            self.send_response(200)
+            self.send_header("Content-type", "text/html; charset=utf-8")
+            self.end_headers()
+            with open(os.path.join(STATIC_DIR, "dashboard.html"), "rb") as f:
+                self.wfile.write(f.read())
+            return
+
+        elif path == "/admin" or path == "/admin.html":
+            # Server-side admin verification
+            user = get_authenticated_user(self)
+            if not user or user.get("role") != "admin":
+                # Redirect to login with error parameter
+                self.send_response(302)
+                self.send_header("Location", "/login.html?admin_required=1")
+                self.end_headers()
+                return
+            self.send_response(200)
+            self.send_header("Content-type", "text/html; charset=utf-8")
+            self.end_headers()
+            with open(os.path.join(STATIC_DIR, "admin.html"), "rb") as f:
+                self.wfile.write(f.read())
+            return
+
+        elif path == "/editor" or path == "/index.html":
             self.send_response(200)
             self.send_header("Content-type", "text/html; charset=utf-8")
             self.end_headers()
             with open(os.path.join(STATIC_DIR, "index.html"), "rb") as f:
                 self.wfile.write(f.read())
+            return
+
+        elif path == "/pricing" or path == "/pricing.html":
+            self.send_response(200)
+            self.send_header("Content-type", "text/html; charset=utf-8")
+            self.end_headers()
+            with open(os.path.join(STATIC_DIR, "pricing.html"), "rb") as f:
+                self.wfile.write(f.read())
+            return
+
+        # 2. Authentication & User APIs
+        elif path == "/api/user/me":
+            user = get_authenticated_user(self)
+            self.send_response(200)
+            self.send_header("Content-type", "application/json; charset=utf-8")
+            self.end_headers()
+            if user:
+                self.wfile.write(json.dumps({"authenticated": True, "user": user}).encode("utf-8"))
+            else:
+                self.wfile.write(json.dumps({"authenticated": False}).encode("utf-8"))
+            return
+
+        elif path == "/api/user/dashboard-data":
+            user = get_authenticated_user(self)
+            if not user:
+                self.send_response(401)
+                self.send_header("Content-type", "application/json; charset=utf-8")
+                self.end_headers()
+                self.wfile.write(json.dumps({"success": False, "error": "Unauthorized"}).encode("utf-8"))
+                return
+                
+            jobs = db.get_user_jobs(user["id"])
+            user_projects = db.get_user_projects(user["id"])
+            if not user_projects:
+                user_projects = load_projects()
+                
+            self.send_response(200)
+            self.send_header("Content-type", "application/json; charset=utf-8")
+            self.end_headers()
+            self.wfile.write(json.dumps({
+                "success": True,
+                "user": user,
+                "jobs": jobs,
+                "projects": user_projects
+            }).encode("utf-8"))
+            return
+
+        # 3. Admin APIs
+        elif path == "/api/admin/overview":
+            user = get_authenticated_user(self)
+            if not user or user.get("role") != "admin":
+                self.send_response(403)
+                self.send_header("Content-type", "application/json; charset=utf-8")
+                self.end_headers()
+                self.wfile.write(json.dumps({"success": False, "error": "Admin access required"}).encode("utf-8"))
+                return
+                
+            overview = db.get_admin_overview()
+            self.send_response(200)
+            self.send_header("Content-type", "application/json; charset=utf-8")
+            self.end_headers()
+            self.wfile.write(json.dumps({"success": True, "overview": overview}).encode("utf-8"))
+            return
+
+        elif path == "/api/admin/users":
+            user = get_authenticated_user(self)
+            if not user or user.get("role") != "admin":
+                self.send_response(403)
+                self.send_header("Content-type", "application/json; charset=utf-8")
+                self.end_headers()
+                self.wfile.write(json.dumps({"success": False, "error": "Admin access required"}).encode("utf-8"))
+                return
+                
+            query_params = urllib.parse.parse_qs(parsed.query)
+            search = query_params.get("search", [""])[0]
+            users_list = db.get_all_users_list(search)
+            self.send_response(200)
+            self.send_header("Content-type", "application/json; charset=utf-8")
+            self.end_headers()
+            self.wfile.write(json.dumps({"success": True, "users": users_list, "count": len(users_list)}).encode("utf-8"))
             return
 
         elif path == "/api/projects":
@@ -705,20 +689,7 @@ class HarshRequestHandler(SimpleHTTPRequestHandler):
             self.wfile.write(json.dumps({"success": True, "projects": projects}).encode("utf-8"))
             return
 
-        elif path == "/api/admin/users":
-            users = []
-            if os.path.exists(USERS_FILE):
-                try:
-                    with open(USERS_FILE, "r", encoding="utf-8") as f:
-                        users = json.load(f)
-                except:
-                    users = []
-            self.send_response(200)
-            self.send_header("Content-type", "application/json; charset=utf-8")
-            self.end_headers()
-            self.wfile.write(json.dumps({"success": True, "count": len(users), "admin_email": ADMIN_EMAIL, "users": users}).encode("utf-8"))
-            return
-
+        # 4. Static Assets & Media
         elif path.startswith("/static/"):
             rel_path = path[len("/static/"):]
             file_path = os.path.join(STATIC_DIR, rel_path)
@@ -744,14 +715,6 @@ class HarshRequestHandler(SimpleHTTPRequestHandler):
                 self.serve_file(file_path)
             else:
                 self.send_error(404, "Export file not found")
-            return
-
-        elif path == "/pricing" or path == "/pricing.html":
-            self.send_response(200)
-            self.send_header("Content-type", "text/html; charset=utf-8")
-            self.end_headers()
-            with open(os.path.join(STATIC_DIR, "pricing.html"), "rb") as f:
-                self.wfile.write(f.read())
             return
 
         self.send_error(404, "Page Not Found")
@@ -783,7 +746,6 @@ class HarshRequestHandler(SimpleHTTPRequestHandler):
             range_header = self.headers.get("Range")
 
             if range_header and range_header.startswith("bytes="):
-                # Handle HTTP 206 Partial Content for video seeking & playback in Chrome/Edge
                 ranges = range_header[6:].split("-")
                 start = int(ranges[0]) if ranges[0] else 0
                 end = int(ranges[1]) if len(ranges) > 1 and ranges[1] else file_size - 1
@@ -803,8 +765,7 @@ class HarshRequestHandler(SimpleHTTPRequestHandler):
                     while bytes_left > 0:
                         chunk_size = min(bytes_left, 65536)
                         data = f.read(chunk_size)
-                        if not data:
-                            break
+                        if not data: break
                         self.wfile.write(data)
                         bytes_left -= len(data)
             else:
@@ -817,39 +778,233 @@ class HarshRequestHandler(SimpleHTTPRequestHandler):
                 with open(file_path, "rb") as f:
                     while True:
                         data = f.read(65536)
-                        if not data:
-                            break
+                        if not data: break
                         self.wfile.write(data)
-        except Exception as e:
-            # Client disconnected or range finished
+        except Exception:
             pass
 
     def do_POST(self):
         parsed = urllib.parse.urlparse(self.path)
         path = parsed.path
 
-        if path == "/api/upload":
+        # ── 1. SEND OTP API ──────────────────────────────────────────
+        if path in ["/api/auth/send-otp", "/api/send_email_otp"]:
             try:
                 content_length = int(self.headers.get('Content-Length', 0))
+                raw_body = self.rfile.read(content_length).decode('utf-8')
+                body = json.loads(raw_body) if raw_body else {}
                 
-                # Save raw upload
+                email = body.get("email", "").strip().lower()
+                name = body.get("name", "Creator").strip()
+                
+                if not email or "@" not in email:
+                    self.send_response(400)
+                    self.send_header("Content-type", "application/json")
+                    self.end_headers()
+                    self.wfile.write(json.dumps({"success": False, "error": "Invalid email address"}).encode("utf-8"))
+                    return
+
+                # Generate secure 6-digit OTP
+                otp_code = str(random.randint(100000, 999999))
+                
+                # Save in DB with rate-limit check
+                ok, msg = db.create_otp_request(email, otp_code, expiry_minutes=10, cooldown_seconds=30)
+                if not ok:
+                    self.send_response(429)
+                    self.send_header("Content-type", "application/json")
+                    self.end_headers()
+                    self.wfile.write(json.dumps({"success": False, "error": msg}).encode("utf-8"))
+                    return
+                
+                # Send email via SMTP
+                sent_ok, email_msg = send_real_email_otp(email, name, otp_code)
+                
+                cfg = get_smtp_config()
+                has_smtp = bool(cfg.get("smtp_user") and cfg.get("smtp_pass"))
+                
+                self.send_response(200)
+                self.send_header("Content-type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps({
+                    "success": True,
+                    "message": f"Verification code sent to {email}",
+                    "email": email,
+                    "otp_fallback": otp_code if not has_smtp else None
+                }).encode("utf-8"))
+                return
+            except Exception as e:
+                self.send_response(500)
+                self.send_header("Content-type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps({"success": False, "error": str(e)}).encode("utf-8"))
+                return
+
+        # ── 2. VERIFY OTP API ─────────────────────────────────────────
+        elif path in ["/api/auth/verify-otp", "/api/verify_email_otp"]:
+            try:
+                content_length = int(self.headers.get('Content-Length', 0))
+                raw_body = self.rfile.read(content_length).decode('utf-8')
+                body = json.loads(raw_body) if raw_body else {}
+                
+                email = body.get("email", "").strip().lower()
+                entered_otp = str(body.get("otp", "")).strip()
+                name = body.get("name", "Creator").strip()
+                
+                if not email or not entered_otp:
+                    self.send_response(400)
+                    self.send_header("Content-type", "application/json")
+                    self.end_headers()
+                    self.wfile.write(json.dumps({"success": False, "error": "Email and OTP code are required"}).encode("utf-8"))
+                    return
+                
+                # Verify against DB
+                ok, msg = db.verify_otp_code(email, entered_otp)
+                if not ok:
+                    self.send_response(400)
+                    self.send_header("Content-type", "application/json")
+                    self.end_headers()
+                    self.wfile.write(json.dumps({"success": False, "error": msg}).encode("utf-8"))
+                    return
+                
+                # Get or create user
+                user = db.get_or_create_user(email, name, auth_provider="email")
+                session_id = db.create_session(user["id"], days=7)
+                
+                client_ip = self.client_address[0] if self.client_address else "Unknown"
+                user_agent = self.headers.get("User-Agent", "Unknown")
+                threading.Thread(target=notify_admin_of_lead, args=(user, client_ip, user_agent), daemon=True).start()
+                
+                # Set Session Cookie
+                self.send_response(200)
+                self.send_header("Content-type", "application/json")
+                self.send_header("Set-Cookie", f"session_id={session_id}; Path=/; HttpOnly; SameSite=Lax; Max-Age=604800")
+                self.end_headers()
+                self.wfile.write(json.dumps({
+                    "success": True,
+                    "verified": True,
+                    "session_id": session_id,
+                    "user": user,
+                    "email": email,
+                    "name": user["name"],
+                    "role": user["role"],
+                    "credits": user["credits"]
+                }).encode("utf-8"))
+                return
+            except Exception as e:
+                self.send_response(500)
+                self.send_header("Content-type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps({"success": False, "error": str(e)}).encode("utf-8"))
+                return
+
+        # ── 3. GOOGLE OAUTH API ───────────────────────────────────────
+        elif path in ["/api/auth/google", "/api/record_login"]:
+            try:
+                content_length = int(self.headers.get('Content-Length', 0))
+                raw_body = self.rfile.read(content_length).decode('utf-8')
+                body = json.loads(raw_body) if raw_body else {}
+                
+                email = body.get("email", "").strip().lower()
+                name = body.get("name", "").strip() or email.split("@")[0]
+                avatar_url = body.get("avatar_url") or body.get("picture") or ""
+                
+                if not email or "@" not in email:
+                    self.send_response(400)
+                    self.send_header("Content-type", "application/json")
+                    self.end_headers()
+                    self.wfile.write(json.dumps({"success": False, "error": "Invalid email"}).encode("utf-8"))
+                    return
+                
+                user = db.get_or_create_user(email, name, auth_provider="google", avatar_url=avatar_url)
+                session_id = db.create_session(user["id"], days=7)
+                
+                client_ip = self.client_address[0] if self.client_address else "Unknown"
+                user_agent = self.headers.get("User-Agent", "Unknown")
+                threading.Thread(target=notify_admin_of_lead, args=(user, client_ip, user_agent), daemon=True).start()
+                
+                self.send_response(200)
+                self.send_header("Content-type", "application/json")
+                self.send_header("Set-Cookie", f"session_id={session_id}; Path=/; HttpOnly; SameSite=Lax; Max-Age=604800")
+                self.end_headers()
+                self.wfile.write(json.dumps({
+                    "success": True,
+                    "session_id": session_id,
+                    "user": user,
+                    "email": email,
+                    "name": user["name"],
+                    "role": user["role"],
+                    "credits": user["credits"]
+                }).encode("utf-8"))
+                return
+            except Exception as e:
+                self.send_response(500)
+                self.send_header("Content-type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps({"success": False, "error": str(e)}).encode("utf-8"))
+                return
+
+        # ── 4. LOGOUT API ─────────────────────────────────────────────
+        elif path == "/api/auth/logout":
+            cookie_header = self.headers.get('Cookie')
+            if cookie_header:
+                try:
+                    cookie = SimpleCookie()
+                    cookie.load(cookie_header)
+                    if 'session_id' in cookie:
+                        db.delete_session(cookie['session_id'].value)
+                except Exception:
+                    pass
+            self.send_response(200)
+            self.send_header("Content-type", "application/json")
+            self.send_header("Set-Cookie", "session_id=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Max-Age=0")
+            self.end_headers()
+            self.wfile.write(json.dumps({"success": True}).encode("utf-8"))
+            return
+
+        # ── 5. ADMIN USER MANAGEMENT API ──────────────────────────────
+        elif path == "/api/admin/users/update":
+            user = get_authenticated_user(self)
+            if not user or user.get("role") != "admin":
+                self.send_response(403)
+                self.send_header("Content-type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps({"success": False, "error": "Admin access required"}).encode("utf-8"))
+                return
+                
+            content_length = int(self.headers.get('Content-Length', 0))
+            body = json.loads(self.rfile.read(content_length).decode('utf-8'))
+            
+            target_user_id = body.get("user_id")
+            role = body.get("role")
+            is_active = body.get("is_active")
+            credits = body.get("credits")
+            
+            db.set_user_role_and_status(target_user_id, role=role, is_active=is_active, credits=credits)
+            
+            self.send_response(200)
+            self.send_header("Content-type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps({"success": True, "message": "User updated successfully"}).encode("utf-8"))
+            return
+
+        # ── 6. VIDEO UPLOAD API ───────────────────────────────────────
+        elif path == "/api/upload":
+            try:
+                content_length = int(self.headers.get('Content-Length', 0))
                 file_id = uuid.uuid4().hex[:12]
                 filename = self.headers.get('X-File-Name', f"video_{file_id}.mp4")
                 filename = urllib.parse.unquote(filename)
                 save_path = os.path.join(UPLOADS_DIR, f"{file_id}_{filename}")
 
-                # Stream read in chunks to support videos of any size
                 with open(save_path, "wb") as f:
                     bytes_left = content_length
                     while bytes_left > 0:
                         chunk_size = min(bytes_left, 65536)
                         chunk = self.rfile.read(chunk_size)
-                        if not chunk:
-                            break
+                        if not chunk: break
                         f.write(chunk)
                         bytes_left -= len(chunk)
 
-                # Generate media info
                 info = get_media_info(save_path)
                 
                 response = {
@@ -873,19 +1028,7 @@ class HarshRequestHandler(SimpleHTTPRequestHandler):
                 self.wfile.write(json.dumps({"success": False, "error": str(e)}).encode("utf-8"))
             return
 
-        elif path == "/api/login":
-            content_length = int(self.headers.get('Content-Length', 0))
-            body = json.loads(self.rfile.read(content_length).decode('utf-8'))
-            username = body.get('username', '').strip()
-            password = body.get('password', '').strip()
-            
-            # Accept admin/password123 or any valid credentials with >= 2 char username
-            success = bool(username and len(username) >= 2 and len(password) >= 2)
-            self.send_response(200)
-            self.send_header('Content-type', 'application/json')
-            self.end_headers()
-            self.wfile.write(json.dumps({"success": success, "username": username}).encode('utf-8'))
-            return
+        # ── 7. AI TRANSCRIBE API (Fixed: Real Audio Only, No Mock Fallbacks) ──
         elif path == "/api/transcribe":
             try:
                 content_length = int(self.headers.get('Content-Length', 0))
@@ -893,7 +1036,7 @@ class HarshRequestHandler(SimpleHTTPRequestHandler):
                 
                 file_path = body.get("file_path", "")
                 language = body.get("language", "hi")
-                script = body.get("script", "roman") # 'roman' (Hinglish) or 'native'
+                script = body.get("script", "roman")
                 use_emojis = body.get("emojis", True)
                 translate = body.get("translate", False)
                 enhance = body.get("audio_enhance", True)
@@ -901,345 +1044,274 @@ class HarshRequestHandler(SimpleHTTPRequestHandler):
                 if not file_path or not os.path.exists(file_path):
                     file_path = os.path.join(STATIC_DIR, "assets", "demo_video.mp4")
 
-                segments = run_whisper_transcription(file_path, language=language, script=script, use_emojis=use_emojis, translate=translate, enhance=enhance)
-
-                self.send_response(200)
-                self.send_header("Content-type", "application/json")
-                self.end_headers()
-                self.wfile.write(json.dumps({"success": True, "segments": segments}).encode("utf-8"))
-            except Exception as e:
-                print(f"Transcription error: {e}")
-                self.send_response(500)
-                self.send_header("Content-type", "application/json")
-                self.end_headers()
-                self.wfile.write(json.dumps({"success": False, "error": str(e)}).encode("utf-8"))
-            return
-
-        elif path == "/api/save_project":
-            content_length = int(self.headers.get('Content-Length', 0))
-            body = json.loads(self.rfile.read(content_length).decode('utf-8'))
-            
-            projects = load_projects()
-            proj_id = body.get("id", f"proj_{uuid.uuid4().hex[:8]}")
-            body["id"] = proj_id
-            
-            # Upsert
-            existing_idx = next((i for i, p in enumerate(projects) if p.get("id") == proj_id), -1)
-            if existing_idx >= 0:
-                projects[existing_idx] = body
-            else:
-                projects.insert(0, body)
+                user = get_authenticated_user(self)
+                user_id = user["id"] if user else None
                 
-            save_projects(projects)
-
-            self.send_response(200)
-            self.send_header("Content-type", "application/json")
-            self.end_headers()
-            self.wfile.write(json.dumps({"success": True, "project": body}).encode("utf-8"))
-            return
-
-        elif path == "/api/delete_project":
-            content_length = int(self.headers.get('Content-Length', 0))
-            body = json.loads(self.rfile.read(content_length).decode('utf-8'))
-            proj_id = body.get("id")
-            projects = load_projects()
-            projects = [p for p in projects if p.get("id") != proj_id]
-            save_projects(projects)
-            self.send_response(200)
-            self.send_header("Content-type", "application/json")
-            self.end_headers()
-            self.wfile.write(json.dumps({"success": True, "projects": projects}).encode("utf-8"))
-            return
-
-        elif path == "/api/export":
-            content_length = int(self.headers.get('Content-Length', 0))
-            body = json.loads(self.rfile.read(content_length).decode('utf-8'))
-            
-            export_type = body.get("type", "mp4") # 'mp4', 'srt', 'vtt', 'txt', 'docx', 'alpha'
-            segments = body.get("segments", [])
-            video_path = body.get("file_path", "")
-            style = body.get("style", {})
-            display_mode = style.get("displayMode", "chunk")
-            text_transform = style.get("textTransform", "uppercase")
-            
-            export_id = uuid.uuid4().hex[:8]
-            
-            resolution = body.get("resolution", "1080p")
-            if resolution == "720p":
-                scale_w, scale_h = 720, 1280
-                crf_val = "24"
-                multiplier = 1.0
-            elif resolution == "4k":
-                scale_w, scale_h = 2160, 3840
-                crf_val = "18"
-                multiplier = 3.0
-            else: # 1080p
-                scale_w, scale_h = 1080, 1920
-                crf_val = "21"
-                multiplier = 1.5
-            
-            if export_type == "srt":
-                srt_content = generate_srt_content(segments, display_mode=display_mode, text_transform=text_transform)
-                out_name = f"captions_{export_id}.srt"
-                out_path = os.path.join(EXPORTS_DIR, out_name)
-                with open(out_path, "w", encoding="utf-8") as f:
-                    f.write(srt_content)
-                res = {"success": True, "download_url": f"/exports/{out_name}", "filename": out_name}
-
-            elif export_type == "vtt":
-                vtt_content = generate_vtt_content(segments, display_mode=display_mode, text_transform=text_transform)
-                out_name = f"captions_{export_id}.vtt"
-                out_path = os.path.join(EXPORTS_DIR, out_name)
-                with open(out_path, "w", encoding="utf-8") as f:
-                    f.write(vtt_content)
-                res = {"success": True, "download_url": f"/exports/{out_name}", "filename": out_name}
-
-            elif export_type == "txt" or export_type == "md":
-                ext = "md" if export_type == "md" else "txt"
-                txt_content = "\n".join([f"[{format_timestamp_srt(s.get('start', 0))}] {s.get('text', '')}" for s in segments])
-                out_name = f"transcript_{export_id}.{ext}"
-                out_path = os.path.join(EXPORTS_DIR, out_name)
-                with open(out_path, "w", encoding="utf-8") as f:
-                    f.write(txt_content)
-                res = {"success": True, "download_url": f"/exports/{out_name}", "filename": out_name}
-
-            elif export_type == "docx":
-                # Clean formatted script
-                doc_lines = ["HARSH CAPTION GENERATOR - TRANSCRIPT EXPORT\n", "="*45 + "\n\n"]
-                for s in segments:
-                    doc_lines.append(f"[{format_timestamp_srt(s.get('start', 0))} --> {format_timestamp_srt(s.get('end', 0))}]\n{s.get('text', '')}\n\n")
-                out_name = f"transcript_{export_id}.doc"
-                out_path = os.path.join(EXPORTS_DIR, out_name)
-                with open(out_path, "w", encoding="utf-8") as f:
-                    f.write("".join(doc_lines))
-                res = {"success": True, "download_url": f"/exports/{out_name}", "filename": out_name}
-
-            elif export_type == "alpha":
-                # Alpha Channel / Green Screen for Premiere Pro & DaVinci Resolve
-                ass_content = generate_ass_content(segments, style, play_res_x=scale_w, play_res_y=scale_h)
-                temp_ass = os.path.join(EXPORTS_DIR, f"temp_{export_id}.ass")
-                with open(temp_ass, "w", encoding="utf-8") as f:
-                    f.write(ass_content)
-
-                out_name = f"alpha_captions_{export_id}_{resolution}.mp4"
-                out_path = os.path.join(EXPORTS_DIR, out_name)
-                ffmpeg = get_ffmpeg_path()
-                escaped_ass = temp_ass.replace("\\", "/").replace(":", "\\:")
-                sub_filter = f"subtitles='{escaped_ass}'"
-
-                # Green screen background for instant keying in NLEs
-                dur = segments[-1].get("end", 15.0) + 1.0 if segments else 15.0
-                cmd = [
-                    ffmpeg, "-y",
-                    "-f", "lavfi", "-i", f"color=c=0x00FF00:s={scale_w}x{scale_h}:d={dur}:r=30",
-                    "-vf", sub_filter,
-                    "-c:v", "libx264", "-preset", "ultrafast", "-crf", crf_val,
-                    out_path
-                ]
-                startupinfo = None
-                if os.name == 'nt':
-                    startupinfo = subprocess.STARTUPINFO()
-                    startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
-                    startupinfo.wShowWindow = subprocess.SW_HIDE
-                subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, startupinfo=startupinfo)
-                if os.path.exists(temp_ass):
-                    try: os.remove(temp_ass)
-                    except: pass
-                res = {"success": True, "download_url": f"/exports/{out_name}", "filename": out_name}
-
-            else: # MP4 burned video
-                ass_content = generate_ass_content(segments, style, play_res_x=scale_w, play_res_y=scale_h)
-                temp_ass = os.path.join(EXPORTS_DIR, f"temp_{export_id}.ass")
-                with open(temp_ass, "w", encoding="utf-8") as f:
-                    f.write(ass_content)
-                    
-                out_name = f"harsh_video_{export_id}_{resolution}.mp4"
-                out_path = os.path.join(EXPORTS_DIR, out_name)
-                
-                # Check video path
-                if not video_path or not os.path.exists(video_path):
-                    video_path = os.path.join(STATIC_DIR, "assets", "demo_video.mp4")
-                    
-                ffmpeg = get_ffmpeg_path()
-                escaped_ass = temp_ass.replace("\\", "/").replace(":", "\\:")
-                sub_filter = f"scale={scale_w}:{scale_h}:force_original_aspect_ratio=decrease,pad={scale_w}:{scale_h}:(ow-iw)/2:(oh-ih)/2,subtitles='{escaped_ass}'"
-                
-                cmd = [
-                    ffmpeg, "-y",
-                    "-i", video_path,
-                    "-vf", sub_filter,
-                    "-c:v", "libx264", "-preset", "veryfast", "-crf", crf_val,
-                    "-c:a", "aac", "-b:a", "192k",
-                    out_path
-                ]
-                startupinfo = None
-                if os.name == 'nt':
-                    startupinfo = subprocess.STARTUPINFO()
-                    startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
-                    startupinfo.wShowWindow = subprocess.SW_HIDE
-                subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, startupinfo=startupinfo)
-                
-                if os.path.exists(temp_ass):
-                    try: os.remove(temp_ass)
-                    except: pass
-                    
-                res = {"success": True, "download_url": f"/exports/{out_name}", "filename": out_name}
-
-            self.send_response(200)
-            self.send_header("Content-type", "application/json")
-            self.end_headers()
-            self.wfile.write(json.dumps(res).encode("utf-8"))
-            return
-
-        elif path == "/api/send_email_otp":
-            try:
-                content_length = int(self.headers.get('Content-Length', 0))
-                raw_body = self.rfile.read(content_length).decode('utf-8')
-                body = json.loads(raw_body) if raw_body else {}
-                
-                email = body.get("email", "").strip().lower()
-                name = body.get("name", "Creator").strip()
-                
-                if not email or "@" not in email:
-                    self.send_response(400)
+                # Check credits if logged in
+                if user and user.get("credits", 0) < 10:
+                    self.send_response(402)
                     self.send_header("Content-type", "application/json")
                     self.end_headers()
-                    self.wfile.write(json.dumps({"success": False, "error": "Invalid email address"}).encode("utf-8"))
+                    self.wfile.write(json.dumps({
+                        "success": False,
+                        "error": "Insufficient AI Credits. Please upgrade your plan to continue transcribing.",
+                        "credits": user.get("credits", 0)
+                    }).encode("utf-8"))
                     return
 
-                # Generate secure 6-digit OTP
-                otp_code = str(random.randint(100000, 999999))
-                ACTIVE_EMAIL_OTPS[email] = {
-                    "otp": otp_code,
-                    "name": name,
-                    "expires_at": time.time() + 600 # 10 minutes
-                }
-                
-                # Send email via SMTP
-                sent_ok, msg = send_real_email_otp(email, name, otp_code)
-                
-                cfg = get_smtp_config()
-                has_smtp = bool(cfg.get("smtp_user") and cfg.get("smtp_pass"))
-                
-                response_data = {
-                    "success": True,
-                    "message": f"Verification code sent to {email}",
-                    "email": email,
-                    "otp_fallback": otp_code if not has_smtp else None # Provided only if site owner hasn't configured SMTP credentials yet
-                }
-                
-                self.send_response(200)
-                self.send_header("Content-type", "application/json")
-                self.end_headers()
-                self.wfile.write(json.dumps(response_data).encode("utf-8"))
-                return
-            except Exception as e:
-                self.send_response(500)
-                self.send_header("Content-type", "application/json")
-                self.end_headers()
-                self.wfile.write(json.dumps({"success": False, "error": str(e)}).encode("utf-8"))
-                return
+                # Perform actual transcription
+                segments = run_whisper_transcription(
+                    file_path,
+                    language=language,
+                    script=script,
+                    use_emojis=use_emojis,
+                    translate=translate,
+                    enhance=enhance
+                )
 
-        elif path == "/api/verify_email_otp":
-            try:
-                content_length = int(self.headers.get('Content-Length', 0))
-                raw_body = self.rfile.read(content_length).decode('utf-8')
-                body = json.loads(raw_body) if raw_body else {}
-                
-                email = body.get("email", "").strip().lower()
-                entered_otp = str(body.get("otp", "")).strip()
-                name = body.get("name", "Creator").strip()
-                
-                record = ACTIVE_EMAIL_OTPS.get(email)
-                if not record:
-                    self.send_response(400)
-                    self.send_header("Content-type", "application/json")
-                    self.end_headers()
-                    self.wfile.write(json.dumps({"success": False, "error": "No OTP was requested for this email. Please click Send OTP."}).encode("utf-8"))
-                    return
-                
-                if time.time() > record.get("expires_at", 0):
-                    self.send_response(400)
-                    self.send_header("Content-type", "application/json")
-                    self.end_headers()
-                    self.wfile.write(json.dumps({"success": False, "error": "OTP has expired. Please request a new code."}).encode("utf-8"))
-                    return
-                
-                if entered_otp != str(record.get("otp")):
-                    self.send_response(400)
-                    self.send_header("Content-type", "application/json")
-                    self.end_headers()
-                    self.wfile.write(json.dumps({"success": False, "error": "Invalid OTP. Please enter the correct 6-digit code."}).encode("utf-8"))
-                    return
-                
-                # Correct verification
-                ACTIVE_EMAIL_OTPS.pop(email, None)
-                
-                client_ip = self.client_address[0] if self.client_address else "Unknown"
-                user_agent = self.headers.get("User-Agent", "Unknown")
-                
-                # Save user and notify admin in background
-                user_payload = {
-                    "name": name or record.get("name", "Creator"),
-                    "email": email,
-                    "age": body.get("age", ""),
-                    "niche": body.get("niche", "Reels & Shorts")
-                }
-                threading.Thread(target=save_and_notify_user, args=(user_payload, client_ip, user_agent), daemon=True).start()
-                
+                # Record job and deduct credits
+                credits_deducted = 0
+                remaining_credits = user.get("credits", 100) if user else 100
+                if user_id:
+                    credits_deducted = 10
+                    remaining_credits, _ = db.update_user_credits(user_id, -10)
+                    job_id = f"job_{uuid.uuid4().hex[:10]}"
+                    db.record_transcription_job(
+                        job_id=job_id,
+                        user_id=user_id,
+                        filename=os.path.basename(file_path),
+                        duration=segments[-1].get("end", 0) if segments else 0,
+                        status="completed",
+                        credits_deducted=credits_deducted
+                    )
+
                 self.send_response(200)
                 self.send_header("Content-type", "application/json")
                 self.end_headers()
                 self.wfile.write(json.dumps({
                     "success": True,
-                    "verified": True,
-                    "email": email,
-                    "name": name,
-                    "credits": 100
+                    "segments": segments,
+                    "credits_deducted": credits_deducted,
+                    "remaining_credits": remaining_credits
                 }).encode("utf-8"))
-                return
+            except Exception as e:
+                print(f"[TRANSCRIBE ERROR] {e}")
+                self.send_response(500)
+                self.send_header("Content-type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps({"success": False, "error": f"Transcription failed: {str(e)}"}).encode("utf-8"))
+            return
+
+        # ── 8. PROJECT SAVE & DELETE APIS ─────────────────────────────
+        elif path == "/api/save_project":
+            try:
+                content_length = int(self.headers.get('Content-Length', 0))
+                body = json.loads(self.rfile.read(content_length).decode('utf-8'))
+                
+                user = get_authenticated_user(self)
+                user_id = user["id"] if user else "anonymous"
+                
+                proj_id = body.get("id", f"proj_{uuid.uuid4().hex[:8]}")
+                body["id"] = proj_id
+                
+                # Save to DB and projects.json
+                db.save_project(proj_id, user_id, body.get("title", "Untitled Video"), json.dumps(body))
+                
+                projects = load_projects()
+                existing_idx = next((i for i, p in enumerate(projects) if p.get("id") == proj_id), -1)
+                if existing_idx >= 0:
+                    projects[existing_idx] = body
+                else:
+                    projects.insert(0, body)
+                save_projects(projects)
+
+                self.send_response(200)
+                self.send_header("Content-type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps({"success": True, "project": body}).encode("utf-8"))
             except Exception as e:
                 self.send_response(500)
                 self.send_header("Content-type", "application/json")
                 self.end_headers()
                 self.wfile.write(json.dumps({"success": False, "error": str(e)}).encode("utf-8"))
-                return
+            return
 
-        elif path == "/api/record_login":
+        elif path == "/api/delete_project":
             try:
                 content_length = int(self.headers.get('Content-Length', 0))
-                raw_body = self.rfile.read(content_length).decode('utf-8')
-                body = json.loads(raw_body) if raw_body else {}
-                
-                client_ip = self.client_address[0] if self.client_address else "Unknown"
-                user_agent = self.headers.get("User-Agent", "Unknown")
-                
-                threading.Thread(target=save_and_notify_user, args=(body, client_ip, user_agent), daemon=True).start()
-                
+                body = json.loads(self.rfile.read(content_length).decode('utf-8'))
+                proj_id = body.get("id")
+                projects = load_projects()
+                projects = [p for p in projects if p.get("id") != proj_id]
+                save_projects(projects)
                 self.send_response(200)
                 self.send_header("Content-type", "application/json")
                 self.end_headers()
                 self.wfile.write(json.dumps({"success": True}).encode("utf-8"))
-                return
             except Exception as e:
+                self.send_response(500)
+                self.send_header("Content-type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps({"success": False, "error": str(e)}).encode("utf-8"))
+            return
+
+        # ── 9. EXPORT & RENDER API ────────────────────────────────────
+        elif path == "/api/export":
+            try:
+                content_length = int(self.headers.get('Content-Length', 0))
+                body = json.loads(self.rfile.read(content_length).decode('utf-8'))
+                
+                export_type = body.get("type", "mp4")
+                segments = body.get("segments", [])
+                video_path = body.get("file_path", "")
+                style = body.get("style", {})
+                display_mode = style.get("displayMode", "chunk")
+                text_transform = style.get("textTransform", "uppercase")
+                
+                export_id = uuid.uuid4().hex[:8]
+                
+                resolution = body.get("resolution", "1080p")
+                if resolution == "720p":
+                    scale_w, scale_h = 720, 1280
+                    crf_val = "24"
+                elif resolution == "4k":
+                    scale_w, scale_h = 2160, 3840
+                    crf_val = "18"
+                else: # 1080p
+                    scale_w, scale_h = 1080, 1920
+                    crf_val = "21"
+                
+                if export_type == "srt":
+                    srt_content = generate_srt_content(segments, display_mode=display_mode, text_transform=text_transform)
+                    out_name = f"captions_{export_id}.srt"
+                    out_path = os.path.join(EXPORTS_DIR, out_name)
+                    with open(out_path, "w", encoding="utf-8") as f:
+                        f.write(srt_content)
+                    res = {"success": True, "download_url": f"/exports/{out_name}", "filename": out_name}
+
+                elif export_type == "vtt":
+                    vtt_content = generate_vtt_content(segments, display_mode=display_mode, text_transform=text_transform)
+                    out_name = f"captions_{export_id}.vtt"
+                    out_path = os.path.join(EXPORTS_DIR, out_name)
+                    with open(out_path, "w", encoding="utf-8") as f:
+                        f.write(vtt_content)
+                    res = {"success": True, "download_url": f"/exports/{out_name}", "filename": out_name}
+
+                elif export_type == "txt" or export_type == "md":
+                    ext = "md" if export_type == "md" else "txt"
+                    txt_content = "\n".join([f"[{format_timestamp_srt(s.get('start', 0))}] {s.get('text', '')}" for s in segments])
+                    out_name = f"transcript_{export_id}.{ext}"
+                    out_path = os.path.join(EXPORTS_DIR, out_name)
+                    with open(out_path, "w", encoding="utf-8") as f:
+                        f.write(txt_content)
+                    res = {"success": True, "download_url": f"/exports/{out_name}", "filename": out_name}
+
+                elif export_type == "docx":
+                    doc_lines = ["HARSH AI STUDIO - TRANSCRIPT EXPORT\n", "="*45 + "\n\n"]
+                    for s in segments:
+                        doc_lines.append(f"[{format_timestamp_srt(s.get('start', 0))} --> {format_timestamp_srt(s.get('end', 0))}]\n{s.get('text', '')}\n\n")
+                    out_name = f"transcript_{export_id}.doc"
+                    out_path = os.path.join(EXPORTS_DIR, out_name)
+                    with open(out_path, "w", encoding="utf-8") as f:
+                        f.write("".join(doc_lines))
+                    res = {"success": True, "download_url": f"/exports/{out_name}", "filename": out_name}
+
+                elif export_type == "alpha":
+                    ass_content = generate_ass_content(segments, style, play_res_x=scale_w, play_res_y=scale_h)
+                    temp_ass = os.path.join(EXPORTS_DIR, f"temp_{export_id}.ass")
+                    with open(temp_ass, "w", encoding="utf-8") as f:
+                        f.write(ass_content)
+
+                    out_name = f"alpha_captions_{export_id}_{resolution}.mp4"
+                    out_path = os.path.join(EXPORTS_DIR, out_name)
+                    ffmpeg = get_ffmpeg_path()
+                    escaped_ass = temp_ass.replace("\\", "/").replace(":", "\\:")
+                    sub_filter = f"subtitles='{escaped_ass}'"
+
+                    dur = segments[-1].get("end", 15.0) + 1.0 if segments else 15.0
+                    cmd = [
+                        ffmpeg, "-y",
+                        "-f", "lavfi", "-i", f"color=c=0x00FF00:s={scale_w}x{scale_h}:d={dur}:r=30",
+                        "-vf", sub_filter,
+                        "-c:v", "libx264", "-preset", "ultrafast", "-crf", crf_val,
+                        out_path
+                    ]
+                    startupinfo = None
+                    if os.name == 'nt':
+                        startupinfo = subprocess.STARTUPINFO()
+                        startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+                        startupinfo.wShowWindow = subprocess.SW_HIDE
+                    subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, startupinfo=startupinfo)
+                    if os.path.exists(temp_ass):
+                        try: os.remove(temp_ass)
+                        except: pass
+                    res = {"success": True, "download_url": f"/exports/{out_name}", "filename": out_name}
+
+                else: # MP4 burned video
+                    ass_content = generate_ass_content(segments, style, play_res_x=scale_w, play_res_y=scale_h)
+                    temp_ass = os.path.join(EXPORTS_DIR, f"temp_{export_id}.ass")
+                    with open(temp_ass, "w", encoding="utf-8") as f:
+                        f.write(ass_content)
+                        
+                    out_name = f"harsh_video_{export_id}_{resolution}.mp4"
+                    out_path = os.path.join(EXPORTS_DIR, out_name)
+                    
+                    if not video_path or not os.path.exists(video_path):
+                        video_path = os.path.join(STATIC_DIR, "assets", "demo_video.mp4")
+                        
+                    ffmpeg = get_ffmpeg_path()
+                    escaped_ass = temp_ass.replace("\\", "/").replace(":", "\\:")
+                    sub_filter = f"scale={scale_w}:{scale_h}:force_original_aspect_ratio=decrease,pad={scale_w}:{scale_h}:(ow-iw)/2:(oh-ih)/2,subtitles='{escaped_ass}'"
+                    
+                    cmd = [
+                        ffmpeg, "-y",
+                        "-i", video_path,
+                        "-vf", sub_filter,
+                        "-c:v", "libx264", "-preset", "veryfast", "-crf", crf_val,
+                        "-c:a", "aac", "-b:a", "192k",
+                        out_path
+                    ]
+                    startupinfo = None
+                    if os.name == 'nt':
+                        startupinfo = subprocess.STARTUPINFO()
+                        startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+                        startupinfo.wShowWindow = subprocess.SW_HIDE
+                    subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, startupinfo=startupinfo)
+                    
+                    if os.path.exists(temp_ass):
+                        try: os.remove(temp_ass)
+                        except: pass
+                        
+                    res = {"success": True, "download_url": f"/exports/{out_name}", "filename": out_name}
+
                 self.send_response(200)
                 self.send_header("Content-type", "application/json")
                 self.end_headers()
-                self.wfile.write(json.dumps({"success": True}).encode("utf-8"))
-                return
+                self.wfile.write(json.dumps(res).encode("utf-8"))
+            except Exception as e:
+                self.send_response(500)
+                self.send_header("Content-type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps({"success": False, "error": str(e)}).encode("utf-8"))
+            return
 
-        elif path == "/api/admin/users":
-            users = []
-            if os.path.exists(USERS_FILE):
-                try:
-                    with open(USERS_FILE, "r", encoding="utf-8") as f:
-                        users = json.load(f)
-                except:
-                    users = []
+        # Legacy login endpoint for backward compatibility
+        elif path == "/api/login":
+            content_length = int(self.headers.get('Content-Length', 0))
+            body = json.loads(self.rfile.read(content_length).decode('utf-8'))
+            username = body.get('username', '').strip()
+            password = body.get('password', '').strip()
+            
+            success = bool(username and len(username) >= 2)
+            user = db.get_or_create_user(f"{username}@creator.studio", username, "legacy") if success else None
+            session_id = db.create_session(user["id"]) if user else None
+            
             self.send_response(200)
-            self.send_header("Content-type", "application/json")
+            self.send_header('Content-type', 'application/json')
+            if session_id:
+                self.send_header("Set-Cookie", f"session_id={session_id}; Path=/; HttpOnly; SameSite=Lax; Max-Age=604800")
             self.end_headers()
-            self.wfile.write(json.dumps({"success": True, "count": len(users), "users": users}).encode("utf-8"))
+            self.wfile.write(json.dumps({"success": success, "username": username, "user": user, "session_id": session_id}).encode('utf-8'))
             return
 
         self.send_error(404, "API endpoint not found")
@@ -1251,10 +1323,9 @@ def generate_default_sample_video():
     
     if not os.path.exists(demo_video_path):
         ffmpeg = get_ffmpeg_path()
-        # Generate 15-second 1080x1920 9:16 sample video with audio tone
         cmd = [
             ffmpeg, "-y",
-            "-f", "lavfi", "-i", "color=c=0x131920:s=1080x1920:d=14.5:r=30",
+            "-f", "lavfi", "-i", "color=c=0x101626:s=1080x1920:d=14.5:r=30",
             "-f", "lavfi", "-i", "anoisesrc=d=14.5:c=pink:r=44100:a=0.05",
             "-c:v", "libx264", "-preset", "ultrafast", "-pix_fmt", "yuv420p",
             "-c:a", "aac", "-b:a", "128k",
@@ -1267,11 +1338,9 @@ def generate_default_sample_video():
             startupinfo.wShowWindow = subprocess.SW_HIDE
         try:
             subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, startupinfo=startupinfo)
-            print("Generated sample demo vertical video!")
         except Exception as e:
             print(f"Sample video creation note: {e}")
 
-    # Generate thumbnail
     if not os.path.exists(demo_thumb_path) and os.path.exists(demo_video_path):
         ffmpeg = get_ffmpeg_path()
         cmd = [ffmpeg, "-y", "-i", demo_video_path, "-vframes", "1", "-q:v", "2", demo_thumb_path]
@@ -1280,12 +1349,14 @@ def generate_default_sample_video():
         except: pass
 
 def start_server(port=7860):
+    db.init_db()
     generate_default_sample_video()
     server_address = ('0.0.0.0', port)
     httpd = ThreadedHTTPServer(server_address, HarshRequestHandler)
     print(f"\n=======================================================")
-    print(f"✨ Harsh Caption Generator Web Server is Running!")
+    print(f"⚡ Harsh AI Studio Backend Server Running!")
     print(f"🌐 Access URL: http://localhost:{port}")
+    print(f"👑 Admin Email: {ADMIN_EMAIL}")
     print(f"=======================================================\n")
     httpd.serve_forever()
 

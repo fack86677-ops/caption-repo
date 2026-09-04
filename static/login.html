@@ -801,6 +801,7 @@
         <div class="card-title">Welcome to Studio ⚡</div>
         <div class="card-sub">Sign in to access your video workspace & 100 free credits</div>
 
+        <!-- Google Primary Button -->
         <button class="btn-google" type="button" onclick="loginWithGoogle()">
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -811,33 +812,61 @@
           Continue with Google
         </button>
 
-        <div class="divider"><span>or sign in / register with username</span></div>
+        <div class="divider"><span>or sign in with email OTP</span></div>
 
-        <form id="login-form" autocomplete="on">
-          <div class="form-group">
-            <label for="username">Creator / Editor Name</label>
-            <input type="text" id="username" name="username" placeholder="e.g. Harsh, Rohit, Sarah" required autocomplete="username" />
+        <!-- Step 1: Email Form -->
+        <div id="otp-step-1">
+          <form id="email-otp-form" onsubmit="handleSendOtp(event)">
+            <div class="form-group">
+              <label for="login-email">Your Email Address</label>
+              <input type="email" id="login-email" placeholder="name@domain.com" required autocomplete="email" />
+            </div>
+            <div class="form-group">
+              <label for="login-name">Your Creator Name (Optional)</label>
+              <input type="text" id="login-name" placeholder="e.g. Harsh, Alex" autocomplete="name" />
+            </div>
+
+            <div id="otp-send-error" style="display:none; color:#F87171; font-size:12px; margin-bottom:12px; font-weight:600;"></div>
+
+            <button class="btn-primary" type="submit" id="send-otp-btn">
+              <span class="btn-label">
+                Send 6-Digit OTP Code &nbsp;
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Step 2: OTP Verification Form -->
+        <div id="otp-step-2" style="display:none;">
+          <div style="background:rgba(99,102,241,0.1); border:1px solid rgba(99,102,241,0.3); border-radius:12px; padding:12px; margin-bottom:16px; font-size:12px; color:#A5B4FC;">
+            <span>Code sent to <strong id="otp-sent-to-email" style="color:#fff;"></strong>. Check your inbox / spam folder.</span>
           </div>
-          <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" placeholder="Enter password (min 3 chars)" required autocomplete="current-password" />
-          </div>
 
-          <div id="error-msg">❌ Please enter a valid username and password.</div>
+          <form id="verify-otp-form" onsubmit="handleVerifyOtp(event)">
+            <div class="form-group">
+              <label for="login-otp-code">Enter 6-Digit Verification Code</label>
+              <input type="text" id="login-otp-code" maxlength="6" pattern="[0-9]{6}" placeholder="• • • • • •" required autofocus style="text-align:center; font-size:22px; font-weight:900; letter-spacing:6px; font-family:monospace;" />
+            </div>
 
-          <button class="btn-primary" type="submit" id="login-btn">
-            <span class="btn-label">
-              Enter Studio Workspace &nbsp;
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
-              </svg>
-            </span>
-            <div class="spinner"></div>
-          </button>
-        </form>
+            <div id="otp-verify-error" style="display:none; color:#F87171; font-size:12px; margin-bottom:12px; font-weight:600;"></div>
+
+            <button class="btn-primary" type="submit" id="verify-otp-btn">
+              <span class="btn-label">
+                Verify & Enter Studio &nbsp;
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </span>
+            </button>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px; font-size:12px;">
+              <button type="button" onclick="backToEmailStep()" style="background:none; border:none; color:#94A3B8; cursor:pointer; text-decoration:underline;">← Change Email</button>
+              <button type="button" id="resend-otp-btn" onclick="resendOtp()" style="background:none; border:none; color:#818CF8; cursor:pointer; font-weight:700;">Resend Code in <span id="resend-timer">60</span>s</button>
+            </div>
+          </form>
+        </div>
 
         <div class="demo-hint" style="margin-top:16px; font-size:12px; color:#A5B4FC; text-align:center;">
-          New accounts automatically unlock <strong>100 Free AI Credits</strong>!
+          Verified creators get <strong>100 Free AI Credits</strong> automatically!
         </div>
       </div>
     </div>
@@ -1184,80 +1213,169 @@
   </div>
 
   <script>
-    // If already logged in, redirect directly to studio
-    if (localStorage.getItem('isLoggedIn') === 'true') {
-      window.location.href = '/static/index.html';
-    }
+    let currentEmail = '';
+    let currentName = '';
+    let resendInterval = null;
+    let resendCountdown = 60;
 
-    const form = document.getElementById('login-form');
-    const errorMsg = document.getElementById('error-msg');
-    
-    function successLogin(userName, userEmail, userAge, userNiche) {
-      localStorage.setItem('isLoggedIn', 'true');
-      localStorage.setItem('hcg_username', userName || 'Creator');
-      if (userEmail) localStorage.setItem('hcg_email', userEmail);
-      if (userAge) localStorage.setItem('hcg_age', userAge);
-      if (userNiche) localStorage.setItem('hcg_niche', userNiche);
-      
-      // Assign 100 Free Credits on Verification
-      localStorage.setItem('hcg_credits', '100');
-      localStorage.setItem('hcg_credits_init', 'true');
-
-      // Send Instant Lead Notification to harshdhiman332@gmail.com
+    // Check if already authenticated via session
+    async function checkAuthStatus() {
       try {
-        fetch('/api/record_login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            name: userName || 'Creator',
-            email: userEmail || `${userName || 'creator'}@gmail.com`,
-            age: userAge || '20',
-            niche: userNiche || 'Reels & Shorts'
-          })
-        }).catch(() => {});
-      } catch(e) {}
-      
-      window.location.href = '/static/index.html';
+        const res = await fetch('/api/user/me', { credentials: 'include' });
+        const data = await res.json();
+        if (data && data.authenticated && data.user) {
+          localStorage.setItem('isLoggedIn', 'true');
+          localStorage.setItem('hcg_username', data.user.name || 'Creator');
+          localStorage.setItem('hcg_email', data.user.email || '');
+          localStorage.setItem('hcg_credits', String(data.user.credits || 100));
+          window.location.href = '/dashboard';
+        }
+      } catch (e) {}
     }
+    checkAuthStatus();
 
-    form.addEventListener('submit', async (e) => {
+    async function handleSendOtp(e) {
       e.preventDefault();
-      errorMsg.style.display = 'none';
-      const btn = document.getElementById('login-btn');
-      btn.classList.add('loading');
+      const emailInput = document.getElementById('login-email');
+      const nameInput = document.getElementById('login-name');
+      const errorDiv = document.getElementById('otp-send-error');
+      const btn = document.getElementById('send-otp-btn');
 
-      const username = document.getElementById('username').value.trim();
-      const password = document.getElementById('password').value.trim();
+      currentEmail = emailInput.value.trim().toLowerCase();
+      currentName = nameInput.value.trim() || 'Creator';
+
+      if (!currentEmail || !currentEmail.includes('@')) {
+        errorDiv.textContent = 'Please enter a valid email address.';
+        errorDiv.style.display = 'block';
+        return;
+      }
+
+      errorDiv.style.display = 'none';
+      btn.disabled = true;
+      btn.innerHTML = `<span class="btn-label">Sending 6-Digit Code... ⏳</span>`;
 
       try {
-        const resp = await fetch('/api/login', {
+        const res = await fetch('/api/auth/send-otp', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username, password })
+          body: JSON.stringify({ email: currentEmail, name: currentName })
         });
-        const data = await resp.json();
+        const data = await res.json();
 
-        if (data && data.success) {
-          successLogin(username);
+        if (data.success) {
+          document.getElementById('otp-step-1').style.display = 'none';
+          document.getElementById('otp-step-2').style.display = 'block';
+          document.getElementById('otp-sent-to-email').textContent = currentEmail;
+          document.getElementById('login-otp-code').value = '';
+          document.getElementById('login-otp-code').focus();
+          startResendTimer();
         } else {
-          if (username.length >= 2) {
-            successLogin(username);
-          } else {
-            errorMsg.style.display = 'block';
-            btn.classList.remove('loading');
-          }
+          errorDiv.textContent = data.error || 'Failed to send OTP code. Please try again.';
+          errorDiv.style.display = 'block';
         }
       } catch (err) {
-        if (username.length >= 2) {
-          successLogin(username);
-        } else {
-          errorMsg.style.display = 'block';
-          btn.classList.remove('loading');
-        }
+        errorDiv.textContent = 'Network error: ' + err.message;
+        errorDiv.style.display = 'block';
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<span class="btn-label">Send 6-Digit OTP Code &nbsp;<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>`;
       }
-    });
+    }
 
-    // ── Official Google OAuth 2.0 Flow ──
+    async function handleVerifyOtp(e) {
+      e.preventDefault();
+      const otpInput = document.getElementById('login-otp-code');
+      const errorDiv = document.getElementById('otp-verify-error');
+      const btn = document.getElementById('verify-otp-btn');
+      const otpCode = otpInput.value.trim();
+
+      if (!otpCode || otpCode.length < 6) {
+        errorDiv.textContent = 'Please enter the complete 6-digit verification code.';
+        errorDiv.style.display = 'block';
+        return;
+      }
+
+      errorDiv.style.display = 'none';
+      btn.disabled = true;
+      btn.innerHTML = `<span class="btn-label">Verifying Code... ⏳</span>`;
+
+      try {
+        const res = await fetch('/api/auth/verify-otp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ email: currentEmail, otp: otpCode, name: currentName })
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          localStorage.setItem('isLoggedIn', 'true');
+          localStorage.setItem('hcg_username', data.name || currentName || 'Creator');
+          localStorage.setItem('hcg_email', data.email || currentEmail);
+          localStorage.setItem('hcg_credits', String(data.credits || 100));
+          window.location.href = '/dashboard';
+        } else {
+          errorDiv.textContent = data.error || 'Invalid verification code. Please check and try again.';
+          errorDiv.style.display = 'block';
+        }
+      } catch (err) {
+        errorDiv.textContent = 'Verification error: ' + err.message;
+        errorDiv.style.display = 'block';
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<span class="btn-label">Verify & Enter Studio &nbsp;<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>`;
+      }
+    }
+
+    function startResendTimer() {
+      if (resendInterval) clearInterval(resendInterval);
+      resendCountdown = 60;
+      const resendBtn = document.getElementById('resend-otp-btn');
+      resendBtn.disabled = true;
+      resendBtn.style.opacity = '0.6';
+      
+      resendInterval = setInterval(() => {
+        resendCountdown--;
+        document.getElementById('resend-timer').textContent = resendCountdown;
+        if (resendCountdown <= 0) {
+          clearInterval(resendInterval);
+          resendBtn.disabled = false;
+          resendBtn.style.opacity = '1';
+          resendBtn.innerHTML = 'Resend Code Now';
+        }
+      }, 1000);
+    }
+
+    async function resendOtp() {
+      if (resendCountdown > 0) return;
+      const errorDiv = document.getElementById('otp-verify-error');
+      errorDiv.style.display = 'none';
+      try {
+        const res = await fetch('/api/auth/send-otp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: currentEmail, name: currentName })
+        });
+        const data = await res.json();
+        if (data.success) {
+          startResendTimer();
+        } else {
+          errorDiv.textContent = data.error || 'Failed to resend code.';
+          errorDiv.style.display = 'block';
+        }
+      } catch (e) {
+        errorDiv.textContent = 'Error: ' + e.message;
+        errorDiv.style.display = 'block';
+      }
+    }
+
+    function backToEmailStep() {
+      if (resendInterval) clearInterval(resendInterval);
+      document.getElementById('otp-step-2').style.display = 'none';
+      document.getElementById('otp-step-1').style.display = 'block';
+    }
+
+    // ── Google OAuth Flow ──
     let selectedGoogleUser = { name: '', email: '' };
 
     function loginWithGoogle() {
@@ -1287,7 +1405,7 @@
       const email = document.getElementById('manual-google-email').value.trim();
       let name = document.getElementById('manual-google-name').value.trim();
       if (!email || !email.includes('@')) {
-        alert('Kripya sahi Gmail address enter karein.');
+        alert('Please enter a valid Gmail address.');
         return;
       }
       if (!name) {
@@ -1309,14 +1427,14 @@
       }, 150);
     }
 
-    function handleCompleteGoogleAuth(e) {
+    async function handleCompleteGoogleAuth(e) {
       e.preventDefault();
       const age = parseInt(document.getElementById('auth-user-age').value);
       const niche = document.getElementById('auth-user-niche').value;
       const errBox = document.getElementById('g-profile-error');
 
       if (!age || isNaN(age) || age < 13 || age > 100) {
-        errBox.textContent = "⚠️ Kripya apni sahi Age enter karein (min 13 years).";
+        errBox.textContent = "⚠️ Please enter a valid age (min 13 years).";
         errBox.style.display = 'block';
         return;
       }
@@ -1325,10 +1443,38 @@
       btn.disabled = true;
       btn.innerHTML = `<span>Connecting Google Profile & Adding 100 Credits... ⏳</span>`;
 
-      setTimeout(() => {
-        closeGoogleAuthModal();
-        successLogin(selectedGoogleUser.name, selectedGoogleUser.email, String(age), niche);
-      }, 600);
+      try {
+        const res = await fetch('/api/auth/google', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({
+            name: selectedGoogleUser.name,
+            email: selectedGoogleUser.email,
+            age: String(age),
+            niche: niche
+          })
+        });
+        const data = await res.json();
+        if (data.success) {
+          localStorage.setItem('isLoggedIn', 'true');
+          localStorage.setItem('hcg_username', data.name || selectedGoogleUser.name || 'Creator');
+          localStorage.setItem('hcg_email', data.email || selectedGoogleUser.email);
+          localStorage.setItem('hcg_credits', String(data.credits || 100));
+          closeGoogleAuthModal();
+          window.location.href = '/dashboard';
+        } else {
+          errBox.textContent = data.error || 'Google login failed.';
+          errBox.style.display = 'block';
+          btn.disabled = false;
+          btn.innerHTML = `<span>Enter Studio Workspace →</span>`;
+        }
+      } catch (err) {
+        errBox.textContent = 'Error: ' + err.message;
+        errBox.style.display = 'block';
+        btn.disabled = false;
+        btn.innerHTML = `<span>Enter Studio Workspace →</span>`;
+      }
     }
 
     function quickLoginDemo(name) {

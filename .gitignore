@@ -17,5 +17,7 @@ exports/*
 
 # Environment / Local settings
 .env
+studio.db
+*.db
 .DS_Store
 Thumbs.db

@@ -270,12 +270,24 @@ async function startUploadAndTranscription(file, options) {
       }
     }
 
-    // Fallback if backend AI model is initializing or on Vercel
-    if (!transData || !transData.segments || transData.segments.length === 0) {
-      transData = {
-        success: true,
-        segments: generateSmartFallbackSegments(duration, options)
-      };
+    // Check if transcription returned real segments or error
+    if (transData && transData.error) {
+      throw new Error(transData.error);
+    }
+
+    const realSegments = (transData && transData.segments) ? transData.segments : [];
+    if (realSegments.length === 0) {
+      if (window.showToast) {
+        window.showToast("Note: No clear spoken speech detected in this video. You can add captions manually in the timeline editor.", false);
+      }
+    }
+
+    if (transData && transData.remaining_credits !== undefined) {
+      localStorage.setItem('hcg_credits', String(transData.remaining_credits));
+      const credDisplay = document.getElementById('header-credits');
+      if (credDisplay) credDisplay.textContent = transData.remaining_credits;
+      const sideCred = document.getElementById('sidebar-credits-display');
+      if (sideCred) sideCred.textContent = transData.remaining_credits;
     }
 
     updateProgress(90, "Synchronizing word-level animations & templates...");
@@ -284,7 +296,7 @@ async function startUploadAndTranscription(file, options) {
 
     if (processingModal) processingModal.classList.add('hidden');
 
-    // Launch Studio Editor with project data
+    // Launch Studio Editor with real project data
     const project = {
       id: `proj_${Date.now()}`,
       title: uploadData.filename.replace(/\.[^/.]+$/, ""),
@@ -294,7 +306,7 @@ async function startUploadAndTranscription(file, options) {
       created_at: "Just now",
       language: options.language === 'hi' ? (options.script === 'roman' ? 'Hinglish' : 'Hindi (Native)') : 'English',
       duration: duration,
-      segments: transData.segments || [],
+      segments: realSegments,
       style: { ...TEMPLATES[0].style }
     };
 
@@ -307,49 +319,6 @@ async function startUploadAndTranscription(file, options) {
     }
     if (processingModal) processingModal.classList.add('hidden');
   }
-}
-
-function generateSmartFallbackSegments(totalDur, options) {
-  const isHindi = options.language === 'hi' && options.script === 'devanagari';
-  const isHinglish = options.language === 'hi' && options.script === 'roman';
-  
-  const hinglishSamples = [
-    { text: "Welcome to Harsh AI Captions", words: [{word:"Welcome", highlight:true}, {word:"to"}, {word:"Harsh", highlight:true}, {word:"AI"}, {word:"Captions", emoji:"✨"}] },
-    { text: "Viral content banana ab super easy hai", words: [{word:"Viral", highlight:true}, {word:"content"}, {word:"banana"}, {word:"ab"}, {word:"super", highlight:true}, {word:"easy"}, {word:"hai", emoji:"🔥"}] },
-    { text: "Double click any word to customize timing", words: [{word:"Double"}, {word:"click", highlight:true}, {word:"any"}, {word:"word"}, {word:"to"}, {word:"customize"}, {word:"timing", emoji:"⚡"}] },
-    { text: "High quality export in 1080p and 4K", words: [{word:"High", highlight:true}, {word:"quality"}, {word:"export"}, {word:"in"}, {word:"1080p", highlight:true}, {word:"and"}, {word:"4K", emoji:"🚀"}] }
-  ];
-
-  const segments = [];
-  const count = Math.max(1, Math.min(8, Math.floor(totalDur / 3.2)));
-  const segDur = totalDur / count;
-
-  for (let i = 0; i < count; i++) {
-    const sTime = Number((i * segDur).toFixed(2));
-    const eTime = Number(((i + 1) * segDur - 0.1).toFixed(2));
-    const sample = hinglishSamples[i % hinglishSamples.length];
-    
-    const wordCount = sample.words.length;
-    const wDur = (eTime - sTime) / wordCount;
-    
-    const timedWords = sample.words.map((w, wIdx) => ({
-      word: w.word,
-      start: Number((sTime + wIdx * wDur).toFixed(2)),
-      end: Number((sTime + (wIdx + 1) * wDur - 0.05).toFixed(2)),
-      highlight: !!w.highlight,
-      emoji: w.emoji || ""
-    }));
-
-    segments.push({
-      id: i + 1,
-      start: sTime,
-      end: eTime,
-      text: sample.text,
-      words: timedWords
-    });
-  }
-
-  return segments;
 }
 
 function openStudioEditor(project) {

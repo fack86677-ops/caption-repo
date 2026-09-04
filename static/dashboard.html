@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Creator Dashboard – Harsh AI Studio</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%236366F1'><path d='M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5'/></svg>">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'] },
+          colors: {
+            brand: {
+              primary: '#6366F1',
+              primaryHover: '#4F46E5',
+              cyan: '#06B6D4',
+              pink: '#EC4899',
+              green: '#10B981',
+              dark: '#06080F',
+              card: '#0B0F19',
+              cardElevated: '#101626',
+              border: '#1E293B'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { background-color: #06080F; color: #F8FAFC; }
+    .glow-bg {
+      position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
+      width: 900px; height: 400px;
+      background: radial-gradient(ellipse at center, rgba(99, 102, 241, 0.15) 0%, rgba(6, 182, 212, 0.05) 50%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+    .grid-pattern {
+      background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col grid-pattern selection:bg-[#6366F1] selection:text-white">
+  <div class="glow-bg"></div>
+
+  <!-- ── Top Navbar ── -->
+  <header class="sticky top-0 z-40 bg-[#06080F]/90 backdrop-blur-xl border-b border-[#1E293B] px-6 lg:px-12 py-3.5 flex items-center justify-between">
+    <div class="flex items-center gap-8">
+      <a href="/dashboard" class="flex items-center gap-3 text-decoration-none">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#6366F1] to-[#A855F7] flex items-center justify-center text-white font-black text-lg shadow-[0_0_20px_rgba(99,102,241,0.5)]">
+          ⚡
+        </div>
+        <span class="text-lg font-extrabold text-white tracking-tight flex items-center">
+          Harsh AI Studio<span class="w-2 h-2 rounded-full bg-[#06B6D4] ml-1.5 shadow-[0_0_8px_#06B6D4]"></span>
+        </span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-6">
+        <a href="/dashboard" class="text-sm font-bold text-[#818CF8] bg-[#6366F1]/10 px-3 py-1.5 rounded-lg border border-[#6366F1]/30">Dashboard</a>
+        <a href="/editor" class="text-sm font-medium text-[#94A3B8] hover:text-white transition">Studio Workspace</a>
+        <a href="/pricing" class="text-sm font-medium text-[#94A3B8] hover:text-white transition">Pricing & Plans</a>
+        <a href="/admin" id="nav-admin-link" class="hidden text-sm font-bold text-[#EC4899] bg-[#EC4899]/10 px-2.5 py-1 rounded-lg border border-[#EC4899]/30">Admin Panel</a>
+      </nav>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <!-- Credits Counter -->
+      <a href="/pricing" class="flex items-center gap-1.5 px-3.5 py-1.5 bg-[#101626] border border-[#6366F1]/40 rounded-xl text-xs font-bold text-[#A5B4FC] hover:bg-[#172033] transition shadow-[0_0_15px_rgba(99,102,241,0.2)]">
+        <span>⚡</span>
+        <span id="nav-credits-val" class="font-extrabold text-white">100</span>
+        <span class="hidden sm:inline">AI Credits</span>
+      </a>
+
+      <!-- Quick Action: Launch Studio -->
+      <a href="/editor" class="hidden sm:flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] hover:from-[#4F46E5] hover:to-[#7C3AED] text-white font-bold text-xs shadow-[0_0_20px_rgba(99,102,241,0.4)] transition transform hover:-translate-y-0.5">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+        <span>New Project</span>
+      </a>
+
+      <!-- User Menu -->
+      <div class="flex items-center gap-3 pl-2 border-l border-[#1E293B]">
+        <div id="user-avatar" class="w-8 h-8 rounded-full bg-gradient-to-tr from-[#6366F1] to-[#06B6D4] flex items-center justify-center text-xs font-black text-white border border-white/20">
+          C
+        </div>
+        <div class="hidden sm:block text-left">
+          <div id="user-display-name" class="text-xs font-bold text-white leading-tight">Creator</div>
+          <div id="user-display-email" class="text-[10px] font-medium text-[#64748B] leading-tight">creator@gmail.com</div>
+        </div>
+        <button onclick="handleLogout()" class="p-1.5 text-[#94A3B8] hover:text-red-400 rounded-lg hover:bg-[#101626] transition" title="Log Out">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── Main Dashboard Content ── -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-6 lg:px-12 py-8 relative z-10 space-y-8">
+    
+    <!-- Welcome Header Banner -->
+    <div class="p-6 md:p-8 bg-gradient-to-r from-[#101626] via-[#0B0F19] to-[#101626] border border-[#1E293B] rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-xl">
+      <div>
+        <div class="flex items-center gap-2 mb-2">
+          <span class="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold tracking-wider uppercase bg-[#10B981]/15 text-[#10B981] border border-[#10B981]/30">CREATOR PRO</span>
+          <span id="role-badge" class="hidden px-2.5 py-0.5 rounded-full text-[11px] font-extrabold tracking-wider uppercase bg-[#EC4899]/15 text-[#EC4899] border border-[#EC4899]/30">ADMIN</span>
+        </div>
+        <h1 class="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
+          Welcome back, <span id="welcome-name" class="text-transparent bg-clip-text bg-gradient-to-r from-[#818CF8] to-[#06B6D4]">Creator</span>! 🚀
+        </h1>
+        <p class="text-sm text-[#94A3B8] mt-1">
+          Create viral Alex Hormozi captions, transliterate Hindi to Roman script, and export high-resolution 4K reels.
+        </p>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="/editor" class="px-5 py-3 rounded-xl bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] hover:from-[#4F46E5] hover:to-[#7C3AED] text-white font-extrabold text-sm shadow-[0_0_25px_rgba(99,102,241,0.5)] transition flex items-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <span>Launch Caption Studio</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Stats & Analytics Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <!-- Card 1: AI Credits -->
+      <div class="p-5 bg-[#0B0F19] border border-[#1E293B] hover:border-[#6366F1]/50 rounded-2xl transition shadow-lg">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-bold text-[#94A3B8] uppercase tracking-wider">AI Credits Balance</span>
+          <div class="w-8 h-8 rounded-lg bg-[#6366F1]/15 text-[#818CF8] flex items-center justify-center text-sm font-bold">⚡</div>
+        </div>
+        <div class="text-3xl font-black text-white tracking-tight" id="stat-credits">100</div>
+        <div class="mt-3 flex items-center justify-between text-xs">
+          <span class="text-[#10B981] font-semibold">10 credits / transcription</span>
+          <a href="/pricing" class="text-[#818CF8] hover:underline font-bold">Recharge →</a>
+        </div>
+      </div>
+
+      <!-- Card 2: Processed Videos -->
+      <div class="p-5 bg-[#0B0F19] border border-[#1E293B] hover:border-[#06B6D4]/50 rounded-2xl transition shadow-lg">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-bold text-[#94A3B8] uppercase tracking-wider">Videos Transcribed</span>
+          <div class="w-8 h-8 rounded-lg bg-[#06B6D4]/15 text-[#06B6D4] flex items-center justify-center text-sm font-bold">🎥</div>
+        </div>
+        <div class="text-3xl font-black text-white tracking-tight" id="stat-videos">0</div>
+        <div class="mt-3 text-xs text-[#94A3B8]">
+          <span class="text-[#06B6D4] font-semibold">Faster-Whisper</span> Neural STT
+        </div>
+      </div>
+
+      <!-- Card 3: Export Formats -->
+      <div class="p-5 bg-[#0B0F19] border border-[#1E293B] hover:border-[#EC4899]/50 rounded-2xl transition shadow-lg">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-bold text-[#94A3B8] uppercase tracking-wider">Templates & Styles</span>
+          <div class="w-8 h-8 rounded-lg bg-[#EC4899]/15 text-[#EC4899] flex items-center justify-center text-sm font-bold">🎨</div>
+        </div>
+        <div class="text-3xl font-black text-white tracking-tight">22+</div>
+        <div class="mt-3 text-xs text-[#94A3B8]">
+          Hormozi, MrBeast, Neon Glow & more
+        </div>
+      </div>
+
+      <!-- Card 4: Account Status -->
+      <div class="p-5 bg-[#0B0F19] border border-[#1E293B] hover:border-[#10B981]/50 rounded-2xl transition shadow-lg">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-bold text-[#94A3B8] uppercase tracking-wider">Export Quality</span>
+          <div class="w-8 h-8 rounded-lg bg-[#10B981]/15 text-[#10B981] flex items-center justify-center text-sm font-bold">🌟</div>
+        </div>
+        <div class="text-2xl font-black text-white tracking-tight">4K 60FPS</div>
+        <div class="mt-3 text-xs text-[#10B981] font-semibold">
+          Alpha Channel & Burned MP4
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Projects & Jobs Section -->
+    <div class="space-y-4">
+      <div class="flex items-center justify-between">
+        <h2 class="text-lg font-extrabold text-white flex items-center gap-2">
+          <span>📁</span>
+          <span>Recent Projects & Transcriptions</span>
+        </h2>
+        <a href="/editor" class="text-xs font-bold text-[#818CF8] hover:underline">Open Workspace →</a>
+      </div>
+
+      <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <!-- Dynamic Projects will be injected here -->
+        <div class="p-6 bg-[#0B0F19] border border-[#1E293B] rounded-2xl col-span-full text-center py-12">
+          <div class="text-3xl mb-2">🎬</div>
+          <div class="text-base font-bold text-white mb-1">No saved projects yet</div>
+          <div class="text-xs text-[#94A3B8] max-w-sm mx-auto mb-4">
+            Upload your first video to transcribe speech into viral animated captions!
+          </div>
+          <a href="/editor" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#6366F1] text-white text-xs font-bold shadow-lg hover:bg-[#4F46E5] transition">
+            <span>+ Create First Project</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ── Footer ── -->
+  <footer class="mt-auto border-t border-[#1E293B] py-6 px-6 text-center text-xs text-[#64748B]">
+    © 2026 Harsh AI Studio • Ultra-Premium AI Video & Caption Suite
+  </footer>
+
+  <script>
+    let currentUser = null;
+
+    async function loadDashboard() {
+      try {
+        const res = await fetch('/api/user/dashboard-data', { credentials: 'include' });
+        if (res.status === 401) {
+          // If not logged in, check localStorage or redirect
+          const localUser = localStorage.getItem('hcg_username');
+          const localEmail = localStorage.getItem('hcg_email');
+          if (!localUser && !localEmail) {
+            window.location.href = '/login.html';
+            return;
+          }
+          // Legacy session fallback
+          document.getElementById('welcome-name').textContent = localUser || 'Creator';
+          document.getElementById('user-display-name').textContent = localUser || 'Creator';
+          document.getElementById('user-display-email').textContent = localEmail || 'creator@gmail.com';
+          document.getElementById('stat-credits').textContent = localStorage.getItem('hcg_credits') || '100';
+          document.getElementById('nav-credits-val').textContent = localStorage.getItem('hcg_credits') || '100';
+          return;
+        }
+
+        const data = await res.json();
+        if (!data.success) {
+          window.location.href = '/login.html';
+          return;
+        }
+
+        currentUser = data.user;
+        const credits = currentUser.credits !== undefined ? currentUser.credits : 100;
+
+        // Update UI
+        document.getElementById('welcome-name').textContent = currentUser.name || 'Creator';
+        document.getElementById('user-display-name').textContent = currentUser.name || 'Creator';
+        document.getElementById('user-display-email').textContent = currentUser.email || '';
+        document.getElementById('user-avatar').textContent = (currentUser.name || 'C').charAt(0).toUpperCase();
+        document.getElementById('stat-credits').textContent = credits;
+        document.getElementById('nav-credits-val').textContent = credits;
+        document.getElementById('stat-videos').textContent = (data.jobs ? data.jobs.length : 0) + (data.projects ? data.projects.length : 0);
+
+        if (currentUser.role === 'admin') {
+          document.getElementById('nav-admin-link').classList.remove('hidden');
+          document.getElementById('role-badge').classList.remove('hidden');
+        }
+
+        // Render Projects
+        const projects = data.projects || [];
+        const container = document.getElementById('projects-container');
+        if (projects.length > 0) {
+          container.innerHTML = projects.map(p => `
+            <div class="p-5 bg-[#0B0F19] border border-[#1E293B] hover:border-[#6366F1]/40 rounded-2xl transition flex flex-col justify-between group">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-[#6366F1]/15 text-[#818CF8] uppercase">
+                    ${p.language || 'Hinglish'}
+                  </span>
+                  <span class="text-[11px] text-[#64748B] font-medium">${p.created_at || 'Recent'}</span>
+                </div>
+                <h3 class="text-sm font-bold text-white mb-1 truncate">${p.title || 'Untitled Video'}</h3>
+                <p class="text-xs text-[#64748B] truncate">${p.filename || 'video.mp4'}</p>
+              </div>
+              <div class="mt-4 pt-3 border-t border-[#1E293B]/60 flex items-center justify-between">
+                <span class="text-xs text-[#94A3B8] font-medium">${p.duration ? p.duration + 's' : 'Ready'}</span>
+                <a href="/editor" class="text-xs font-bold text-[#818CF8] hover:text-white flex items-center gap-1">
+                  <span>Open Editor</span>
+                  <span>→</span>
+                </a>
+              </div>
+            </div>
+          `).join('');
+        }
+      } catch (err) {
+        console.error("Dashboard load error:", err);
+      }
+    }
+
+    async function handleLogout() {
+      try {
+        await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+      } catch (e) {}
+      localStorage.clear();
+      window.location.href = '/login.html';
+    }
+
+    loadDashboard();
+  </script>
+</body>
+</html>
