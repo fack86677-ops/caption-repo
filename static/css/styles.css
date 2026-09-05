@@ -1,6 +1,7 @@
 /* ==========================================================================
-   Harsh AI Studio – Ultra-Modern Creator SaaS Design System
-   World-class Aesthetics: Dark Obsidian, Frosted Glassmorphism, Neon Auroras
+   Harsh AI Studio – Ultra-Modern Creator SaaS Design System & Animations
+   World-class Aesthetics: Dark Obsidian, Frosted Glassmorphism, Neon Auroras,
+   Dynamic Viral Subtitle Pop/Bounce/Glow/Wave/Rubber Keyframe Animations
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&family=Montserrat:wght@700;800;900&family=Poppins:wght@600;700;800;900&family=Bebas+Neue&family=Outfit:wght@600;700;800;900&family=Oswald:wght@600;700&display=swap');
@@ -13,21 +14,21 @@
   --bg-surface-elevated: #131B34;
   --bg-surface-hover: #182242;
   
-  --border-subtle: rgba(255, 255, 255, 0.07);
-  --border-glass: rgba(255, 255, 255, 0.12);
-  --border-focus: rgba(99, 102, 241, 0.5);
-  --border-glow: rgba(99, 102, 241, 0.4);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-glass: rgba(255, 255, 255, 0.14);
+  --border-focus: rgba(99, 102, 241, 0.6);
+  --border-glow: rgba(99, 102, 241, 0.45);
 
   --primary: #6366F1;
   --primary-hover: #4F46E5;
   --primary-gradient: linear-gradient(135deg, #6366F1 0%, #A855F7 50%, #EC4899 100%);
-  --primary-glow: rgba(99, 102, 241, 0.45);
+  --primary-glow: rgba(99, 102, 241, 0.5);
   
   --accent-cyan: #06B6D4;
-  --accent-cyan-glow: rgba(6, 182, 212, 0.4);
+  --accent-cyan-glow: rgba(6, 182, 212, 0.5);
   --accent-pink: #EC4899;
   --accent-green: #10B981;
-  --accent-green-glow: rgba(16, 185, 129, 0.4);
+  --accent-green-glow: rgba(16, 185, 129, 0.5);
   --accent-amber: #F59E0B;
   
   --text-main: #FFFFFF;
@@ -55,16 +56,17 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ── Ambient Background Mesh & Grid ── */
+/* ── Ambient Background Mesh & Dynamic Flowing Auroras ── */
 .ambient-mesh {
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 0;
   background-image:
-    radial-gradient(at 10% 10%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
-    radial-gradient(at 90% 10%, rgba(236, 72, 153, 0.09) 0px, transparent 50%),
-    radial-gradient(at 50% 90%, rgba(6, 182, 212, 0.08) 0px, transparent 50%);
+    radial-gradient(at 10% 10%, rgba(99, 102, 241, 0.16) 0px, transparent 50%),
+    radial-gradient(at 90% 10%, rgba(236, 72, 153, 0.12) 0px, transparent 50%),
+    radial-gradient(at 50% 90%, rgba(6, 182, 212, 0.12) 0px, transparent 50%);
+  animation: meshDrift 16s ease-in-out infinite alternate;
 }
 
 .ambient-grid {
@@ -73,12 +75,12 @@ body {
   pointer-events: none;
   z-index: 0;
   background-image: 
-    linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+    linear-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
   background-size: 36px 36px;
 }
 
-/* ── Custom Sleek Scrollbar ── */
+/* ── Custom Sleek Neon Scrollbar ── */
 ::-webkit-scrollbar {
   width: 5px;
   height: 5px;
@@ -87,39 +89,40 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.14);
   border-radius: 999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(99, 102, 241, 0.5);
+  background: rgba(99, 102, 241, 0.65);
 }
 
 /* ── Frosted Glass Utilities ── */
 .glass-panel {
-  background: rgba(11, 15, 29, 0.75);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  background: rgba(11, 15, 29, 0.8);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
   border: 1px solid var(--border-subtle);
 }
 
 .glass-card {
-  background: rgba(16, 22, 44, 0.65);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(16, 22, 44, 0.7);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border: 1px solid var(--border-glass);
   box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .glass-card:hover {
-  background: rgba(22, 30, 60, 0.85);
-  border-color: rgba(99, 102, 241, 0.4);
-  box-shadow: 0 20px 40px -15px rgba(99, 102, 241, 0.2);
-  transform: translateY(-2px);
+  background: rgba(24, 33, 66, 0.9);
+  border-color: rgba(99, 102, 241, 0.5);
+  box-shadow: 0 20px 45px -12px rgba(99, 102, 241, 0.3);
+  transform: translateY(-3px);
 }
 
-/* ── Modern Action Buttons ── */
+/* ── Animated Shimmer & Glow Action Buttons ── */
 .btn-glow-primary {
   background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 50%, #EC4899 100%);
+  background-size: 200% 200%;
   color: #FFFFFF;
   font-weight: 800;
   padding: 8px 18px;
@@ -129,30 +132,31 @@ body {
   gap: 8px;
   font-size: 13px;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   box-shadow: 0 0 25px rgba(99, 102, 241, 0.45);
   position: relative;
   overflow: hidden;
+  animation: gradientShift 6s ease infinite;
 }
 .btn-glow-primary::after {
   content: '';
   position: absolute;
-  top: 0; left: -100%; width: 100%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
-  transition: 0.5s;
-}
-.btn-glow-primary:hover::after {
-  left: 100%;
+  top: 0; left: -100%; width: 60%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transform: skewX(-20deg);
+  animation: btnSheenSweep 3.5s infinite ease-in-out;
 }
 .btn-glow-primary:hover {
-  background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 50%, #DB2777 100%);
-  box-shadow: 0 0 35px rgba(99, 102, 241, 0.7);
-  transform: translateY(-1px);
+  box-shadow: 0 0 35px rgba(99, 102, 241, 0.8), 0 0 15px rgba(236, 72, 153, 0.5);
+  transform: translateY(-2px) scale(1.02);
+}
+.btn-glow-primary:active {
+  transform: translateY(0px) scale(0.98);
 }
 
 .btn-glass {
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.05);
   color: var(--text-primary);
   border: 1px solid var(--border-glass);
   font-weight: 600;
@@ -164,38 +168,47 @@ body {
   font-size: 12px;
   cursor: pointer;
   backdrop-filter: blur(12px);
-  transition: all 0.18s ease;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .btn-glass:hover {
-  background: rgba(255, 255, 255, 0.09);
-  border-color: rgba(99, 102, 241, 0.4);
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(99, 102, 241, 0.5);
   color: #FFF;
+  transform: translateY(-1px);
+}
+.btn-glass:active {
+  transform: scale(0.97);
 }
 
-/* ── Dropzone Upgrade ── */
+/* ── Dropzone Cyber Glowing Border ── */
 .dropzone-cyber {
-  border: 2px dashed rgba(99, 102, 241, 0.3);
+  border: 2px dashed rgba(99, 102, 241, 0.35);
   border-radius: 24px;
-  background: linear-gradient(180deg, rgba(16, 22, 44, 0.6) 0%, rgba(8, 12, 27, 0.8) 100%);
+  background: linear-gradient(180deg, rgba(16, 22, 44, 0.7) 0%, rgba(8, 12, 27, 0.85) 100%);
   backdrop-filter: blur(20px);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
+  overflow: hidden;
 }
 .dropzone-cyber:hover, .dropzone-cyber.dragover {
   border-color: #6366F1;
-  background: linear-gradient(180deg, rgba(99, 102, 241, 0.12) 0%, rgba(16, 22, 44, 0.8) 100%);
-  box-shadow: 0 0 50px rgba(99, 102, 241, 0.25);
-  transform: scale(1.008);
+  background: linear-gradient(180deg, rgba(99, 102, 241, 0.16) 0%, rgba(16, 22, 44, 0.9) 100%);
+  box-shadow: 0 0 50px rgba(99, 102, 241, 0.35);
+  transform: scale(1.01);
 }
 
 /* ── Live Video Viewport Container ── */
 #player-frame {
   background: #000000;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.9), 0 0 40px rgba(99, 102, 241, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.9), 0 0 45px rgba(99, 102, 241, 0.2);
+  transition: box-shadow 0.3s ease;
+}
+#player-frame:hover {
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.95), 0 0 55px rgba(99, 102, 241, 0.35);
 }
 
-/* ── Video Player Safe Zones ── */
+/* ── Safe Zone Overlay ── */
 .safe-zone-overlay {
   position: absolute;
   inset: 0;
@@ -210,7 +223,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  opacity: 0.6;
+  opacity: 0.65;
   pointer-events: none;
 }
 .safe-zone-bottom-bar {
@@ -221,7 +234,7 @@ body {
   height: 44px;
   border-radius: 8px;
   border: 1px dashed rgba(239, 68, 68, 0.5);
-  background: rgba(239, 68, 68, 0.06);
+  background: rgba(239, 68, 68, 0.08);
   display: flex;
   align-items: center;
   padding-left: 10px;
@@ -231,7 +244,10 @@ body {
   pointer-events: none;
 }
 
-/* ── Draggable Caption Box on Video Preview ── */
+/* ==========================================================================
+   VIRAL CAPTION ENGINE ANIMATIONS & HORIZONTAL STYLING
+   ========================================================================== */
+
 .caption-render-container {
   position: absolute;
   transform: translate(-50%, -50%);
@@ -269,14 +285,14 @@ body {
 
 .caption-render-container:hover {
   border-color: rgba(99, 102, 241, 0.7);
-  background: rgba(0, 0, 0, 0.35);
+  background: rgba(0, 0, 0, 0.4);
 }
 .caption-render-container.dragging {
   border-color: #10B981;
-  box-shadow: 0 0 16px rgba(16, 185, 129, 0.5);
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.6);
 }
 
-/* Word elements - SINGLE HORIZONTAL LINE, NO VERTICAL/DIAGONAL JUMPING */
+/* Word elements - STRICT SINGLE HORIZONTAL LINE with High Energy Animations */
 .word-span {
   display: inline-flex;
   align-items: center;
@@ -291,7 +307,91 @@ body {
   transform-origin: center center;
 }
 
-.word-span.active {
+/* ── 1. Pop In Animation (Alex Hormozi Viral Style) ── */
+.word-span.anim-pop.active {
+  animation: animWordPop 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+@keyframes animWordPop {
+  0% { transform: scale(0.78) translateY(4px); opacity: 0.85; }
+  60% { transform: scale(1.24) translateY(-2px); opacity: 1; }
+  100% { transform: scale(1.14) translateY(0); opacity: 1; }
+}
+
+/* ── 2. Bounce In Animation (MrBeast Style) ── */
+.word-span.anim-bounce.active {
+  animation: animWordBounce 0.28s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+@keyframes animWordBounce {
+  0% { transform: translateY(0) scale(0.9); }
+  40% { transform: translateY(-10px) scale(1.28); }
+  75% { transform: translateY(2px) scale(1.08); }
+  100% { transform: translateY(0) scale(1.16); }
+}
+
+/* ── 3. Neon Cyber Flash Animation ── */
+.word-span.anim-neon.active {
+  animation: animWordNeon 0.35s ease-in-out forwards;
+}
+@keyframes animWordNeon {
+  0% {
+    filter: drop-shadow(0 0 4px currentColor) brightness(1);
+    transform: scale(1);
+  }
+  50% {
+    filter: drop-shadow(0 0 25px currentColor) drop-shadow(0 0 45px #6366F1) brightness(1.5);
+    transform: scale(1.22);
+  }
+  100% {
+    filter: drop-shadow(0 0 14px currentColor) brightness(1.25);
+    transform: scale(1.14);
+  }
+}
+
+/* ── 4. Smooth Flow / Wave Animation ── */
+.word-span.anim-wave.active {
+  animation: animWordWave 0.3s ease-in-out forwards;
+}
+@keyframes animWordWave {
+  0%, 100% { transform: translateY(0) scale(1.1); }
+  50% { transform: translateY(-7px) scale(1.2); }
+}
+
+/* ── 5. Rubber Band Snap ── */
+.word-span.anim-rubber.active {
+  animation: animWordRubber 0.32s ease-in-out forwards;
+}
+@keyframes animWordRubber {
+  0% { transform: scale3d(1, 1, 1); }
+  30% { transform: scale3d(1.3, 0.75, 1); }
+  40% { transform: scale3d(0.75, 1.25, 1); }
+  50% { transform: scale3d(1.18, 0.85, 1); }
+  65% { transform: scale3d(0.95, 1.05, 1); }
+  100% { transform: scale3d(1.14, 1.14, 1); }
+}
+
+/* ── 6. Impact Shake Animation ── */
+.word-span.anim-shake.active {
+  animation: animWordShake 0.25s ease-in-out forwards;
+}
+@keyframes animWordShake {
+  0%, 100% { transform: translate(0, 0) scale(1.12); }
+  20% { transform: translate(-4px, 2px) scale(1.2); }
+  40% { transform: translate(4px, -2px) scale(1.2); }
+  60% { transform: translate(-2px, -1px) scale(1.16); }
+  80% { transform: translate(2px, 1px) scale(1.14); }
+}
+
+/* ── 7. Slide Up Fade ── */
+.word-span.anim-slide.active {
+  animation: animWordSlide 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes animWordSlide {
+  0% { opacity: 0; transform: translateY(12px) scale(0.92); }
+  100% { opacity: 1; transform: translateY(0) scale(1.12); }
+}
+
+/* Default active fallback */
+.word-span.active:not([class*="anim-"]) {
   transform: scale(1.12);
   filter: drop-shadow(0 0 12px currentColor);
 }
@@ -299,23 +399,23 @@ body {
 /* ── Modern Template Cards ── */
 .template-card {
   border: 1px solid var(--border-subtle);
-  background: rgba(16, 22, 44, 0.5);
+  background: rgba(16, 22, 44, 0.55);
   border-radius: 14px;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   overflow: hidden;
   backdrop-filter: blur(12px);
 }
 .template-card:hover {
-  border-color: rgba(99, 102, 241, 0.5);
-  background: rgba(22, 30, 60, 0.8);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px -5px rgba(99, 102, 241, 0.25);
+  border-color: rgba(99, 102, 241, 0.55);
+  background: rgba(24, 33, 66, 0.85);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px -6px rgba(99, 102, 241, 0.35);
 }
 .template-card.selected {
   border-color: #6366F1;
-  background: rgba(99, 102, 241, 0.12);
-  box-shadow: 0 0 20px rgba(99, 102, 241, 0.35);
+  background: rgba(99, 102, 241, 0.16);
+  box-shadow: 0 0 25px rgba(99, 102, 241, 0.45);
 }
 
 /* ── Timeline Track & Blocks ── */
@@ -342,16 +442,17 @@ body {
   cursor: pointer;
   border: 1px solid rgba(255, 255, 255, 0.35);
   box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
-  transition: transform 0.1s ease, filter 0.1s ease;
+  transition: transform 0.12s ease, filter 0.12s ease;
 }
 .caption-block:hover {
-  filter: brightness(1.2);
+  filter: brightness(1.25);
   z-index: 15;
-  box-shadow: 0 4px 18px rgba(99, 102, 241, 0.5);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.55);
 }
 .caption-block.active {
   border-color: #FFF;
-  box-shadow: 0 0 14px #6366F1;
+  box-shadow: 0 0 16px #6366F1, 0 0 30px rgba(168, 85, 247, 0.4);
 }
 
 .timeline-playhead {
@@ -362,7 +463,7 @@ body {
   background: #F43F5E;
   z-index: 50;
   pointer-events: none;
-  box-shadow: 0 0 10px #F43F5E;
+  box-shadow: 0 0 12px #F43F5E;
 }
 .timeline-playhead::before {
   content: '';
@@ -374,21 +475,69 @@ body {
   background: #F43F5E;
   border-radius: 50% 50% 50% 0;
   transform: rotate(-45deg);
-  box-shadow: 0 0 8px #F43F5E;
+  box-shadow: 0 0 10px #F43F5E;
 }
 
 /* ── Modals & Backdrop ── */
 .modal-backdrop {
-  background: rgba(3, 7, 18, 0.88);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: rgba(3, 7, 18, 0.9);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  animation: fadeIn 0.2s ease-out;
 }
 
-/* ── Micro Animations ── */
-@keyframes pulseGlow {
-  0%, 100% { opacity: 0.4; transform: scale(1); }
-  50% { opacity: 0.8; transform: scale(1.05); }
+/* ── Keyframe Animations ── */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
-.pulse-glow {
-  animation: pulseGlow 4s infinite ease-in-out;
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
 }
+
+@keyframes meshDrift {
+  0% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.08) rotate(3deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes btnSheenSweep {
+  0% { left: -100%; }
+  35%, 100% { left: 200%; }
+}
+
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+.anim-float {
+  animation: floatSlow 5s ease-in-out infinite;
+}
+
+@keyframes livePulse {
+  0%, 100% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+  50% { transform: scale(1.15); opacity: 0.85; box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+}
+.live-pulse {
+  animation: livePulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Sound Wave Equalizer Bars */
+@keyframes eqBounce {
+  0%, 100% { height: 6px; }
+  50% { height: 28px; }
+}
+.eq-bar-1 { animation: eqBounce 0.8s ease-in-out infinite; }
+.eq-bar-2 { animation: eqBounce 1.1s ease-in-out infinite 0.2s; }
+.eq-bar-3 { animation: eqBounce 0.7s ease-in-out infinite 0.4s; }
+.eq-bar-4 { animation: eqBounce 1.3s ease-in-out infinite 0.1s; }
+.eq-bar-5 { animation: eqBounce 0.9s ease-in-out infinite 0.3s; }
+

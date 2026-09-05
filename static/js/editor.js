@@ -12,6 +12,7 @@ class KalakarEditor {
     this.initLeftTabs();
     this.initCustomFontUploader();
     this.initInspectorDOM();
+    this.initAnimationTabDOM();
     this.initTranscriptDOM();
     this.initTemplatesGrid();
     this.initExportModal();
@@ -539,6 +540,36 @@ class KalakarEditor {
     if (btnChunk) btnChunk.className = mode === 'chunk' ? 'py-1.5 px-2 rounded-lg text-[11px] font-semibold bg-[#00C48C] text-black transition' : 'py-1.5 px-2 rounded-lg text-[11px] font-medium text-[#9CA3AF] hover:text-white transition';
     if (btnSingle) btnSingle.className = mode === 'single' ? 'py-1.5 px-2 rounded-lg text-[11px] font-semibold bg-[#00C48C] text-black transition' : 'py-1.5 px-2 rounded-lg text-[11px] font-medium text-[#9CA3AF] hover:text-white transition';
     if (btnFull) btnFull.className = mode === 'full' ? 'py-1.5 px-2 rounded-lg text-[11px] font-semibold bg-[#00C48C] text-black transition' : 'py-1.5 px-2 rounded-lg text-[11px] font-medium text-[#9CA3AF] hover:text-white transition';
+
+    // Update active animation button
+    const currentAnim = style.animation || 'pop';
+    document.querySelectorAll('.btn-anim-select').forEach(btn => {
+      const animVal = btn.getAttribute('data-anim');
+      if (animVal === currentAnim) {
+        btn.className = 'btn-anim-select p-3 bg-[#6366F1]/20 border border-[#6366F1] rounded-2xl text-xs font-bold text-white shadow-lg text-left flex items-center justify-between group';
+      } else {
+        btn.className = 'btn-anim-select p-3 bg-[#10162A] border border-[#1E293B] hover:border-[#6366F1] rounded-2xl text-xs font-bold text-white transition text-left flex items-center justify-between group';
+      }
+    });
+  }
+
+  initAnimationTabDOM() {
+    const buttons = document.querySelectorAll('.btn-anim-select');
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const anim = btn.getAttribute('data-anim') || 'pop';
+        this.player.setStyle({ animation: anim });
+        
+        buttons.forEach(b => {
+          b.className = 'btn-anim-select p-3 bg-[#10162A] border border-[#1E293B] hover:border-[#6366F1] rounded-2xl text-xs font-bold text-white transition text-left flex items-center justify-between group';
+        });
+        btn.className = 'btn-anim-select p-3 bg-[#6366F1]/20 border border-[#6366F1] rounded-2xl text-xs font-bold text-white shadow-lg text-left flex items-center justify-between group';
+        
+        if (window.showToast) {
+          window.showToast(`✨ Caption animation: <b>${anim.toUpperCase()}</b>`);
+        }
+      });
+    });
   }
 
   initTranscriptDOM() {

@@ -318,15 +318,16 @@ class KalakarPlayer {
 
     // Render words in a clean single horizontal row with uniform spacing
     let html = '';
+    const animType = s.animation || 'pop';
     visibleWords.forEach(w => {
       const isWordActive = (now >= (w.start - 0.02) && now <= (w.end + 0.05));
       let wordStyle = 'display: inline-flex; align-items: center; margin: 0 5px; vertical-align: middle; paint-order: stroke fill markers;';
       let wordClass = 'word-span';
 
       if (isWordActive) {
-        wordClass += ' active';
+        wordClass += ` active anim-${animType}`;
         const hlColor = s.highlightColor || '#FFE600';
-        wordStyle += `color: ${hlColor}; font-weight: 900; filter: drop-shadow(0 0 10px ${hlColor}); transform: scale(1.12);`;
+        wordStyle += `color: ${hlColor}; font-weight: 900; filter: drop-shadow(0 0 10px ${hlColor});`;
       } else if (w.highlight) {
         wordStyle += `color: ${s.highlightColor || '#FFE600'}; font-weight: 800;`;
       } else {

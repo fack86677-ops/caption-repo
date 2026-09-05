@@ -601,8 +601,42 @@
           </div>
         </div>
 
-        <div class="phone-mockup">
-          <div class="demo-caption-overlay" id="demo-caption-text">
+        <div class="phone-mockup relative">
+          <!-- Top Phone Bar -->
+          <div style="position: absolute; top: 16px; left: 18px; right: 18px; display: flex; align-items: center; justify-content: space-between; z-index: 10;">
+            <div style="display: flex; align-items: center; gap: 6px; background: rgba(0,0,0,0.5); padding: 4px 10px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.15); backdrop-filter: blur(8px);">
+              <span class="w-2 h-2 rounded-full bg-[#10B981] animate-ping" style="display:inline-block;"></span>
+              <span style="font-size: 10px; font-weight: 800; color: #FFF; letter-spacing: 0.5px;">LIVE AI SUBTITLES</span>
+            </div>
+            <!-- Live Audio Equalizer Waveform -->
+            <div style="display: flex; align-items: center; gap: 3px; height: 20px;">
+              <span class="w-1 bg-[#6366F1] rounded-full eq-bar-1" style="display:inline-block;"></span>
+              <span class="w-1 bg-[#A855F7] rounded-full eq-bar-2" style="display:inline-block;"></span>
+              <span class="w-1 bg-[#EC4899] rounded-full eq-bar-3" style="display:inline-block;"></span>
+              <span class="w-1 bg-[#06B6D4] rounded-full eq-bar-4" style="display:inline-block;"></span>
+              <span class="w-1 bg-[#10B981] rounded-full eq-bar-5" style="display:inline-block;"></span>
+            </div>
+          </div>
+
+          <!-- Right Floating Reel Icons -->
+          <div style="position: absolute; right: 14px; bottom: 70px; display: flex; flex-direction: column; gap: 14px; align-items: center; z-index: 10;">
+            <div style="display:flex; flex-direction:column; align-items:center; gap:2px;">
+              <span style="font-size: 18px; filter: drop-shadow(0 0 10px rgba(236,72,153,0.8)); transform: scale(1.1); animation: heartPulse 1.5s infinite ease-in-out;">❤️</span>
+              <span style="font-size: 9px; font-weight: 800; color: #FFF;">24.8K</span>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:center; gap:2px;">
+              <span style="font-size: 18px;">💬</span>
+              <span style="font-size: 9px; font-weight: 800; color: #FFF;">1.2K</span>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:center; gap:2px;">
+              <span style="font-size: 18px;">🚀</span>
+              <span style="font-size: 9px; font-weight: 800; color: #FFF;">Share</span>
+            </div>
+          </div>
+
+          <!-- Animated Captions Container -->
+          <div class="demo-caption-overlay" id="demo-caption-text" style="z-index: 15; width: 85%;">
+            <!-- Populated and animated dynamically by liveSimulator -->
             <span>SUNO DOSTO</span> AGAR AAPKO REEL VIRAL KARNI HAI
           </div>
         </div>
@@ -863,21 +897,53 @@
       }
     }
 
+    let currentDemoWords = ["SUNO", "DOSTO", "AGAR", "AAPKO", "REEL", "VIRAL", "KARNI", "HAI", "🚀"];
+    let currentWordIdx = 0;
+    let simulatorTimer = null;
+
+    function renderAnimatedDemoWords() {
+      const captionEl = document.getElementById('demo-caption-text');
+      if (!captionEl) return;
+
+      const chunkSize = 3;
+      const chunkStart = Math.floor(currentWordIdx / chunkSize) * chunkSize;
+      const visibleChunk = currentDemoWords.slice(chunkStart, chunkStart + chunkSize);
+
+      let html = '';
+      visibleChunk.forEach((w, idx) => {
+        const actualIdx = chunkStart + idx;
+        const isActive = (actualIdx === currentWordIdx);
+        if (isActive) {
+          html += `<span class="word-span anim-pop active" style="color: #FFE600; font-weight: 900; filter: drop-shadow(0 0 14px #FFE600); margin: 0 4px; display: inline-flex;">${w}</span> `;
+        } else {
+          html += `<span class="word-span" style="color: #FFFFFF; font-weight: 800; margin: 0 4px; display: inline-flex;">${w}</span> `;
+        }
+      });
+
+      captionEl.innerHTML = html;
+      currentWordIdx = (currentWordIdx + 1) % currentDemoWords.length;
+    }
+
     function setDemoLang(lang, sampleText) {
       document.querySelectorAll('.lang-pill').forEach(p => p.classList.remove('active'));
       event.target.classList.add('active');
-      const captionEl = document.getElementById('demo-caption-text');
-      const words = sampleText.split(' ');
-      if (words.length > 2) {
-        captionEl.innerHTML = `<span>${words.slice(0, 2).join(' ')}</span> ${words.slice(2).join(' ')}`;
-      } else {
-        captionEl.innerHTML = `<span>${sampleText}</span>`;
-      }
+      currentDemoWords = sampleText.split(' ');
+      currentWordIdx = 0;
+      renderAnimatedDemoWords();
+    }
+
+    function startLiveSubtitleSimulator() {
+      if (simulatorTimer) clearInterval(simulatorTimer);
+      renderAnimatedDemoWords();
+      simulatorTimer = setInterval(renderAnimatedDemoWords, 550);
     }
 
     function toggleFaq(el) {
       el.classList.toggle('open');
     }
+
+    // Start live simulator on page load
+    startLiveSubtitleSimulator();
   </script>
 </body>
 </html>

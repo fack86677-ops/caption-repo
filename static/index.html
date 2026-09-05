@@ -657,12 +657,60 @@
 
           <!-- ================= TAB: TRANSITIONS ================= -->
           <div id="tab-content-transitions" class="space-y-4 hidden">
-            <div class="text-[10px] font-extrabold text-[#818CF8] uppercase tracking-wider">WORD POP ANIMATIONS</div>
-            <div class="grid grid-cols-2 gap-2.5">
-              <button class="p-3.5 bg-[#10162A] border border-[#6366F1] rounded-2xl text-xs font-bold text-white shadow-lg">✨ Pop In</button>
-              <button class="p-3.5 bg-[#10162A] border border-[#1E293B] hover:border-[#6366F1] rounded-2xl text-xs font-bold text-white transition">⚡ Bounce</button>
-              <button class="p-3.5 bg-[#10162A] border border-[#1E293B] hover:border-[#6366F1] rounded-2xl text-xs font-bold text-white transition">🌟 Neon Glow</button>
-              <button class="p-3.5 bg-[#10162A] border border-[#1E293B] hover:border-[#6366F1] rounded-2xl text-xs font-bold text-white transition">🌊 Smooth Flow</button>
+            <div class="flex items-center justify-between">
+              <div class="text-[10px] font-extrabold text-[#818CF8] uppercase tracking-wider">WORD & CAPTION ANIMATIONS</div>
+              <span class="text-[10px] text-[#10B981] font-bold">✨ Real-time Preview</span>
+            </div>
+            <div id="anim-buttons-grid" class="grid grid-cols-2 gap-2.5">
+              <button data-anim="pop" class="btn-anim-select p-3 bg-[#10162A] border border-[#6366F1] rounded-2xl text-xs font-bold text-white shadow-lg text-left flex items-center justify-between group">
+                <div>
+                  <div>✨ Pop In</div>
+                  <div class="text-[9px] text-[#94A3B8] font-normal">Alex Hormozi</div>
+                </div>
+                <span class="text-xs group-hover:scale-125 transition">🔥</span>
+              </button>
+              <button data-anim="bounce" class="btn-anim-select p-3 bg-[#10162A] border border-[#1E293B] hover:border-[#6366F1] rounded-2xl text-xs font-bold text-white transition text-left flex items-center justify-between group">
+                <div>
+                  <div>⚡ Bounce</div>
+                  <div class="text-[9px] text-[#94A3B8] font-normal">MrBeast Jump</div>
+                </div>
+                <span class="text-xs group-hover:scale-125 transition">🚀</span>
+              </button>
+              <button data-anim="neon" class="btn-anim-select p-3 bg-[#10162A] border border-[#1E293B] hover:border-[#6366F1] rounded-2xl text-xs font-bold text-white transition text-left flex items-center justify-between group">
+                <div>
+                  <div>🌟 Neon Flash</div>
+                  <div class="text-[9px] text-[#94A3B8] font-normal">Cyber Aura</div>
+                </div>
+                <span class="text-xs group-hover:scale-125 transition">💎</span>
+              </button>
+              <button data-anim="wave" class="btn-anim-select p-3 bg-[#10162A] border border-[#1E293B] hover:border-[#6366F1] rounded-2xl text-xs font-bold text-white transition text-left flex items-center justify-between group">
+                <div>
+                  <div>🌊 Wave Flow</div>
+                  <div class="text-[9px] text-[#94A3B8] font-normal">Smooth Bob</div>
+                </div>
+                <span class="text-xs group-hover:scale-125 transition">🎵</span>
+              </button>
+              <button data-anim="rubber" class="btn-anim-select p-3 bg-[#10162A] border border-[#1E293B] hover:border-[#6366F1] rounded-2xl text-xs font-bold text-white transition text-left flex items-center justify-between group">
+                <div>
+                  <div>🎯 Rubber Band</div>
+                  <div class="text-[9px] text-[#94A3B8] font-normal">Elastic Snap</div>
+                </div>
+                <span class="text-xs group-hover:scale-125 transition">⚡</span>
+              </button>
+              <button data-anim="shake" class="btn-anim-select p-3 bg-[#10162A] border border-[#1E293B] hover:border-[#6366F1] rounded-2xl text-xs font-bold text-white transition text-left flex items-center justify-between group">
+                <div>
+                  <div>💥 Impact Shake</div>
+                  <div class="text-[9px] text-[#94A3B8] font-normal">High Energy</div>
+                </div>
+                <span class="text-xs group-hover:scale-125 transition">🔥</span>
+              </button>
+              <button data-anim="slide" class="btn-anim-select p-3 bg-[#10162A] border border-[#1E293B] hover:border-[#6366F1] rounded-2xl text-xs font-bold text-white transition text-left flex items-center justify-between group col-span-2">
+                <div>
+                  <div>🚀 Slide Up & Fade</div>
+                  <div class="text-[9px] text-[#94A3B8] font-normal">Cinematic Vertical Transition</div>
+                </div>
+                <span class="text-xs group-hover:scale-125 transition">🎬</span>
+              </button>
             </div>
           </div>
 
