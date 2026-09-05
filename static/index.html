@@ -6,7 +6,9 @@
   <title>Harsh AI Studio – Ultra-Premium AI Video & Caption Suite</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%236366F1'><path d='M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5'/></svg>">
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&family=Montserrat:wght@700;800;900&family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
       darkMode: 'class',
@@ -22,9 +24,9 @@
               cyan: '#06B6D4',
               pink: '#EC4899',
               green: '#10B981',
-              dark: '#06080F',
-              sidebar: '#0B0F19',
-              card: '#101626',
+              dark: '#030712',
+              surface: '#0B0F1E',
+              card: '#10162A',
               border: '#1E293B'
             }
           }
@@ -34,82 +36,84 @@
   </script>
   <link rel="stylesheet" href="/static/css/styles.css">
 </head>
-<body class="bg-[#06080F] text-[#F8FAFC] font-sans h-screen flex flex-col overflow-hidden select-none">
+<body class="bg-[#030712] text-[#F8FAFC] font-sans h-screen flex flex-col overflow-hidden select-none">
+  
+  <!-- Ambient Auroras -->
+  <div class="ambient-mesh"></div>
+  <div class="ambient-grid"></div>
 
   <!-- ========================================== -->
   <!-- SCREEN 1: DASHBOARD VIEW                   -->
   <!-- ========================================== -->
-  <div id="screen-dashboard" class="app-screen flex-1 flex overflow-hidden">
+  <div id="screen-dashboard" class="app-screen flex-1 flex overflow-hidden relative z-10">
     <!-- Left Sidebar -->
-    <aside class="w-64 bg-[#0B0F19] border-r border-[#1E293B] flex flex-col justify-between p-4 shrink-0">
+    <aside class="w-64 bg-[#080C1B]/90 backdrop-blur-2xl border-r border-[#1E293B]/80 flex flex-col justify-between p-4 shrink-0 shadow-2xl">
       <div>
-        <!-- Logo: Harsh AI Studio -->
-        <div class="flex items-center gap-2.5 mb-8 px-2">
-          <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#6366F1] to-[#A855F7] flex items-center justify-center text-white font-black text-base shadow-[0_0_15px_rgba(99,102,241,0.5)]">
+        <!-- Logo -->
+        <a href="/dashboard" class="flex items-center gap-3 mb-8 px-2 py-1 text-decoration-none group">
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#6366F1] via-[#8B5CF6] to-[#EC4899] flex items-center justify-center text-white font-black text-lg shadow-[0_0_20px_rgba(99,102,241,0.5)] group-hover:scale-105 transition transform">
             ⚡
           </div>
-          <span class="text-base font-extrabold tracking-tight text-white flex items-center">
-            Harsh AI Studio<span class="w-2 h-2 rounded-full bg-[#06B6D4] ml-1.5 shadow-[0_0_8px_#06B6D4]"></span>
-          </span>
-        </div>
+          <div>
+            <div class="text-base font-extrabold tracking-tight text-white flex items-center leading-none">
+              Harsh AI<span class="w-2 h-2 rounded-full bg-[#06B6D4] ml-1.5 shadow-[0_0_8px_#06B6D4]"></span>
+            </div>
+            <div class="text-[10px] font-bold text-[#818CF8] tracking-wider uppercase mt-1">Studio Suite</div>
+          </div>
+        </a>
 
         <!-- Navigation Menu -->
-        <nav class="space-y-1">
-          <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-[#6366F1]/15 text-[#818CF8] font-bold text-sm border border-[#6366F1]/30">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+        <nav class="space-y-1.5">
+          <a href="#" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-[#6366F1]/15 text-[#818CF8] font-bold text-xs border border-[#6366F1]/30 shadow-[0_0_15px_rgba(99,102,241,0.15)]">
+            <svg class="w-4 h-4 text-[#6366F1]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
             Studio Workspace
           </a>
-          <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[#94A3B8] hover:text-white hover:bg-[#101626] font-medium text-sm transition">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-            Video Tutorials
+          <a href="/dashboard" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-[#94A3B8] hover:text-white hover:bg-[#10162A] font-medium text-xs transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+            My Projects
           </a>
-          <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[#94A3B8] hover:text-white hover:bg-[#101626] font-medium text-sm transition">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
-            Plans & Pro Features
+          <a href="/pricing" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-[#94A3B8] hover:text-white hover:bg-[#10162A] font-medium text-xs transition">
+            <svg class="w-4 h-4 text-[#F59E0B]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            Pricing & Credits
           </a>
-          <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[#94A3B8] hover:text-white hover:bg-[#101626] font-medium text-sm transition">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"/></svg>
-            NLE Plugins (Premiere/DaVinci)
-          </a>
-          <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[#94A3B8] hover:text-white hover:bg-[#101626] font-medium text-sm transition">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-            Support & Discord Community
+          <a href="/admin" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-[#94A3B8] hover:text-white hover:bg-[#10162A] font-medium text-xs transition">
+            <svg class="w-4 h-4 text-[#EC4899]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            Admin Panel
           </a>
         </nav>
       </div>
 
       <!-- Bottom Desktop App & Quota Status -->
-      <div class="space-y-4">
-        <div class="p-3 bg-[#101626] border border-[#1E293B] rounded-xl">
-          <div class="text-[11px] font-bold text-[#64748B] tracking-wider uppercase mb-1">Desktop App</div>
-          <div class="text-xs text-[#94A3B8] mb-2.5">Use Harsh Captions on your PC.</div>
+      <div class="space-y-3.5">
+        <!-- Desktop App Promo -->
+        <div class="p-3.5 bg-[#10162A]/80 border border-[#1E293B] rounded-2xl">
+          <div class="text-[10px] font-extrabold text-[#818CF8] tracking-wider uppercase mb-1 flex items-center gap-1">
+            <span>💻</span> Desktop App
+          </div>
+          <div class="text-[11px] text-[#94A3B8] mb-2.5">Supercharge video generation on PC.</div>
           <div class="grid grid-cols-2 gap-2">
-            <button class="px-2 py-1.5 bg-[#172033] hover:bg-[#1E293B] border border-[#2B3952] rounded-lg text-xs font-semibold text-white flex items-center justify-center gap-1.5">
+            <button class="px-2 py-1.5 bg-[#151D34] hover:bg-[#1E294B] border border-[#2B3952] rounded-xl text-[11px] font-bold text-white flex items-center justify-center gap-1 transition">
               <span>macOS</span>
             </button>
-            <button class="px-2 py-1.5 bg-[#6366F1]/20 hover:bg-[#6366F1]/30 border border-[#6366F1]/40 rounded-lg text-xs font-semibold text-[#A5B4FC] flex items-center justify-center gap-1.5">
+            <button class="px-2 py-1.5 bg-[#6366F1]/20 hover:bg-[#6366F1]/30 border border-[#6366F1]/40 rounded-xl text-[11px] font-bold text-[#A5B4FC] flex items-center justify-center gap-1 transition">
               <span>Windows</span>
             </button>
           </div>
         </div>
 
-        <div class="p-3.5 bg-[#0B0F19] border border-[#1E293B] rounded-xl space-y-2">
+        <!-- Plan & Quota Card -->
+        <div class="p-3.5 bg-[#0B0F1E] border border-[#1E293B] rounded-2xl space-y-2">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-white uppercase tracking-wider">CREATOR PRO</span>
-            <span class="text-[10px] font-semibold text-[#10B981] bg-[#10B981]/15 px-2 py-0.5 rounded-full border border-[#10B981]/30">ACTIVE</span>
+            <span class="text-[11px] font-extrabold text-white uppercase tracking-wider">CREATOR PRO</span>
+            <span class="text-[9px] font-extrabold text-[#10B981] bg-[#10B981]/15 px-2 py-0.5 rounded-full border border-[#10B981]/30">ACTIVE</span>
           </div>
-          <div class="space-y-1.5 text-xs text-[#94A3B8]">
-            <div class="flex justify-between">
+          <div class="space-y-1 text-xs text-[#94A3B8]">
+            <div class="flex justify-between items-center">
               <span>AI Credits</span>
-              <span class="text-white font-bold"><span id="sidebar-credits-display">100</span> Left</span>
+              <span class="text-white font-extrabold"><span id="sidebar-credits-display">100</span> Left</span>
             </div>
-            <div class="flex justify-between">
-              <span>Export Quality</span>
-              <span class="text-[#06B6D4] font-semibold">4K 60FPS / Alpha</span>
-            </div>
-            <div class="flex justify-between">
-              <span>AI Speech Engine</span>
-              <span class="text-white font-medium">Whisper Neural</span>
+            <div class="w-full bg-[#172033] h-1.5 rounded-full overflow-hidden mt-1">
+              <div class="bg-gradient-to-r from-[#6366F1] to-[#10B981] h-full rounded-full w-full"></div>
             </div>
           </div>
         </div>
@@ -117,32 +121,35 @@
     </aside>
 
     <!-- Main Content Area -->
-    <main class="flex-1 flex flex-col overflow-y-auto bg-[#06080F]">
+    <main class="flex-1 flex flex-col overflow-y-auto bg-[#030712]/70">
       <!-- Top Bar -->
-      <header class="h-16 border-b border-[#1E293B] px-8 flex items-center justify-between shrink-0 bg-[#06080F]/80 backdrop-blur sticky top-0 z-30">
+      <header class="h-16 border-b border-[#1E293B]/80 px-8 flex items-center justify-between shrink-0 bg-[#080C1B]/80 backdrop-blur-xl sticky top-0 z-30">
         <!-- Search Input -->
         <div class="relative w-80">
           <svg class="w-4 h-4 text-[#64748B] absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-          <input type="text" placeholder="Search projects... (⌘K)" class="w-full bg-[#101626] border border-[#1E293B] rounded-xl pl-10 pr-4 py-2 text-xs text-white focus:outline-none focus:border-[#6366F1] transition placeholder-[#64748B]">
+          <input type="text" placeholder="Search projects... (⌘K)" class="w-full bg-[#10162A] border border-[#1E293B] rounded-xl pl-10 pr-4 py-2 text-xs text-white focus:outline-none focus:border-[#6366F1] transition placeholder-[#64748B]">
         </div>
+
         <!-- Right Top Actions -->
         <div class="flex items-center gap-4">
           <!-- Credit Badge -->
-          <a href="/pricing" class="flex items-center gap-1.5 px-3.5 py-1.5 bg-[#101626] border border-[#6366F1]/40 rounded-xl text-xs font-bold text-[#A5B4FC] hover:bg-[#172033] transition cursor-pointer shadow-[0_0_14px_rgba(99,102,241,0.2)]" title="Creator credits balance">
-            <span>⚡</span>
+          <a href="/pricing" class="flex items-center gap-2 px-3.5 py-1.5 bg-[#10162A] border border-[#6366F1]/40 rounded-xl text-xs font-bold text-[#A5B4FC] hover:bg-[#172033] transition cursor-pointer shadow-[0_0_15px_rgba(99,102,241,0.2)]" title="Creator credits balance">
+            <span class="text-sm">⚡</span>
             <span id="header-credits" class="font-extrabold text-white">100</span> AI Credits
           </a>
-          <a href="/pricing" class="btn-primary text-xs" style="text-decoration:none">
+
+          <a href="/pricing" class="btn-glow-primary text-xs" style="text-decoration:none">
             <span>Get More Credits</span>
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
           </a>
+
           <!-- Profile Avatar -->
-          <div class="flex items-center gap-2 pl-2">
-            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-[#6366F1] to-[#06B6D4] flex items-center justify-center text-xs font-black text-white border border-white/20 avatar-initials-display" id="avatar-initials">
+          <div class="flex items-center gap-2.5 pl-2 border-l border-[#1E293B]">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-[#6366F1] to-[#EC4899] flex items-center justify-center text-xs font-black text-white border border-white/20 avatar-initials-display" id="avatar-initials">
               H
             </div>
-            <span class="text-xs font-semibold text-white avatar-name-display" id="avatar-name">Harsh</span>
-            <button onclick="window.logoutUser()" class="p-1.5 text-[#94A3B8] hover:text-red-400 rounded-lg hover:bg-[#172033] transition ml-1" title="Log Out">
+            <span class="text-xs font-bold text-white avatar-name-display" id="avatar-name">Harsh</span>
+            <button onclick="window.logoutUser()" class="p-1.5 text-[#94A3B8] hover:text-red-400 rounded-lg hover:bg-[#10162A] transition" title="Log Out">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
             </button>
           </div>
@@ -152,19 +159,29 @@
       <!-- Dashboard Body -->
       <div class="p-8 max-w-6xl w-full mx-auto space-y-8">
         <!-- Big Upload Dropzone -->
-        <div id="main-dropzone" class="dropzone p-12 flex flex-col items-center justify-center cursor-pointer group">
+        <div id="main-dropzone" class="dropzone-cyber p-12 flex flex-col items-center justify-center cursor-pointer group">
           <input type="file" id="file-upload-input" accept="video/mp4,video/quicktime,video/webm,audio/mp3,audio/wav" class="hidden">
-          <div class="w-16 h-16 rounded-2xl bg-[#101626] border border-[#2B3952] group-hover:border-[#6366F1]/60 flex items-center justify-center text-[#94A3B8] group-hover:text-[#818CF8] mb-4 transition transform group-hover:scale-110 shadow-lg">
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+          <div class="w-18 h-18 rounded-2xl bg-[#10162A] border border-[#2B3952] group-hover:border-[#6366F1]/60 flex items-center justify-center text-[#94A3B8] group-hover:text-[#818CF8] mb-4 transition transform group-hover:scale-110 shadow-2xl p-4">
+            <svg class="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
           </div>
-          <h3 class="text-base font-bold text-white mb-1 group-hover:text-[#818CF8] transition">Drop your videos / audios here or click to upload</h3>
-          <p class="text-xs text-[#94A3B8] mb-1">Max: 15:00 minutes, 2GB (4K 60FPS HDR)</p>
-          <p class="text-xs text-[#64748B]">Supports: MP4, MOV, ProRes, WebM, MP3, WAV</p>
+          <h3 class="text-lg font-extrabold text-white mb-1.5 group-hover:text-[#818CF8] transition">Drop your video or audio here to auto-generate captions</h3>
+          <p class="text-xs text-[#94A3B8] mb-3">AI Speech Transcription • Fast Millisecond Timestamps • 22+ Viral Templates</p>
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-1 rounded-full bg-[#6366F1]/15 text-[#A5B4FC] text-[10px] font-bold border border-[#6366F1]/30">MP4</span>
+            <span class="px-2.5 py-1 rounded-full bg-[#06B6D4]/15 text-[#67E8F9] text-[10px] font-bold border border-[#06B6D4]/30">MOV (ProRes)</span>
+            <span class="px-2.5 py-1 rounded-full bg-[#EC4899]/15 text-[#F472B6] text-[10px] font-bold border border-[#EC4899]/30">WebM</span>
+            <span class="px-2.5 py-1 rounded-full bg-[#10B981]/15 text-[#6EE7B7] text-[10px] font-bold border border-[#10B981]/30">MP3 / WAV</span>
+          </div>
         </div>
 
         <!-- Recent Videos Section -->
         <div class="space-y-4">
-          <h2 class="text-lg font-bold text-white">Recent Projects & Videos</h2>
+          <div class="flex items-center justify-between">
+            <h2 class="text-lg font-extrabold text-white tracking-tight flex items-center gap-2">
+              <span>🎬</span> Recent Projects & Captions
+            </h2>
+            <span class="text-xs text-[#94A3B8]">Click any video to open editor</span>
+          </div>
           <div id="recent-videos-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
             <!-- Dynamic Project Cards -->
           </div>
@@ -177,47 +194,39 @@
   <!-- ========================================== -->
   <!-- SCREEN 2: PREPARE YOUR MEDIA MODAL         -->
   <!-- ========================================== -->
-  <!-- ========================================== -->
-  <!-- SCREEN 2: PREPARE YOUR MEDIA MODAL         -->
-  <!-- ========================================== -->
   <div id="modal-prepare-media" class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-[#0B0F19] border border-[#1E293B] rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-6">
+    <div class="bg-[#0B0F1E] border border-[#1E293B] rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-6">
       <div class="flex items-center justify-between">
         <div>
-          <h3 class="text-lg font-bold text-white">Prepare Your Media</h3>
+          <h3 class="text-lg font-extrabold text-white">Prepare Your Media</h3>
           <p id="prepare-file-name" class="text-xs text-[#818CF8] font-semibold mt-0.5 truncate max-w-sm"></p>
-          <p class="text-[11px] text-[#94A3B8]">Select language and AI voice settings for millisecond speech transcription.</p>
+          <p class="text-[11px] text-[#94A3B8]">Configure spoken voice and caption settings before AI speech transcription.</p>
         </div>
-        <button id="btn-close-prepare" class="text-[#64748B] hover:text-white p-1 rounded-lg hover:bg-[#172033]">
+        <button id="btn-close-prepare" class="text-[#64748B] hover:text-white p-1 rounded-lg hover:bg-[#10162A]">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
 
       <!-- Preview Thumbnail -->
-      <div class="relative h-44 bg-[#06080F] rounded-xl overflow-hidden flex items-center justify-center border border-[#1E293B]">
+      <div class="relative h-44 bg-[#030712] rounded-2xl overflow-hidden flex items-center justify-center border border-[#1E293B]">
         <img src="/static/assets/demo_thumb.jpg" class="w-full h-full object-cover" onerror="this.src='/static/assets/demo_thumb.jpg'">
         <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
-          <div class="w-12 h-12 rounded-full bg-white/20 backdrop-blur flex items-center justify-center text-white">
+          <div class="w-12 h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white">
             <svg class="w-6 h-6 ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
           </div>
         </div>
-        <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-3.5 py-1 bg-black/80 rounded-full text-[11px] text-[#818CF8] font-semibold backdrop-blur border border-[#6366F1]/30">
+        <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-3.5 py-1 bg-black/80 rounded-full text-[11px] text-[#818CF8] font-bold backdrop-blur-md border border-[#6366F1]/30">
           <span class="w-2 h-2 rounded-full bg-[#6366F1] animate-pulse"></span>
-          Ready for Whisper AI transcription
+          Ready for Whisper AI Neural Engine
         </div>
       </div>
 
       <!-- Language Settings Box -->
       <div class="space-y-3">
-        <div class="flex items-center gap-2 text-xs font-bold text-white">
-          <svg class="w-4 h-4 text-[#818CF8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/></svg>
-          Spoken Language & Subtitle Settings
-        </div>
-
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-[10px] font-bold text-[#94A3B8] uppercase mb-1">Spoken Language</label>
-            <select id="select-spoken-language" class="w-full bg-[#101626] border border-[#1E293B] rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[#6366F1]">
+            <select id="select-spoken-language" class="w-full bg-[#10162A] border border-[#1E293B] rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[#6366F1]">
               <option value="hi" selected>Hindi (हिंदी / Hinglish)</option>
               <option value="en">English (Global)</option>
               <option value="ur">Urdu (اردو)</option>
@@ -232,152 +241,122 @@
           </div>
           <div>
             <label class="block text-[10px] font-bold text-[#94A3B8] uppercase mb-1">Subtitle Script</label>
-            <select id="select-writing-script" class="w-full bg-[#101626] border border-[#1E293B] rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[#6366F1]">
+            <select id="select-writing-script" class="w-full bg-[#10162A] border border-[#1E293B] rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[#6366F1]">
               <option value="roman" selected>Hinglish (Roman Script)</option>
               <option value="native">Native Script (हिंदी/বাংলা)</option>
             </select>
           </div>
         </div>
 
-        <div class="flex items-center justify-between p-3 bg-[#101626] border border-[#1E293B] rounded-xl">
+        <div class="flex items-center justify-between p-3 bg-[#10162A] border border-[#1E293B] rounded-xl">
           <div class="flex items-center gap-3">
-            <span class="text-sm">🎙️</span>
+            <span class="text-base">🎙️</span>
             <div>
-              <div class="text-xs font-semibold text-white">AI Neural Audio Cleaner</div>
-              <div class="text-[11px] text-[#64748B]">Denoise traffic, microphone hiss & room reverb</div>
+              <div class="text-xs font-bold text-white">AI Neural Audio Cleaner</div>
+              <div class="text-[10px] text-[#64748B]">Denoise microphone hiss & room reverb</div>
             </div>
           </div>
-          <label class="relative inline-flex items-center cursor-pointer">
-            <input type="checkbox" id="toggle-audio-enhance" checked class="sr-only peer">
-            <div class="w-9 h-5 bg-[#1E293B] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#6366F1]"></div>
-          </label>
+          <input type="checkbox" id="toggle-audio-enhance" checked class="w-4 h-4 accent-[#6366F1] cursor-pointer">
         </div>
 
-        <div class="flex items-center justify-between p-3 bg-[#101626] border border-[#1E293B] rounded-xl">
+        <div class="flex items-center justify-between p-3 bg-[#10162A] border border-[#1E293B] rounded-xl">
           <div class="flex items-center gap-3">
-            <span class="text-sm">✨</span>
+            <span class="text-base">🔥</span>
             <div>
-              <div class="text-xs font-semibold text-white">Viral Emojis Auto-Attach</div>
-              <div class="text-[11px] text-[#64748B]">Auto-detect keywords and attach animated emojis (🔥, 🚀, 💡, 💰)</div>
+              <div class="text-xs font-bold text-white">Auto Viral Emojis</div>
+              <div class="text-[10px] text-[#64748B]">Auto-match keywords with trending icons</div>
             </div>
           </div>
-          <label class="relative inline-flex items-center cursor-pointer">
-            <input type="checkbox" id="toggle-emojis" checked class="sr-only peer">
-            <div class="w-9 h-5 bg-[#1E293B] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#6366F1]"></div>
-          </label>
+          <input type="checkbox" id="toggle-emojis" checked class="w-4 h-4 accent-[#6366F1] cursor-pointer">
+        </div>
+
+        <div class="flex items-center justify-between p-3 bg-[#10162A] border border-[#1E293B] rounded-xl">
+          <div class="flex items-center gap-3">
+            <span class="text-base">🌐</span>
+            <div>
+              <div class="text-xs font-bold text-white">Translate Audio to English</div>
+              <div class="text-[10px] text-[#64748B]">Generate global English subtitles</div>
+            </div>
+          </div>
+          <input type="checkbox" id="toggle-translation" class="w-4 h-4 accent-[#6366F1] cursor-pointer">
         </div>
       </div>
 
-      <button id="btn-generate-transcription" class="w-full py-3 bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] hover:from-[#4F46E5] hover:to-[#7C3AED] text-white font-extrabold text-sm rounded-xl flex items-center justify-center gap-2 transition shadow-lg shadow-indigo-500/25">
-        <span>Generate AI Captions</span>
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+      <button id="btn-generate-transcription" class="btn-glow-primary w-full py-3.5 justify-center text-sm font-extrabold rounded-2xl shadow-xl">
+        <span>⚡ Start AI Transcription (10 Credits)</span>
       </button>
     </div>
   </div>
 
 
   <!-- ========================================== -->
-  <!-- SCREEN 3: UPLOADING & PROCESSING MODAL     -->
+  <!-- SCREEN 3: STUDIO WORKSPACE & EDITOR        -->
   <!-- ========================================== -->
-  <div id="modal-processing" class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-[#0B0F19] border border-[#1E293B] rounded-2xl max-w-md w-full p-8 shadow-2xl text-center space-y-6">
-      <!-- Animated Graphic -->
-      <div class="relative w-28 h-28 mx-auto flex items-center justify-center">
-        <div class="absolute inset-0 bg-[#6366F1]/25 rounded-full blur-xl animate-pulse"></div>
-        <div class="w-24 h-24 rounded-2xl bg-[#101626] border border-[#6366F1]/50 flex items-center justify-center text-[#818CF8] text-3xl shadow-xl">
-          ⚡
-        </div>
-      </div>
-
-      <div class="space-y-2">
-        <div class="flex justify-between text-xs text-[#94A3B8] px-1 font-semibold">
-          <span>Processing Video Vocals</span>
-          <span id="processing-progress-text">8%</span>
-        </div>
-        <div class="w-full h-2.5 bg-[#172033] rounded-full overflow-hidden p-0.5">
-          <div id="processing-progress-bar" class="h-full bg-gradient-to-r from-[#6366F1] via-[#8B5CF6] to-[#06B6D4] rounded-full transition-all duration-300" style="width: 8%;"></div>
-        </div>
-      </div>
-
-      <div>
-        <h4 class="text-base font-bold text-white">Transcribing Real Voice Vocals</h4>
-        <p id="processing-status-subtext" class="text-xs text-[#94A3B8] mt-1">Faster-Whisper AI neural network syncing timestamps... <span class="text-[#818CF8]">Hang tight!</span></p>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- ========================================== -->
-  <!-- SCREEN 4: FULL VIDEO & CAPTION STUDIO      -->
-  <!-- ========================================== -->
-  <div id="screen-studio" class="app-screen flex-1 flex flex-col overflow-hidden hidden">
-    <!-- Top Studio Bar -->
-    <header class="h-14 border-b border-[#1E293B] px-4 flex items-center justify-between shrink-0 bg-[#0B0F19]">
-      <div class="flex items-center gap-3">
-        <button id="btn-back-home" class="p-1.5 text-[#94A3B8] hover:text-white hover:bg-[#172033] rounded-lg transition" title="Back to Dashboard">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+  <div id="screen-studio" class="app-screen flex-1 flex flex-col overflow-hidden hidden relative z-10">
+    <!-- Top Editor Header -->
+    <header class="h-14 border-b border-[#1E293B]/80 px-6 flex items-center justify-between shrink-0 bg-[#080C1B]/90 backdrop-blur-xl z-40">
+      <div class="flex items-center gap-4">
+        <!-- Back Button -->
+        <button id="btn-back-home" class="p-2 text-[#94A3B8] hover:text-white rounded-xl hover:bg-[#10162A] transition" title="Back to Dashboard">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
         </button>
-        <div class="flex items-center gap-2">
-          <span class="w-2 h-2 rounded-full bg-[#06B6D4] shadow-[0_0_8px_#06B6D4]"></span>
-          <span id="project-title-display" contenteditable="true" class="text-sm font-bold text-white px-2 py-1 rounded hover:bg-[#172033] focus:bg-[#172033] focus:outline-none">
-            Untitled Video Project
-          </span>
-          <svg class="w-3.5 h-3.5 text-[#64748B]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
-        </div>
 
-        <!-- Undo / Redo & Save State -->
-        <div class="flex items-center gap-1.5 ml-4 pl-3 border-l border-[#1E293B]">
-          <button id="btn-undo" class="p-1.5 text-[#94A3B8] hover:text-white hover:bg-[#172033] rounded-lg transition text-xs" title="Undo (Ctrl+Z)">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a5 5 0 015 5v2m-15-7l4-4m-4 4l4 4"/></svg>
-          </button>
-          <button id="btn-redo" class="p-1.5 text-[#94A3B8] hover:text-white hover:bg-[#172033] rounded-lg transition text-xs" title="Redo (Ctrl+Y)">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 10H11a5 5 0 00-5 5v2m15-7l-4-4m4 4l-4 4"/></svg>
-          </button>
-          <div id="auto-save-badge" class="flex items-center gap-1.5 px-2 py-0.5 rounded text-[11px] font-medium text-[#10B981] bg-[#10B981]/10 border border-[#10B981]/25 ml-1">
+        <div class="w-[1px] h-4 bg-[#1E293B]"></div>
+
+        <!-- Project Title -->
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-extrabold text-white truncate max-w-xs" id="project-title-display" contenteditable="true" title="Click to rename">Untitled Project</span>
+          <svg class="w-3 h-3 text-[#64748B]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+          <div id="auto-save-badge" class="flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-bold text-[#10B981] bg-[#10B981]/10 border border-[#10B981]/25 ml-1">
             <span class="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse"></span>
             <span>Saved ✓</span>
           </div>
         </div>
       </div>
 
+      <!-- Undo / Redo & Right Studio Actions -->
       <div class="flex items-center gap-3">
-        <!-- Shortcuts Cheat Sheet Trigger -->
-        <button id="btn-open-shortcuts" class="p-1.5 text-[#94A3B8] hover:text-white hover:bg-[#172033] rounded-lg transition text-xs flex items-center gap-1" title="Keyboard Shortcuts (?)">
-          <span>⌨️ Shortcuts</span>
+        <div class="flex items-center gap-1 bg-[#10162A] border border-[#1E293B] rounded-xl p-0.5">
+          <button id="btn-undo" class="p-1.5 text-[#94A3B8] hover:text-white rounded-lg hover:bg-[#182242] transition" title="Undo (Ctrl+Z)">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"/></svg>
+          </button>
+          <button id="btn-redo" class="p-1.5 text-[#94A3B8] hover:text-white rounded-lg hover:bg-[#182242] transition" title="Redo (Ctrl+Y)">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 10H11a8 8 0 00-8 8v2m18-10l-6 6m6-6l-6-6"/></svg>
+          </button>
+        </div>
+
+        <button id="btn-open-shortcuts" class="btn-glass px-2.5 py-1.5" title="Keyboard Shortcuts (?)">
+          <span>⌨️</span>
         </button>
 
-        <!-- Credit Badge in Studio -->
-        <a href="/pricing" class="flex items-center gap-1.5 px-3 py-1.5 bg-[#101626] border border-[#6366F1]/30 rounded-xl text-xs font-bold text-[#A5B4FC] hover:bg-[#172033] transition cursor-pointer" title="Creator credits balance">
+        <a href="/pricing" class="flex items-center gap-1.5 px-3 py-1.5 bg-[#10162A] border border-[#6366F1]/30 rounded-xl text-xs font-bold text-[#A5B4FC] hover:bg-[#172033] transition cursor-pointer" title="Creator credits balance">
           <span>⚡</span>
           <span class="header-credits-display font-extrabold text-white">100</span> Credits
         </a>
-        <a href="/pricing" class="btn-primary text-xs" style="text-decoration:none">
-          <span>+ Buy Credits</span>
-        </a>
-        <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-[#6366F1] to-[#06B6D4] flex items-center justify-center text-xs font-bold text-white border border-white/20 avatar-initials-display">
-          H
-        </div>
-        <button onclick="window.logoutUser()" class="p-1.5 text-[#94A3B8] hover:text-red-400 rounded-lg hover:bg-[#172033] transition text-xs" title="Log Out">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+
+        <!-- Big Glowing Export Button -->
+        <button id="btn-open-export" class="btn-glow-primary text-xs font-extrabold px-4 py-1.5 rounded-xl shadow-lg flex items-center gap-2">
+          <span>Export 4K</span>
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
         </button>
       </div>
     </header>
 
-    <!-- Studio Main Body (Left Transcript | Center Player | Right Inspector) -->
+    <!-- Studio Main Layout (Left Panel | Center Video Canvas | Right Inspector) -->
     <div class="flex-1 flex overflow-hidden">
       <!-- Left Panel: Captions Transcript Editor -->
-      <aside class="w-80 bg-[#0B0F19] border-r border-[#1E293B] flex flex-col shrink-0">
+      <aside class="w-80 bg-[#080C1B]/95 border-r border-[#1E293B]/80 flex flex-col shrink-0">
         <!-- Sub-tabs -->
-        <div class="flex border-b border-[#1E293B] px-2">
-          <button id="left-tab-captions" class="flex-1 py-2.5 text-xs font-semibold text-[#00C48C] border-b-2 border-[#00C48C] flex items-center justify-center gap-1.5">
+        <div class="flex border-b border-[#1E293B]/80 px-2">
+          <button id="left-tab-captions" class="flex-1 py-2.5 text-xs font-bold text-[#6366F1] border-b-2 border-[#6366F1] flex items-center justify-center gap-1.5">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/></svg>
             Captions
           </button>
-          <button id="left-tab-fonts" class="flex-1 py-2.5 text-xs font-medium text-[#9CA3AF] hover:text-white flex items-center justify-center gap-1.5 border-b-2 border-transparent">
+          <button id="left-tab-fonts" class="flex-1 py-2.5 text-xs font-medium text-[#94A3B8] hover:text-white flex items-center justify-center gap-1.5 border-b-2 border-transparent">
             <span class="font-serif font-bold text-sm">T</span>
             Custom Fonts
           </button>
-          <button id="left-tab-library" class="flex-1 py-2.5 text-xs font-medium text-[#9CA3AF] hover:text-white flex items-center justify-center gap-1.5 border-b-2 border-transparent">
+          <button id="left-tab-library" class="flex-1 py-2.5 text-xs font-medium text-[#94A3B8] hover:text-white flex items-center justify-center gap-1.5 border-b-2 border-transparent">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
             Library
           </button>
@@ -386,98 +365,98 @@
         <!-- VIEW 1: Captions Transcript -->
         <div id="left-content-captions" class="flex-1 flex flex-col overflow-hidden">
           <!-- Search and Tools Bar -->
-          <div class="p-3 border-b border-[#1F2732] flex items-center gap-2 shrink-0">
+          <div class="p-3 border-b border-[#1E293B] flex items-center gap-2 shrink-0">
             <div class="relative flex-1">
               <svg class="w-3.5 h-3.5 text-[#6B7280] absolute left-2.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-              <input id="transcript-search" type="text" placeholder="Search captions..." class="w-full bg-[#141A21] border border-[#1F2732] rounded-lg pl-8 pr-3 py-1.5 text-xs text-white focus:outline-none focus:border-[#00C48C]">
+              <input id="transcript-search" type="text" placeholder="Search captions..." class="w-full bg-[#10162A] border border-[#1E293B] rounded-xl pl-8 pr-3 py-1.5 text-xs text-white focus:outline-none focus:border-[#6366F1]">
             </div>
-            <button onclick="window.showToast('Select words to highlight or edit text on double-click!')" class="px-2.5 py-1.5 bg-[#141A21] hover:bg-[#1A222C] border border-[#1F2732] rounded-lg text-xs font-medium text-[#9CA3AF] hover:text-white flex items-center gap-1 shrink-0">
+            <button onclick="window.showToast('Click words to seek/highlight. Double click to edit!')" class="px-2.5 py-1.5 bg-[#10162A] hover:bg-[#182242] border border-[#1E293B] rounded-xl text-xs font-semibold text-[#94A3B8] hover:text-white flex items-center gap-1 shrink-0">
               <span>Tips</span>
             </button>
           </div>
 
           <!-- Transcript Line Items -->
-          <div id="transcript-list" class="flex-1 overflow-y-auto p-3 space-y-1.5">
+          <div id="transcript-list" class="flex-1 overflow-y-auto p-3 space-y-2">
             <!-- Populated dynamically -->
           </div>
         </div>
 
         <!-- VIEW 2: Custom Fonts Upload & Manager -->
         <div id="left-content-fonts" class="flex-1 flex flex-col p-4 space-y-4 overflow-y-auto hidden">
-          <div class="text-[11px] font-bold text-[#6B7280] uppercase tracking-wider">UPLOAD CUSTOM FONTS</div>
-          <div class="p-4 bg-[#141A21] border border-dashed border-[#00C48C]/40 rounded-xl text-center cursor-pointer hover:bg-[#1A222C] transition" onclick="document.getElementById('font-file-input').click()">
+          <div class="text-[10px] font-extrabold text-[#818CF8] uppercase tracking-wider">UPLOAD CUSTOM FONTS</div>
+          <div class="p-5 bg-[#10162A] border border-dashed border-[#6366F1]/40 rounded-2xl text-center cursor-pointer hover:bg-[#182242] transition" onclick="document.getElementById('font-file-input').click()">
             <input type="file" id="font-file-input" accept=".ttf,.otf,.woff,.woff2" class="hidden">
-            <div class="text-2xl mb-1">🔤</div>
-            <div class="text-xs font-semibold text-white">Click to Upload Font File</div>
-            <div class="text-[10px] text-[#6B7280] mt-1">Supports TTF, OTF, WOFF2</div>
+            <div class="text-3xl mb-1.5">🔤</div>
+            <div class="text-xs font-extrabold text-white">Click to Upload Font File</div>
+            <div class="text-[10px] text-[#64748B] mt-1">Supports TTF, OTF, WOFF, WOFF2</div>
           </div>
 
-          <div class="text-[11px] font-bold text-[#6B7280] uppercase tracking-wider">POPULAR DESI FONTS</div>
+          <div class="text-[10px] font-extrabold text-[#818CF8] uppercase tracking-wider">POPULAR VIRAL FONTS</div>
           <div class="space-y-2" id="available-fonts-list">
-            <div class="p-2.5 bg-[#141A21] border border-[#1F2732] rounded-lg flex items-center justify-between cursor-pointer hover:border-[#00C48C]" onclick="window.applyFontDirectly('Montserrat')">
+            <div class="p-3 bg-[#10162A] border border-[#1E293B] rounded-xl flex items-center justify-between cursor-pointer hover:border-[#6366F1] transition" onclick="window.applyFontDirectly('Montserrat')">
               <div>
-                <div class="text-xs font-bold text-white">Montserrat Bold</div>
-                <div class="text-[10px] text-[#6B7280]">Alex Hormozi Viral Style</div>
+                <div class="text-xs font-extrabold text-white">Montserrat Bold</div>
+                <div class="text-[10px] text-[#64748B]">Alex Hormozi Viral Style</div>
               </div>
-              <span class="text-[10px] text-[#00C48C] font-semibold">Active</span>
+              <span class="text-[10px] text-[#10B981] font-bold">Active</span>
             </div>
-            <div class="p-2.5 bg-[#141A21] border border-[#1F2732] rounded-lg flex items-center justify-between cursor-pointer hover:border-[#00C48C]" onclick="window.applyFontDirectly('Oswald')">
+            <div class="p-3 bg-[#10162A] border border-[#1E293B] rounded-xl flex items-center justify-between cursor-pointer hover:border-[#6366F1] transition" onclick="window.applyFontDirectly('Oswald')">
               <div>
-                <div class="text-xs font-bold text-white">Oswald Condensed</div>
-                <div class="text-[10px] text-[#6B7280]">Tall Impact Headlines</div>
+                <div class="text-xs font-extrabold text-white">Oswald Condensed</div>
+                <div class="text-[10px] text-[#64748B]">Tall Impact Headlines</div>
               </div>
-              <span class="text-[10px] text-[#9CA3AF]">Select</span>
+              <span class="text-[10px] text-[#94A3B8]">Select</span>
             </div>
-            <div class="p-2.5 bg-[#141A21] border border-[#1F2732] rounded-lg flex items-center justify-between cursor-pointer hover:border-[#00C48C]" onclick="window.applyFontDirectly('Poppins')">
+            <div class="p-3 bg-[#10162A] border border-[#1E293B] rounded-xl flex items-center justify-between cursor-pointer hover:border-[#6366F1] transition" onclick="window.applyFontDirectly('Poppins')">
               <div>
-                <div class="text-xs font-bold text-white">Poppins</div>
-                <div class="text-[10px] text-[#6B7280]">Friendly & Clean Desi</div>
+                <div class="text-xs font-extrabold text-white">Poppins</div>
+                <div class="text-[10px] text-[#64748B]">Friendly & Clean Modern</div>
               </div>
-              <span class="text-[10px] text-[#9CA3AF]">Select</span>
+              <span class="text-[10px] text-[#94A3B8]">Select</span>
             </div>
           </div>
         </div>
 
         <!-- VIEW 3: Media & Asset Library -->
         <div id="left-content-library" class="flex-1 flex flex-col p-4 space-y-4 overflow-y-auto hidden">
-          <div class="text-[11px] font-bold text-[#6B7280] uppercase tracking-wider">PROJECT ASSETS</div>
-          <div class="p-3 bg-[#141A21] border border-[#1F2732] rounded-xl space-y-2">
-            <div class="text-xs font-semibold text-white flex items-center gap-2">
-              <span>📹</span> Video Audio Track (16kHz PCM)
+          <div class="text-[10px] font-extrabold text-[#818CF8] uppercase tracking-wider">PROJECT ASSETS</div>
+          <div class="p-3.5 bg-[#10162A] border border-[#1E293B] rounded-2xl space-y-2">
+            <div class="text-xs font-bold text-white flex items-center gap-2">
+              <span>📹</span> Video Audio Stream (16kHz PCM)
             </div>
-            <div class="text-[11px] text-[#00C48C]">Noise Cleaning: Active (FFT Denoised)</div>
+            <div class="text-[11px] text-[#10B981] font-semibold">Noise Cleaning: Active (Denoised)</div>
           </div>
 
-          <div class="p-3 bg-[#141A21] border border-[#1F2732] rounded-xl space-y-2">
-            <div class="text-xs font-semibold text-white flex items-center gap-2">
-              <span>🪢</span> Auto-Emoji Dictionary
+          <div class="p-3.5 bg-[#10162A] border border-[#1E293B] rounded-2xl space-y-2">
+            <div class="text-xs font-bold text-white flex items-center gap-2">
+              <span>🔥</span> Auto-Emoji Dictionary
             </div>
-            <div class="text-[11px] text-[#9CA3AF]">25+ Desi keywords mapped to emojis</div>
+            <div class="text-[11px] text-[#94A3B8]">25+ Viral keywords mapped to emojis</div>
           </div>
         </div>
       </aside>
 
-      <!-- Center: Live 9:16 Video Player Canvas -->
-      <section class="flex-1 flex flex-col bg-[#080B0E] relative overflow-hidden items-center justify-center p-4">
+      <!-- Center: Live Video Player Canvas -->
+      <section class="flex-1 flex flex-col bg-[#050814]/80 relative overflow-hidden items-center justify-center p-4">
         <!-- Floating Canvas Toolbar -->
-        <div class="absolute top-4 z-40 flex items-center gap-2 bg-[#12171E]/90 border border-[#1F2732] rounded-xl p-1 backdrop-blur shadow-lg">
-          <button id="btn-toggle-safe-zone" class="px-2.5 py-1 text-xs font-medium text-[#9CA3AF] hover:text-white hover:bg-[#1A222C] rounded flex items-center gap-1 transition">
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+        <div class="absolute top-4 z-40 flex items-center gap-2 bg-[#0E1428]/90 border border-[#1E293B] rounded-2xl p-1.5 backdrop-blur-xl shadow-2xl">
+          <button id="btn-toggle-safe-zone" class="px-3 py-1 text-xs font-bold text-[#94A3B8] hover:text-white hover:bg-[#182242] rounded-xl flex items-center gap-1.5 transition">
+            <svg class="w-3.5 h-3.5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
             Safe zone
           </button>
-          <div class="w-[1px] h-4 bg-[#1F2732]"></div>
+          <div class="w-[1px] h-4 bg-[#1E293B]"></div>
           
           <!-- Aspect Ratio Switcher -->
-          <div class="flex items-center bg-[#0B0E12] rounded-lg p-0.5 border border-[#1F2732]">
-            <button id="btn-aspect-9-16" class="px-2 py-0.5 text-[11px] font-bold rounded bg-[#00C48C] text-black transition" title="Vertical (9:16) Reels/Shorts">9:16</button>
-            <button id="btn-aspect-16-9" class="px-2 py-0.5 text-[11px] font-medium text-[#9CA3AF] hover:text-white rounded transition" title="Landscape (16:9) YouTube">16:9</button>
-            <button id="btn-aspect-1-1" class="px-2 py-0.5 text-[11px] font-medium text-[#9CA3AF] hover:text-white rounded transition" title="Square (1:1) Instagram">1:1</button>
+          <div class="flex items-center bg-[#080C1B] rounded-xl p-0.5 border border-[#1E293B]">
+            <button id="btn-aspect-9-16" class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-[#6366F1] text-white transition shadow-[0_0_10px_rgba(99,102,241,0.5)]" title="Vertical (9:16) Reels/Shorts">9:16</button>
+            <button id="btn-aspect-16-9" class="px-2.5 py-1 text-[11px] font-medium text-[#9CA3AF] hover:text-white rounded-lg transition" title="Landscape (16:9) YouTube">16:9</button>
+            <button id="btn-aspect-1-1" class="px-2.5 py-1 text-[11px] font-medium text-[#9CA3AF] hover:text-white rounded-lg transition" title="Square (1:1) Instagram">1:1</button>
           </div>
         </div>
 
         <!-- Video Player Container -->
-        <div class="relative aspect-[9/16] max-h-[75vh] bg-black rounded-2xl overflow-hidden shadow-2xl border border-[#1F2732] flex items-center justify-center group transition-all duration-300" id="player-frame">
-          <video id="main-video-player" class="w-full h-full object-cover" loop playsinline></video>
+        <div class="relative aspect-[9/16] max-h-[72vh] bg-black rounded-3xl overflow-hidden shadow-2xl border border-[#1E293B] flex items-center justify-center group transition-all duration-300" id="player-frame">
+          <video id="main-video-player" class="w-full h-full object-cover" loop playsinline preload="auto" crossorigin="anonymous"></video>
 
           <!-- Draggable Animated Captions Overlay -->
           <div id="caption-render-box" class="caption-render-container" style="left: 50%; top: 80%;">
@@ -497,29 +476,24 @@
           </div>
         </div>
 
-        <!-- Player Controls Bar -->
-        <div class="mt-3 flex items-center gap-4 bg-[#12171E]/90 border border-[#1F2732] rounded-xl px-4 py-1.5 backdrop-blur z-30">
-          <button onclick="window.toggleVideoPlayback()" class="p-1 text-white hover:text-[#00C48C] transition" id="player-play-icon">
+        <!-- Floating Player Controls Bar -->
+        <div class="mt-3 flex items-center gap-4 bg-[#0E1428]/95 border border-[#1E293B] rounded-2xl px-5 py-2 backdrop-blur-xl z-30 shadow-2xl">
+          <button onclick="window.toggleVideoPlayback()" class="p-1.5 text-white hover:text-[#6366F1] transition transform hover:scale-110" id="player-play-icon">
             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
           </button>
-          <button class="p-1 text-[#9CA3AF] hover:text-white">
-            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
-          </button>
-          <span id="player-time-display" class="text-xs font-mono text-[#9CA3AF]">00:00:00 / 00:00:00</span>
-          <button class="p-1 text-[#9CA3AF] hover:text-white">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
-          </button>
+          <div class="w-[1px] h-4 bg-[#1E293B]"></div>
+          <span id="player-time-display" class="text-xs font-mono font-bold text-[#A5B4FC]">00:00:00 / 00:00:00</span>
         </div>
       </section>
 
       <!-- Right Inspector / Styling Panel -->
-      <aside class="w-80 bg-[#0E1217] border-l border-[#1F2732] flex flex-col shrink-0 overflow-y-auto">
+      <aside class="w-80 bg-[#080C1B]/95 border-l border-[#1E293B]/80 flex flex-col shrink-0 overflow-y-auto">
         <!-- Inspector Top Tabs -->
-        <div class="flex border-b border-[#1F2732] px-2 shrink-0">
-          <button id="tab-btn-text" class="px-3 py-2 text-xs font-semibold text-[#00C48C] border-b-2 border-[#00C48C]">Text</button>
-          <button id="tab-btn-templates" class="px-3 py-2 text-xs font-medium text-[#9CA3AF] hover:text-white border-b-2 border-transparent">Templates</button>
-          <button id="tab-btn-transitions" class="px-3 py-2 text-xs font-medium text-[#9CA3AF] hover:text-white border-b-2 border-transparent">Transitions</button>
-          <button id="tab-btn-audio" class="px-3 py-2 text-xs font-medium text-[#9CA3AF] hover:text-white border-b-2 border-transparent">AI Audio</button>
+        <div class="flex border-b border-[#1E293B] px-2 shrink-0">
+          <button id="tab-btn-text" class="px-3 py-2.5 text-xs font-extrabold text-[#6366F1] border-b-2 border-[#6366F1]">Text</button>
+          <button id="tab-btn-templates" class="px-3 py-2.5 text-xs font-medium text-[#94A3B8] hover:text-white border-b-2 border-transparent">Templates</button>
+          <button id="tab-btn-transitions" class="px-3 py-2.5 text-xs font-medium text-[#94A3B8] hover:text-white border-b-2 border-transparent">Transitions</button>
+          <button id="tab-btn-audio" class="px-3 py-2.5 text-xs font-medium text-[#94A3B8] hover:text-white border-b-2 border-transparent">AI Audio</button>
         </div>
 
         <div class="flex-1 p-4 space-y-5">
@@ -527,22 +501,22 @@
           <div id="tab-content-text" class="space-y-5">
             <!-- DISPLAY MODE (Word chunks / 1-word / full) -->
             <div class="space-y-2">
-              <div class="text-[11px] font-bold text-[#6B7280] uppercase tracking-wider">DISPLAY MODE</div>
-              <div class="grid grid-cols-3 gap-1.5 bg-[#141A21] p-1 rounded-xl border border-[#1F2732]">
-                <button id="btn-display-chunk" class="py-1.5 px-2 rounded-lg text-[11px] font-semibold bg-[#00C48C] text-black transition">2-3 Words</button>
-                <button id="btn-display-single" class="py-1.5 px-2 rounded-lg text-[11px] font-medium text-[#9CA3AF] hover:text-white transition">1 Word</button>
-                <button id="btn-display-full" class="py-1.5 px-2 rounded-lg text-[11px] font-medium text-[#9CA3AF] hover:text-white transition">Full Line</button>
+              <div class="text-[10px] font-extrabold text-[#818CF8] uppercase tracking-wider">CAPTION DISPLAY MODE</div>
+              <div class="grid grid-cols-3 gap-1.5 bg-[#10162A] p-1 rounded-2xl border border-[#1E293B]">
+                <button id="btn-display-chunk" class="py-2 px-2 rounded-xl text-[11px] font-bold bg-[#6366F1] text-white transition shadow-[0_0_12px_rgba(99,102,241,0.4)]">2-3 Words</button>
+                <button id="btn-display-single" class="py-2 px-2 rounded-xl text-[11px] font-medium text-[#94A3B8] hover:text-white transition">1 Word</button>
+                <button id="btn-display-full" class="py-2 px-2 rounded-xl text-[11px] font-medium text-[#94A3B8] hover:text-white transition">Full Line</button>
               </div>
             </div>
 
-            <div class="h-[1px] bg-[#1F2732]"></div>
+            <div class="h-[1px] bg-[#1E293B]"></div>
 
             <!-- FONTS Accordion -->
             <div class="space-y-3">
-              <div class="text-[11px] font-bold text-[#6B7280] uppercase tracking-wider">FONTS</div>
+              <div class="text-[10px] font-extrabold text-[#818CF8] uppercase tracking-wider">FONTS & TYPOGRAPHY</div>
               <div>
-                <label class="block text-[11px] text-[#9CA3AF] mb-1">Font Family</label>
-                <select id="input-font-family" class="w-full bg-[#141A21] border border-[#1F2732] rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[#00C48C]">
+                <label class="block text-[11px] font-medium text-[#94A3B8] mb-1">Font Family</label>
+                <select id="input-font-family" class="w-full bg-[#10162A] border border-[#1E293B] rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[#6366F1]">
                   <option value="Montserrat" selected>Montserrat (Bold Impact)</option>
                   <option value="Inter">Inter (Clean Modern)</option>
                   <option value="Poppins">Poppins (Friendly)</option>
@@ -555,8 +529,8 @@
 
               <div class="grid grid-cols-2 gap-2">
                 <div>
-                  <label class="block text-[11px] text-[#9CA3AF] mb-1">Font Weight</label>
-                  <select id="input-font-weight" class="w-full bg-[#141A21] border border-[#1F2732] rounded-xl px-2.5 py-1.5 text-xs text-white focus:outline-none">
+                  <label class="block text-[11px] font-medium text-[#94A3B8] mb-1">Font Weight</label>
+                  <select id="input-font-weight" class="w-full bg-[#10162A] border border-[#1E293B] rounded-xl px-2.5 py-1.5 text-xs text-white focus:outline-none">
                     <option value="600">Medium</option>
                     <option value="700">Bold</option>
                     <option value="800">Extra Bold</option>
@@ -564,110 +538,110 @@
                   </select>
                 </div>
                 <div>
-                  <label class="block text-[11px] text-[#9CA3AF] mb-1">Font Size</label>
+                  <label class="block text-[11px] font-medium text-[#94A3B8] mb-1">Font Size</label>
                   <div class="flex items-center gap-2">
-                    <input id="slider-font-size" type="range" min="18" max="56" value="34" class="w-full accent-[#00C48C] h-1.5 bg-[#232D3B] rounded">
-                    <span id="display-font-size" class="text-xs font-semibold text-white w-12 text-right">34 px</span>
+                    <input id="slider-font-size" type="range" min="18" max="56" value="34" class="w-full accent-[#6366F1] h-1.5 bg-[#1E293B] rounded">
+                    <span id="display-font-size" class="text-xs font-extrabold text-white w-12 text-right">34 px</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div class="h-[1px] bg-[#1F2732]"></div>
+            <div class="h-[1px] bg-[#1E293B]"></div>
 
             <!-- FORMAT Accordion -->
             <div class="space-y-3">
-              <div class="text-[11px] font-bold text-[#6B7280] uppercase tracking-wider">FORMAT</div>
+              <div class="text-[10px] font-extrabold text-[#818CF8] uppercase tracking-wider">FORMAT & CASING</div>
               <div class="flex items-center justify-between">
-                <span class="text-xs text-[#9CA3AF]">Styles</span>
-                <div class="flex bg-[#141A21] p-0.5 rounded-lg border border-[#1F2732]">
-                  <button id="btn-case-upper" class="px-2 py-1 text-xs font-bold text-white hover:bg-[#1E2632] rounded" title="Uppercase">TT</button>
-                  <button id="btn-case-title" class="px-2 py-1 text-xs font-medium text-white hover:bg-[#1E2632] rounded" title="Title Case">Tt</button>
-                  <button id="btn-case-lower" class="px-2 py-1 text-xs font-normal text-white hover:bg-[#1E2632] rounded" title="Lowercase">tt</button>
+                <span class="text-xs text-[#94A3B8]">Text Case</span>
+                <div class="flex bg-[#10162A] p-0.5 rounded-xl border border-[#1E293B]">
+                  <button id="btn-case-upper" class="px-2.5 py-1 text-xs font-bold text-white hover:bg-[#182242] rounded-lg" title="Uppercase">TT</button>
+                  <button id="btn-case-title" class="px-2.5 py-1 text-xs font-medium text-white hover:bg-[#182242] rounded-lg" title="Title Case">Tt</button>
+                  <button id="btn-case-lower" class="px-2.5 py-1 text-xs font-normal text-white hover:bg-[#182242] rounded-lg" title="Lowercase">tt</button>
                 </div>
               </div>
 
               <div class="flex items-center justify-between">
-                <span class="text-xs text-[#9CA3AF]">Alignment</span>
-                <div class="flex bg-[#141A21] p-0.5 rounded-lg border border-[#1F2732]">
-                  <button id="btn-align-left" class="p-1.5 text-[#9CA3AF] hover:text-white hover:bg-[#1E2632] rounded">
+                <span class="text-xs text-[#94A3B8]">Alignment</span>
+                <div class="flex bg-[#10162A] p-0.5 rounded-xl border border-[#1E293B]">
+                  <button id="btn-align-left" class="p-1.5 text-[#94A3B8] hover:text-white hover:bg-[#182242] rounded-lg">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h10M4 18h14"/></svg>
                   </button>
-                  <button id="btn-align-center" class="p-1.5 text-white bg-[#1E2632] rounded">
+                  <button id="btn-align-center" class="p-1.5 text-white bg-[#6366F1] rounded-lg">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M7 12h10M5 18h14"/></svg>
                   </button>
-                  <button id="btn-align-right" class="p-1.5 text-[#9CA3AF] hover:text-white hover:bg-[#1E2632] rounded">
+                  <button id="btn-align-right" class="p-1.5 text-[#94A3B8] hover:text-white hover:bg-[#182242] rounded-lg">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M10 12h10M6 18h14"/></svg>
                   </button>
                 </div>
               </div>
             </div>
 
-            <div class="h-[1px] bg-[#1F2732]"></div>
+            <div class="h-[1px] bg-[#1E293B]"></div>
 
             <!-- POSITION Accordion -->
             <div class="space-y-3">
               <div class="flex items-center justify-between">
-                <div class="text-[11px] font-bold text-[#6B7280] uppercase tracking-wider">POSITION</div>
-                <button id="btn-reset-pos" class="text-[10px] text-[#00C48C] hover:underline flex items-center gap-1">
+                <div class="text-[10px] font-extrabold text-[#818CF8] uppercase tracking-wider">CAPTION POSITION</div>
+                <button id="btn-reset-pos" class="text-[10px] text-[#06B6D4] font-bold hover:underline flex items-center gap-1">
                   <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-                  Reset
+                  Center Reset
                 </button>
               </div>
               <div class="grid grid-cols-2 gap-3">
-                <div class="flex items-center bg-[#141A21] border border-[#1F2732] rounded-xl px-3 py-1.5">
-                  <span class="text-xs font-semibold text-[#6B7280] mr-2">X</span>
+                <div class="flex items-center bg-[#10162A] border border-[#1E293B] rounded-xl px-3 py-1.5">
+                  <span class="text-xs font-bold text-[#64748B] mr-2">X</span>
                   <input id="input-pos-x" type="text" value="50.0 %" class="w-full bg-transparent text-xs text-white focus:outline-none">
                 </div>
-                <div class="flex items-center bg-[#141A21] border border-[#1F2732] rounded-xl px-3 py-1.5">
-                  <span class="text-xs font-semibold text-[#6B7280] mr-2">Y</span>
+                <div class="flex items-center bg-[#10162A] border border-[#1E293B] rounded-xl px-3 py-1.5">
+                  <span class="text-xs font-bold text-[#64748B] mr-2">Y</span>
                   <input id="input-pos-y" type="text" value="80.0 %" class="w-full bg-transparent text-xs text-white focus:outline-none">
                 </div>
               </div>
             </div>
 
-            <div class="h-[1px] bg-[#1F2732]"></div>
+            <div class="h-[1px] bg-[#1E293B]"></div>
 
             <!-- COLOR Accordion -->
             <div class="space-y-3">
-              <div class="text-[11px] font-bold text-[#6B7280] uppercase tracking-wider">TEXT COLOR</div>
-              <div class="flex items-center justify-between bg-[#141A21] border border-[#1F2732] rounded-xl p-2">
-                <span class="text-xs text-[#9CA3AF]">Base Fill</span>
-                <input id="input-primary-color" type="color" value="#FFFFFF" class="w-8 h-8 rounded-lg border-0 bg-transparent cursor-pointer">
+              <div class="text-[10px] font-extrabold text-[#818CF8] uppercase tracking-wider">TEXT COLOR</div>
+              <div class="flex items-center justify-between bg-[#10162A] border border-[#1E293B] rounded-2xl p-2.5">
+                <span class="text-xs text-[#94A3B8]">Primary Fill</span>
+                <input id="input-primary-color" type="color" value="#FFFFFF" class="w-8 h-8 rounded-xl border-0 bg-transparent cursor-pointer">
               </div>
             </div>
 
-            <div class="h-[1px] bg-[#1F2732]"></div>
+            <div class="h-[1px] bg-[#1E293B]"></div>
 
             <!-- EMPHASIS Accordion -->
             <div class="space-y-3">
-              <div class="text-[11px] font-bold text-[#6B7280] uppercase tracking-wider">ACTIVE WORD EMPHASIS</div>
+              <div class="text-[10px] font-extrabold text-[#818CF8] uppercase tracking-wider">ACTIVE WORD HIGHLIGHT</div>
               <div class="grid grid-cols-5 gap-2">
-                <button data-color="#FFE600" class="emphasis-color-btn h-7 rounded-lg bg-[#FFE600] ring-2 ring-white" title="Neon Yellow"></button>
-                <button data-color="#00FF66" class="emphasis-color-btn h-7 rounded-lg bg-[#00FF66]" title="Neon Green"></button>
-                <button data-color="#00F0FF" class="emphasis-color-btn h-7 rounded-lg bg-[#00F0FF]" title="Electric Cyan"></button>
-                <button data-color="#FF007F" class="emphasis-color-btn h-7 rounded-lg bg-[#FF007F]" title="Hot Pink"></button>
-                <button data-color="#FF6600" class="emphasis-color-btn h-7 rounded-lg bg-[#FF6600]" title="Flame Orange"></button>
+                <button data-color="#FFE600" class="emphasis-color-btn h-8 rounded-xl bg-[#FFE600] ring-2 ring-white shadow-lg" title="Neon Yellow"></button>
+                <button data-color="#00FF66" class="emphasis-color-btn h-8 rounded-xl bg-[#00FF66]" title="Neon Green"></button>
+                <button data-color="#00F0FF" class="emphasis-color-btn h-8 rounded-xl bg-[#00F0FF]" title="Electric Cyan"></button>
+                <button data-color="#FF007F" class="emphasis-color-btn h-8 rounded-xl bg-[#FF007F]" title="Hot Pink"></button>
+                <button data-color="#FF6600" class="emphasis-color-btn h-8 rounded-xl bg-[#FF6600]" title="Flame Orange"></button>
               </div>
             </div>
 
-            <div class="h-[1px] bg-[#1F2732]"></div>
+            <div class="h-[1px] bg-[#1E293B]"></div>
 
             <!-- EFFECTS Accordion -->
             <div class="space-y-3">
-              <div class="text-[11px] font-bold text-[#6B7280] uppercase tracking-wider">EFFECTS</div>
-              <div class="space-y-2">
-                <label class="flex items-center justify-between text-xs text-[#9CA3AF] cursor-pointer">
-                  <span>Black Border / Outline</span>
-                  <input type="checkbox" id="toggle-stroke" checked class="accent-[#00C48C]">
+              <div class="text-[10px] font-extrabold text-[#818CF8] uppercase tracking-wider">EFFECTS & SHADOW</div>
+              <div class="space-y-2.5">
+                <label class="flex items-center justify-between text-xs text-[#94A3B8] cursor-pointer p-2.5 rounded-xl bg-[#10162A] border border-[#1E293B]">
+                  <span class="font-bold text-white">Black Stroke Outline</span>
+                  <input type="checkbox" id="toggle-stroke" checked class="w-4 h-4 accent-[#6366F1]">
                 </label>
-                <label class="flex items-center justify-between text-xs text-[#9CA3AF] cursor-pointer">
-                  <span>Drop Shadow</span>
-                  <input type="checkbox" id="toggle-shadow" checked class="accent-[#00C48C]">
+                <label class="flex items-center justify-between text-xs text-[#94A3B8] cursor-pointer p-2.5 rounded-xl bg-[#10162A] border border-[#1E293B]">
+                  <span class="font-bold text-white">High-Contrast Drop Shadow</span>
+                  <input type="checkbox" id="toggle-shadow" checked class="w-4 h-4 accent-[#6366F1]">
                 </label>
-                <label class="flex items-center justify-between text-xs text-[#9CA3AF] cursor-pointer">
-                  <span>Dark Background Box</span>
-                  <input type="checkbox" id="toggle-bg-box" class="accent-[#00C48C]">
+                <label class="flex items-center justify-between text-xs text-[#94A3B8] cursor-pointer p-2.5 rounded-xl bg-[#10162A] border border-[#1E293B]">
+                  <span class="font-bold text-white">Dark Frosted Background Box</span>
+                  <input type="checkbox" id="toggle-bg-box" class="w-4 h-4 accent-[#6366F1]">
                 </label>
               </div>
             </div>
@@ -675,7 +649,7 @@
 
           <!-- ================= TAB: TEMPLATES ================= -->
           <div id="tab-content-templates" class="space-y-4 hidden">
-            <div class="text-[11px] font-bold text-[#6B7280] uppercase tracking-wider">1-CLICK VIRAL PRESETS</div>
+            <div class="text-[10px] font-extrabold text-[#818CF8] uppercase tracking-wider">22+ VIRAL CREATOR TEMPLATES</div>
             <div id="templates-grid" class="grid grid-cols-1 gap-3">
               <!-- Populated by templates.js -->
             </div>
@@ -683,49 +657,41 @@
 
           <!-- ================= TAB: TRANSITIONS ================= -->
           <div id="tab-content-transitions" class="space-y-4 hidden">
-            <div class="text-[11px] font-bold text-[#6B7280] uppercase tracking-wider">WORD ANIMATIONS</div>
-            <div class="grid grid-cols-2 gap-2">
-              <button class="p-3 bg-[#141A21] border border-[#00C48C] rounded-xl text-xs font-semibold text-white">✨ Pop In</button>
-              <button class="p-3 bg-[#141A21] border border-[#1F2732] hover:border-[#374659] rounded-xl text-xs font-semibold text-white">⚡ Bounce</button>
-              <button class="p-3 bg-[#141A21] border border-[#1F2732] hover:border-[#374659] rounded-xl text-xs font-semibold text-white">🌟 Glow</button>
-              <button class="p-3 bg-[#141A21] border border-[#1F2732] hover:border-[#374659] rounded-xl text-xs font-semibold text-white">🌊 Fade Smooth</button>
+            <div class="text-[10px] font-extrabold text-[#818CF8] uppercase tracking-wider">WORD POP ANIMATIONS</div>
+            <div class="grid grid-cols-2 gap-2.5">
+              <button class="p-3.5 bg-[#10162A] border border-[#6366F1] rounded-2xl text-xs font-bold text-white shadow-lg">✨ Pop In</button>
+              <button class="p-3.5 bg-[#10162A] border border-[#1E293B] hover:border-[#6366F1] rounded-2xl text-xs font-bold text-white transition">⚡ Bounce</button>
+              <button class="p-3.5 bg-[#10162A] border border-[#1E293B] hover:border-[#6366F1] rounded-2xl text-xs font-bold text-white transition">🌟 Neon Glow</button>
+              <button class="p-3.5 bg-[#10162A] border border-[#1E293B] hover:border-[#6366F1] rounded-2xl text-xs font-bold text-white transition">🌊 Smooth Flow</button>
             </div>
           </div>
 
           <!-- ================= TAB: AI AUDIO ================= -->
           <div id="tab-content-audio" class="space-y-4 hidden">
-            <div class="text-[11px] font-bold text-[#6B7280] uppercase tracking-wider">AI AUDIO ENHANCER</div>
-            <div class="p-3.5 bg-[#141A21] border border-[#1F2732] rounded-xl space-y-3">
+            <div class="text-[10px] font-extrabold text-[#818CF8] uppercase tracking-wider">AI NEURAL AUDIO ENHANCER</div>
+            <div class="p-4 bg-[#10162A] border border-[#1E293B] rounded-2xl space-y-3.5">
               <div class="flex items-center justify-between">
                 <div>
-                  <div class="text-xs font-semibold text-white">Studio Clean</div>
-                  <div class="text-[10px] text-[#6B7280]">Removes hiss, background noise and echo</div>
+                  <div class="text-xs font-bold text-white">Studio Clean</div>
+                  <div class="text-[10px] text-[#64748B]">Removes hiss, background traffic and room reverb</div>
                 </div>
-                <input type="checkbox" checked class="accent-[#00C48C]">
+                <input type="checkbox" checked class="w-4 h-4 accent-[#6366F1]">
               </div>
               <div class="flex items-center justify-between">
                 <div>
-                  <div class="text-xs font-semibold text-white">Vocal Boost</div>
-                  <div class="text-[10px] text-[#6B7280]">Enhances voice clarity and presence</div>
+                  <div class="text-xs font-bold text-white">Vocal Presence Boost</div>
+                  <div class="text-[10px] text-[#64748B]">Enhances voice clarity for mobile speakers</div>
                 </div>
-                <input type="checkbox" checked class="accent-[#00C48C]">
+                <input type="checkbox" checked class="w-4 h-4 accent-[#6366F1]">
               </div>
             </div>
           </div>
-        </div>
-
-        <!-- Bottom Export Button -->
-        <div class="p-4 border-t border-[#1F2732] bg-[#0E1217] shrink-0">
-          <button id="btn-open-export" class="w-full py-3 bg-[#00C48C] hover:bg-[#00DF9F] text-[#051A14] font-bold text-sm rounded-xl flex items-center justify-center gap-2 transition shadow-lg">
-            <span>Export</span>
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
-          </button>
         </div>
       </aside>
     </div>
 
     <!-- Bottom Timeline Track Container -->
-    <div id="timeline-container" class="h-44 border-t border-[#1F2732] bg-[#0E1217] flex flex-col shrink-0">
+    <div id="timeline-container" class="h-44 border-t border-[#1E293B]/80 bg-[#080C1B]/95 flex flex-col shrink-0">
       <!-- Generated dynamically by timeline.js -->
     </div>
   </div>
@@ -735,154 +701,160 @@
   <!-- EXPORT OPTIONS DIALOG                      -->
   <!-- ========================================== -->
   <div id="modal-export" class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-[#12171E] border border-[#232D3B] rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-5">
+    <div class="bg-[#0B0F1E] border border-[#1E293B] rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-5">
       <div class="flex items-center justify-between">
-        <h3 class="text-base font-bold text-white">Export Video & Captions</h3>
-        <button id="btn-close-export" class="text-[#6B7280] hover:text-white p-1">
+        <h3 class="text-base font-extrabold text-white">Export Video & Captions</h3>
+        <button id="btn-close-export" class="text-[#64748B] hover:text-white p-1 rounded-lg">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
 
       <div class="space-y-2.5">
-        <label class="flex items-center justify-between p-3 bg-[#151B22] border border-[#00C48C]/40 rounded-xl cursor-pointer hover:border-[#00C48C] transition">
+        <label class="flex items-center justify-between p-3.5 bg-[#10162A] border border-[#6366F1]/50 rounded-2xl cursor-pointer hover:border-[#6366F1] transition shadow-lg">
           <div class="flex items-center gap-3">
-            <input type="radio" name="export-format" value="mp4" checked class="accent-[#00C48C]">
+            <input type="radio" name="export-format" value="mp4" checked class="w-4 h-4 accent-[#6366F1]">
             <div>
-              <div class="text-xs font-semibold text-white">Rendered Video (MP4)</div>
-              <div class="text-[11px] text-[#6B7280]">Burned-in animated subtitles (1080p / 4K)</div>
+              <div class="text-xs font-bold text-white">Rendered Video (MP4)</div>
+              <div class="text-[11px] text-[#64748B]">Burned-in animated subtitles (1080p / 4K)</div>
             </div>
           </div>
-          <span class="text-xs font-bold text-[#00C48C]">MP4</span>
+          <span class="text-xs font-extrabold text-[#6366F1]">MP4</span>
         </label>
 
-        <label class="flex items-center justify-between p-3 bg-[#151B22] border border-[#1F2732] rounded-xl cursor-pointer hover:border-[#38BDF8]/40 transition">
+        <label class="flex items-center justify-between p-3 bg-[#10162A] border border-[#1E293B] rounded-2xl cursor-pointer hover:border-[#06B6D4]/40 transition">
           <div class="flex items-center gap-3">
-            <input type="radio" name="export-format" value="alpha" class="accent-[#00C48C]">
+            <input type="radio" name="export-format" value="alpha" class="w-4 h-4 accent-[#6366F1]">
             <div>
-              <div class="text-xs font-semibold text-white">Alpha Channel / Chroma (Premiere / DaVinci)</div>
-              <div class="text-[11px] text-[#6B7280]">Transparent caption layer for NLE video editors</div>
+              <div class="text-xs font-bold text-white">Alpha Channel Layer (Premiere / DaVinci)</div>
+              <div class="text-[11px] text-[#64748B]">Transparent overlay for pro video editors</div>
             </div>
           </div>
-          <span class="text-xs font-bold text-[#38BDF8]">Pro NLE</span>
+          <span class="text-xs font-bold text-[#06B6D4]">Pro NLE</span>
         </label>
 
-        <label class="flex items-center justify-between p-3 bg-[#151B22] border border-[#1F2732] rounded-xl cursor-pointer hover:border-[#1F2732] transition">
+        <label class="flex items-center justify-between p-3 bg-[#10162A] border border-[#1E293B] rounded-2xl cursor-pointer hover:border-[#1E293B] transition">
           <div class="flex items-center gap-3">
-            <input type="radio" name="export-format" value="srt" class="accent-[#00C48C]">
+            <input type="radio" name="export-format" value="srt" class="w-4 h-4 accent-[#6366F1]">
             <div>
-              <div class="text-xs font-semibold text-white">SubRip Subtitle (.SRT)</div>
-              <div class="text-[11px] text-[#6B7280]">Standard subtitle file with timecodes</div>
+              <div class="text-xs font-bold text-white">SubRip Subtitle (.SRT)</div>
+              <div class="text-[11px] text-[#64748B]">Standard subtitle file with timecodes</div>
             </div>
           </div>
-          <span class="text-xs font-semibold text-[#9CA3AF]">.srt</span>
+          <span class="text-xs font-semibold text-[#94A3B8]">.srt</span>
         </label>
 
-        <label class="flex items-center justify-between p-3 bg-[#151B22] border border-[#1F2732] rounded-xl cursor-pointer hover:border-[#1F2732] transition">
+        <label class="flex items-center justify-between p-3 bg-[#10162A] border border-[#1E293B] rounded-2xl cursor-pointer hover:border-[#1E293B] transition">
           <div class="flex items-center gap-3">
-            <input type="radio" name="export-format" value="vtt" class="accent-[#00C48C]">
+            <input type="radio" name="export-format" value="vtt" class="w-4 h-4 accent-[#6366F1]">
             <div>
-              <div class="text-xs font-semibold text-white">WebVTT Subtitle (.VTT)</div>
-              <div class="text-[11px] text-[#6B7280]">Web & streaming subtitles format</div>
+              <div class="text-xs font-bold text-white">WebVTT Subtitle (.VTT)</div>
+              <div class="text-[11px] text-[#64748B]">Web & streaming subtitles format</div>
             </div>
           </div>
-          <span class="text-xs font-semibold text-[#9CA3AF]">.vtt</span>
-        </label>
-
-        <label class="flex items-center justify-between p-3 bg-[#151B22] border border-[#1F2732] rounded-xl cursor-pointer hover:border-[#1F2732] transition">
-          <div class="flex items-center gap-3">
-            <input type="radio" name="export-format" value="docx" class="accent-[#00C48C]">
-            <div>
-              <div class="text-xs font-semibold text-white">Word Document Script (.DOCX)</div>
-              <div class="text-[11px] text-[#6B7280]">Formatted script for clients and teams</div>
-            </div>
-          </div>
-          <span class="text-xs font-semibold text-[#9CA3AF]">.docx</span>
-        </label>
-
-        <label class="flex items-center justify-between p-3 bg-[#151B22] border border-[#1F2732] rounded-xl cursor-pointer hover:border-[#1F2732] transition">
-          <div class="flex items-center gap-3">
-            <input type="radio" name="export-format" value="txt" class="accent-[#00C48C]">
-            <div>
-              <div class="text-xs font-semibold text-white">Plain Transcript (.TXT / .MD)</div>
-              <div class="text-[11px] text-[#6B7280]">Clean text script with timestamps</div>
-            </div>
-          </div>
-          <span class="text-xs font-semibold text-[#9CA3AF]">.txt</span>
+          <span class="text-xs font-semibold text-[#94A3B8]">.vtt</span>
         </label>
       </div>
 
       <!-- Export Resolution Selector -->
-      <div class="p-3 bg-[#0E1318] border border-[#1F2732] rounded-xl space-y-2">
-        <div class="flex items-center justify-between text-xs font-semibold text-white">
+      <div class="p-3.5 bg-[#080C1B] border border-[#1E293B] rounded-2xl space-y-2">
+        <div class="flex items-center justify-between text-xs font-bold text-white">
           <span>Render Quality & Resolution:</span>
-          <span class="text-[10px] text-[#00C48C] font-bold">Fast GPU Engine</span>
+          <span class="text-[10px] text-[#10B981] font-extrabold">Ultra-Fast GPU</span>
         </div>
         <div class="grid grid-cols-3 gap-2">
-          <label class="flex flex-col items-center p-2 rounded-lg bg-[#141A21] border border-[#00C48C]/40 cursor-pointer text-center hover:border-[#00C48C] transition">
+          <label class="flex flex-col items-center p-2.5 rounded-xl bg-[#10162A] border border-[#6366F1]/50 cursor-pointer text-center hover:border-[#6366F1] transition">
             <input type="radio" name="export-res" value="1080p" checked class="sr-only">
-            <span class="text-xs font-bold text-white">1080p FHD</span>
-            <span class="text-[10px] text-[#9CA3AF]">Recommended</span>
+            <span class="text-xs font-extrabold text-white">1080p FHD</span>
+            <span class="text-[10px] text-[#94A3B8]">Recommended</span>
           </label>
-          <label class="flex flex-col items-center p-2 rounded-lg bg-[#141A21] border border-[#1F2732] cursor-pointer text-center hover:border-[#00C48C] transition">
+          <label class="flex flex-col items-center p-2.5 rounded-xl bg-[#10162A] border border-[#1E293B] cursor-pointer text-center hover:border-[#6366F1] transition">
             <input type="radio" name="export-res" value="720p" class="sr-only">
-            <span class="text-xs font-bold text-white">720p HD</span>
-            <span class="text-[10px] text-[#9CA3AF]">Smaller File</span>
+            <span class="text-xs font-extrabold text-white">720p HD</span>
+            <span class="text-[10px] text-[#94A3B8]">Smaller File</span>
           </label>
-          <label class="flex flex-col items-center p-2 rounded-lg bg-[#141A21] border border-[#1F2732] cursor-pointer text-center hover:border-[#00C48C] transition">
+          <label class="flex flex-col items-center p-2.5 rounded-xl bg-[#10162A] border border-[#1E293B] cursor-pointer text-center hover:border-[#6366F1] transition">
             <input type="radio" name="export-res" value="4k" class="sr-only">
-            <span class="text-xs font-bold text-white">4K Ultra</span>
-            <span class="text-[10px] text-[#9CA3AF]">Max Clarity</span>
+            <span class="text-xs font-extrabold text-white">4K Ultra</span>
+            <span class="text-[10px] text-[#94A3B8]">Max Clarity</span>
           </label>
         </div>
       </div>
 
-      <button id="btn-confirm-export" class="w-full py-3 bg-[#00C48C] hover:bg-[#00DF9F] text-[#051A14] font-bold text-sm rounded-xl transition shadow-lg flex items-center justify-center gap-2">
+      <button id="btn-confirm-export" class="btn-glow-primary w-full py-3.5 justify-center text-sm font-extrabold rounded-2xl shadow-xl">
         <span>Download Now</span>
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
       </button>
     </div>
   </div>
 
-  <!-- KEYBOARD SHORTCUTS CHEAT SHEET MODAL -->
+  <!-- PROCESSING / TRANSCRIPTION MODAL -->
+  <div id="modal-processing" class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-[#0B0F1E] border border-[#1E293B] rounded-3xl max-w-md w-full p-8 shadow-2xl text-center space-y-6">
+      <div class="relative w-20 h-20 mx-auto">
+        <div class="absolute inset-0 rounded-full bg-gradient-to-tr from-[#6366F1] to-[#EC4899] animate-spin blur-md opacity-70"></div>
+        <div class="relative w-20 h-20 rounded-full bg-[#080C1B] flex items-center justify-center text-3xl font-black">
+          ⚡
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <h3 class="text-lg font-extrabold text-white">Transcribing Your Video...</h3>
+        <p id="processing-status-subtext" class="text-xs text-[#818CF8] font-medium">Whisper AI neural speech recognition active</p>
+      </div>
+
+      <div class="space-y-2">
+        <div class="w-full bg-[#10162A] h-2 rounded-full overflow-hidden border border-[#1E293B]">
+          <div id="processing-progress-bar" class="bg-gradient-to-r from-[#6366F1] via-[#A855F7] to-[#10B981] h-full rounded-full transition-all duration-300" style="width: 15%;"></div>
+        </div>
+        <div class="flex justify-between text-[11px] text-[#64748B] font-semibold">
+          <span>AI Speech Analysis</span>
+          <span id="processing-progress-text">15%</span>
+        </div>
+      </div>
+
+      <div class="p-3.5 bg-[#10162A] border border-[#1E293B] rounded-2xl text-left">
+        <div class="text-[10px] font-bold text-[#818CF8] uppercase tracking-wider mb-1">DID YOU KNOW?</div>
+        <p id="processing-trivia" class="text-xs text-[#94A3B8]">Adding animated captions increases video watch time and viewer retention by over 80% on Instagram Reels and TikTok.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- KEYBOARD SHORTCUTS MODAL -->
   <div id="modal-shortcuts" class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-[#12171E] border border-[#232D3B] rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-5">
+    <div class="bg-[#0B0F1E] border border-[#1E293B] rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-5">
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-2">
           <span class="text-lg">⌨️</span>
-          <h3 class="text-base font-bold text-white">Keyboard Shortcuts</h3>
+          <h3 class="text-base font-extrabold text-white">Keyboard Shortcuts</h3>
         </div>
-        <button id="btn-close-shortcuts" class="text-[#6B7280] hover:text-white p-1">
+        <button id="btn-close-shortcuts" class="text-[#64748B] hover:text-white p-1 rounded-lg">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
 
       <div class="space-y-2 text-xs">
-        <div class="flex items-center justify-between p-2 rounded bg-[#151B22] border border-[#1F2732]">
+        <div class="flex items-center justify-between p-2.5 rounded-xl bg-[#10162A] border border-[#1E293B]">
           <span class="text-[#D1D5DB]">Play / Pause Video</span>
-          <kbd class="px-2 py-1 bg-[#1F2732] text-white rounded font-mono text-[11px]">Space</kbd>
+          <kbd class="px-2.5 py-1 bg-[#182242] text-white rounded-lg font-mono text-[11px]">Space</kbd>
         </div>
-        <div class="flex items-center justify-between p-2 rounded bg-[#151B22] border border-[#1F2732]">
+        <div class="flex items-center justify-between p-2.5 rounded-xl bg-[#10162A] border border-[#1E293B]">
           <span class="text-[#D1D5DB]">Seek 1s Backward / Forward</span>
           <div class="flex gap-1">
-            <kbd class="px-2 py-1 bg-[#1F2732] text-white rounded font-mono text-[11px]">←</kbd>
-            <kbd class="px-2 py-1 bg-[#1F2732] text-white rounded font-mono text-[11px]">→</kbd>
+            <kbd class="px-2.5 py-1 bg-[#182242] text-white rounded-lg font-mono text-[11px]">←</kbd>
+            <kbd class="px-2.5 py-1 bg-[#182242] text-white rounded-lg font-mono text-[11px]">→</kbd>
           </div>
         </div>
-        <div class="flex items-center justify-between p-2 rounded bg-[#151B22] border border-[#1F2732]">
+        <div class="flex items-center justify-between p-2.5 rounded-xl bg-[#10162A] border border-[#1E293B]">
           <span class="text-[#D1D5DB]">Undo Last Action</span>
-          <kbd class="px-2 py-1 bg-[#1F2732] text-white rounded font-mono text-[11px]">Ctrl + Z</kbd>
+          <kbd class="px-2.5 py-1 bg-[#182242] text-white rounded-lg font-mono text-[11px]">Ctrl + Z</kbd>
         </div>
-        <div class="flex items-center justify-between p-2 rounded bg-[#151B22] border border-[#1F2732]">
+        <div class="flex items-center justify-between p-2.5 rounded-xl bg-[#10162A] border border-[#1E293B]">
           <span class="text-[#D1D5DB]">Redo Action</span>
-          <kbd class="px-2 py-1 bg-[#1F2732] text-white rounded font-mono text-[11px]">Ctrl + Y</kbd>
+          <kbd class="px-2.5 py-1 bg-[#182242] text-white rounded-lg font-mono text-[11px]">Ctrl + Y</kbd>
         </div>
-        <div class="flex items-center justify-between p-2 rounded bg-[#151B22] border border-[#1F2732]">
+        <div class="flex items-center justify-between p-2.5 rounded-xl bg-[#10162A] border border-[#1E293B]">
           <span class="text-[#D1D5DB]">Edit Word Text</span>
-          <span class="text-[#9CA3AF]">Double-Click word chip</span>
-        </div>
-        <div class="flex items-center justify-between p-2 rounded bg-[#151B22] border border-[#1F2732]">
-          <span class="text-[#D1D5DB]">Toggle Safe Zone Guidelines</span>
-          <span class="text-[#9CA3AF]">Canvas Toolbar button</span>
+          <span class="text-[#94A3B8]">Double-Click word chip</span>
         </div>
       </div>
     </div>
@@ -895,14 +867,12 @@
   <script src="/static/js/editor.js"></script>
   <script src="/static/js/app.js"></script>
 
-  <!-- ── Credit & User System ── -->
+  <!-- Credit & User System -->
   <script>
-    // Redirect to login if not authenticated
     if (!localStorage.getItem('isLoggedIn')) {
       window.location.href = '/';
     }
 
-    // Global Toast Notification Helper
     window.showToast = function(msg, isError = false) {
       const existing = document.getElementById('global-toast-el');
       if (existing) existing.remove();
@@ -910,14 +880,13 @@
       const toast = document.createElement('div');
       toast.id = 'global-toast-el';
       toast.innerHTML = msg;
-      toast.style.cssText = `position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:${isError ? 'rgba(239,68,68,0.95)' : 'rgba(14,20,16,0.95)'};border:1.5px solid ${isError ? '#EF4444' : '#00C48C'};color:#FFFFFF;font-weight:600;font-size:13px;padding:12px 24px;border-radius:50px;z-index:99999;backdrop-filter:blur(16px);font-family:Inter,sans-serif;box-shadow:0 10px 30px rgba(0,0,0,0.5);display:flex;align-items:center;gap:8px;animation:slideUpToast 0.3s cubic-bezier(0.16,1,0.3,1);`;
+      toast.style.cssText = `position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:${isError ? 'rgba(239,68,68,0.95)' : 'rgba(11,15,29,0.95)'};border:1.5px solid ${isError ? '#EF4444' : '#6366F1'};color:#FFFFFF;font-weight:700;font-size:13px;padding:12px 24px;border-radius:50px;z-index:99999;backdrop-filter:blur(20px);box-shadow:0 10px 30px rgba(0,0,0,0.6);display:flex;align-items:center;gap:8px;`;
       document.body.appendChild(toast);
       setTimeout(() => {
         if (toast.parentNode) toast.remove();
       }, 3500);
     };
 
-    // Logout Helper
     window.logoutUser = function() {
       if (confirm('Kya aap log out karna chahte hain?')) {
         localStorage.removeItem('isLoggedIn');
@@ -925,7 +894,6 @@
       }
     };
 
-    // Credit helpers
     window.getCredits = function() { return parseInt(localStorage.getItem('hcg_credits') || '0'); };
     window.setCredits = function(n) {
       const val = Math.max(0, n);
@@ -936,7 +904,6 @@
       });
     };
 
-    // Initialize credit & profile display
     (function initCreditsAndProfile() {
       const isNew = !localStorage.getItem('hcg_credits_init');
       if (isNew) {
@@ -945,14 +912,12 @@
       }
       window.setCredits(window.getCredits());
 
-      // Update avatar with username
       const user = localStorage.getItem('hcg_username') || 'Harsh';
       const initials = user.charAt(0).toUpperCase();
       document.querySelectorAll('#avatar-initials, .avatar-initials-display').forEach(el => el.textContent = initials);
       document.querySelectorAll('#avatar-name, .avatar-name-display').forEach(el => el.textContent = user.charAt(0).toUpperCase() + user.slice(1));
     })();
 
-    // Credit deduction based on video transcription
     window.HCG = window.HCG || {};
     window.HCG.calculateCredits = function(durationSeconds) {
       return 10;

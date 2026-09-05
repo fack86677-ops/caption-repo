@@ -671,6 +671,8 @@ class ThreadedHTTPServer(ThreadingMixIn, HTTPServer):
     daemon_threads = True
 
 class HarshRequestHandler(SimpleHTTPRequestHandler):
+    protocol_version = "HTTP/1.1"
+
     def log_message(self, format, *args):
         sys.stdout.write(f"[{time.strftime('%H:%M:%S')}] {args[0]} {args[1]}\n")
 
@@ -687,7 +689,7 @@ class HarshRequestHandler(SimpleHTTPRequestHandler):
 
     def do_GET(self):
         parsed = urllib.parse.urlparse(self.path)
-        path = parsed.path
+        path = urllib.parse.unquote(parsed.path)
 
         # 1. HTML Pages
         if path == "/" or path == "/login" or path == "/login.html":
@@ -857,6 +859,8 @@ class HarshRequestHandler(SimpleHTTPRequestHandler):
         elif file_path.endswith(".png"): mime = "image/png"
         elif file_path.endswith(".jpg") or file_path.endswith(".jpeg"): mime = "image/jpeg"
         elif file_path.endswith(".svg"): mime = "image/svg+xml"
+        elif file_path.endswith(".mp4"): mime = "video/mp4"
+        elif file_path.endswith(".webm"): mime = "video/webm"
         elif file_path.endswith(".mov"):
             mp4_alt = os.path.splitext(file_path)[0] + ".mp4"
             if os.path.exists(mp4_alt):

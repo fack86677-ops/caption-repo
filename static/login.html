@@ -13,16 +13,16 @@
     :root {
       --primary: #6366F1;
       --primary-hover: #4F46E5;
-      --primary-glow: rgba(99, 102, 241, 0.35);
+      --primary-glow: rgba(99, 102, 241, 0.4);
       --accent-cyan: #06B6D4;
       --accent-pink: #EC4899;
       --accent-green: #10B981;
-      --dark: #06080F;
-      --dark-card: #0B0F19;
-      --card: #101626;
+      --dark: #030712;
+      --dark-card: #080C1B;
+      --card: #10162A;
       --border: #1E293B;
       --border-focus: rgba(99, 102, 241, 0.5);
-      --text: #F8FAFC;
+      --text: #FFFFFF;
       --muted: #94A3B8;
     }
 
@@ -35,7 +35,7 @@
       line-height: 1.5;
     }
 
-    /* Ambient modern grid */
+    /* Ambient modern grid & auroras */
     body::before {
       content: '';
       position: fixed;
@@ -43,20 +43,19 @@
       background-image:
         linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-      background-size: 48px 48px;
+      background-size: 40px 40px;
       pointer-events: none;
       z-index: 0;
     }
 
-    /* Vibrant ambient auras */
     .glow-bg {
       position: absolute;
-      top: 0%;
+      top: 0;
       left: 50%;
       transform: translateX(-50%);
-      width: 1000px;
-      height: 500px;
-      background: radial-gradient(ellipse at center, rgba(99, 102, 241, 0.18) 0%, rgba(6, 182, 212, 0.08) 40%, transparent 70%);
+      width: 1100px;
+      height: 550px;
+      background: radial-gradient(ellipse at center, rgba(99, 102, 241, 0.22) 0%, rgba(236, 72, 153, 0.1) 35%, transparent 70%);
       pointer-events: none;
       z-index: 0;
     }
@@ -70,8 +69,8 @@
       align-items: center;
       justify-content: space-between;
       padding: 18px 48px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-      background: rgba(6, 8, 15, 0.85);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(8, 12, 27, 0.85);
       backdrop-filter: blur(20px);
     }
 
@@ -82,10 +81,10 @@
       text-decoration: none;
     }
     .logo-icon {
-      width: 38px;
-      height: 38px;
-      background: linear-gradient(135deg, #6366F1 0%, #A855F7 100%);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 50%, #EC4899 100%);
+      border: 1px solid rgba(255, 255, 255, 0.25);
       border-radius: 12px;
       display: flex;
       align-items: center;
@@ -93,7 +92,7 @@
       font-weight: 900;
       font-size: 20px;
       color: #fff;
-      box-shadow: 0 0 24px rgba(99, 102, 241, 0.5);
+      box-shadow: 0 0 25px rgba(99, 102, 241, 0.6);
     }
     .logo-text {
       font-size: 19px;
@@ -128,22 +127,23 @@
     .nav-links a:hover { color: #fff; }
 
     .btn-nav-signin {
-      background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
+      background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 50%, #EC4899 100%);
       color: #fff;
-      font-weight: 700;
+      font-weight: 800;
       font-size: 13px;
-      padding: 9px 22px;
+      padding: 9px 24px;
       border-radius: 50px;
       text-decoration: none;
       display: flex;
       align-items: center;
       gap: 6px;
-      box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+      box-shadow: 0 0 25px rgba(99, 102, 241, 0.5);
       transition: all 0.2s;
+      border: 1px solid rgba(255,255,255,0.2);
     }
     .btn-nav-signin:hover {
-      background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
-      box-shadow: 0 0 30px rgba(99, 102, 241, 0.6);
+      background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 50%, #DB2777 100%);
+      box-shadow: 0 0 35px rgba(99, 102, 241, 0.7);
       transform: translateY(-1px);
     }
 
@@ -164,26 +164,26 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: rgba(99, 102, 241, 0.1);
-      border: 1px solid rgba(99, 102, 241, 0.3);
+      background: rgba(99, 102, 241, 0.12);
+      border: 1px solid rgba(99, 102, 241, 0.35);
       padding: 7px 20px;
       border-radius: 50px;
       font-size: 12px;
-      font-weight: 700;
+      font-weight: 800;
       color: #A5B4FC;
       margin-bottom: 24px;
       letter-spacing: 0.3px;
     }
 
     .hero-title {
-      font-size: clamp(38px, 6vw, 66px);
+      font-size: clamp(38px, 6vw, 68px);
       font-weight: 900;
-      line-height: 1.12;
+      line-height: 1.1;
       letter-spacing: -1.5px;
       max-width: 980px;
     }
     .hero-title span {
-      background: linear-gradient(135deg, #38BDF8 0%, #818CF8 50%, #C084FC 100%);
+      background: linear-gradient(135deg, #38BDF8 0%, #818CF8 50%, #EC4899 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -197,7 +197,7 @@
     }
     .hero-subtitle strong { color: #fff; }
 
-    /* ── Main Hero Layout (Demo Preview + Login Card) ── */
+    /* ── Main Hero Layout ── */
     .hero-grid {
       display: grid;
       grid-template-columns: 1.1fr 0.9fr;
@@ -215,14 +215,14 @@
       .nav-links { display: none; }
     }
 
-    /* ── Interactive Demo Preview Box ── */
+    /* ── Demo Preview Box ── */
     .demo-box {
-      background: rgba(11, 15, 25, 0.85);
+      background: rgba(11, 15, 29, 0.85);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 24px;
+      border-radius: 28px;
       padding: 28px;
-      backdrop-filter: blur(20px);
-      box-shadow: 0 25px 70px rgba(0,0,0,0.6), 0 0 30px rgba(99,102,241,0.06);
+      backdrop-filter: blur(24px);
+      box-shadow: 0 25px 70px rgba(0,0,0,0.7), 0 0 30px rgba(99,102,241,0.1);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -235,11 +235,10 @@
     }
     .demo-box-title {
       font-size: 14px;
-      font-weight: 700;
+      font-weight: 800;
       color: #fff;
     }
 
-    /* Language pills grid */
     .lang-pills-grid {
       display: flex;
       flex-wrap: wrap;
@@ -251,23 +250,22 @@
       border: 1px solid rgba(255,255,255,0.08);
       color: #94A3B8;
       font-size: 12px;
-      font-weight: 600;
+      font-weight: 700;
       padding: 6px 14px;
       border-radius: 50px;
       cursor: pointer;
       transition: all 0.2s;
     }
     .lang-pill:hover, .lang-pill.active {
-      background: rgba(99, 102, 241, 0.18);
+      background: rgba(99, 102, 241, 0.2);
       border-color: #6366F1;
       color: #A5B4FC;
     }
 
-    /* Mock phone preview */
     .phone-mockup {
       background: #000;
       border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 20px;
+      border-radius: 24px;
       aspect-ratio: 9 / 14;
       max-height: 380px;
       margin: 0 auto;
@@ -303,12 +301,12 @@
 
     /* ── Login Card ── */
     .login-card {
-      background: rgba(16, 22, 38, 0.9);
+      background: rgba(16, 22, 44, 0.85);
       border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 24px;
+      border-radius: 28px;
       padding: 36px 32px;
       backdrop-filter: blur(24px);
-      box-shadow: 0 25px 70px rgba(0,0,0,0.7), 0 0 35px rgba(99,102,241,0.1);
+      box-shadow: 0 25px 70px rgba(0,0,0,0.7), 0 0 35px rgba(99,102,241,0.15);
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -325,20 +323,27 @@
       margin-bottom: 24px;
     }
 
-    /* Google Button */
     .btn-google {
       width: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
+      gap: 12px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 14px;
+      padding: 12px 20px;
+      font-size: 14px;
+      font-weight: 700;
       color: #fff;
       cursor: pointer;
       transition: all 0.2s;
       margin-bottom: 20px;
     }
     .btn-google:hover {
-      background: rgba(255,255,255,0.09);
-      border-color: rgba(255,255,255,0.25);
+      background: rgba(255,255,255,0.12);
+      border-color: rgba(255,255,255,0.3);
+      transform: translateY(-1px);
     }
     .btn-google svg { width: 20px; height: 20px; flex-shrink: 0; }
 
@@ -368,9 +373,9 @@
     }
     .form-group input {
       width: 100%;
-      background: rgba(0,0,0,0.4);
+      background: rgba(8, 12, 27, 0.8);
       border: 1.5px solid var(--border);
-      border-radius: 12px;
+      border-radius: 14px;
       padding: 12px 16px;
       font-size: 14px;
       color: #fff;
@@ -378,10 +383,10 @@
       transition: all 0.2s;
       outline: none;
     }
-    .form-group input::placeholder { color: #4B5563; }
+    .form-group input::placeholder { color: #64748B; }
     .form-group input:focus {
-      border-color: var(--green);
-      box-shadow: 0 0 0 3px rgba(0,196,140,0.15);
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99,102,241,0.2);
     }
 
     #error-msg {
@@ -389,8 +394,8 @@
       color: #F87171;
       background: rgba(248,113,113,0.08);
       border: 1px solid rgba(248,113,113,0.2);
-      border-radius: 8px;
-      padding: 9px 12px;
+      border-radius: 10px;
+      padding: 10px 14px;
       margin-bottom: 14px;
       display: none;
     }
@@ -401,96 +406,29 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      background: var(--green);
-      border: none;
-      border-radius: 50px;
+      background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 50%, #EC4899 100%);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 14px;
       padding: 13px 0;
       font-size: 15px;
-      font-weight: 700;
-      color: #032E20;
+      font-weight: 800;
+      color: #FFF;
       cursor: pointer;
       transition: all 0.2s;
-      box-shadow: 0 0 20px rgba(0,196,140,0.25);
+      box-shadow: 0 0 25px rgba(99,102,241,0.45);
     }
     .btn-primary:hover {
-      background: var(--green-hover);
-      box-shadow: 0 0 30px rgba(0,196,140,0.45);
+      background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 50%, #DB2777 100%);
+      box-shadow: 0 0 35px rgba(99,102,241,0.7);
+      transform: translateY(-1px);
     }
     .btn-primary:active { transform: scale(0.98); }
-    .btn-primary svg { width: 18px; height: 18px; }
 
-    .demo-hint {
-      font-size: 11px;
-      color: #6B7280;
-      text-align: center;
-      margin-top: 14px;
-    }
-    .demo-hint code {
-      background: rgba(0,196,140,0.08);
-      color: var(--green);
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-size: 11px;
-    }
-
-    /* ── Brands & Creators Bar ── */
-    .brands-section {
-      position: relative;
-      z-index: 1;
-      text-align: center;
-      padding: 40px 24px 60px;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      background: rgba(14,20,16,0.4);
-    }
-    .brands-title {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 24px;
-    }
-    .brands-title span { color: var(--green); }
-    .brands-grid {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
-      gap: 36px;
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-    .brand-badge {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.06);
-      padding: 8px 18px;
-      border-radius: 50px;
-      font-size: 13px;
-      font-weight: 700;
-      color: #D1D5DB;
-    }
-    .brand-avatar {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--green), #38BDF8);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      color: #000;
-      font-weight: 800;
-    }
-
-    /* ── Section Styles ── */
+    /* ── Features Section ── */
     .content-section {
       position: relative;
       z-index: 1;
-      max-width: 1100px;
+      max-width: 1160px;
       margin: 0 auto;
       padding: 80px 24px;
     }
@@ -499,181 +437,93 @@
       margin-bottom: 50px;
     }
     .section-tag {
-      display: inline-block;
       font-size: 11px;
       font-weight: 800;
-      color: var(--green);
+      color: #818CF8;
       text-transform: uppercase;
       letter-spacing: 1.5px;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
     .section-title {
       font-size: clamp(28px, 4vw, 42px);
       font-weight: 900;
       letter-spacing: -1px;
+      color: #fff;
     }
-    .section-desc {
+    .section-sub {
       font-size: 15px;
       color: var(--muted);
-      margin-top: 10px;
       max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
+      margin: 12px auto 0;
     }
 
-    /* ── Templates Showcase Grid ── */
-    .templates-showcase-grid {
+    .features-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 20px;
-    }
-    .template-item {
-      background: var(--dark-card);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 20px;
-      transition: all 0.25s;
-    }
-    .template-item:hover {
-      border-color: var(--green);
-      transform: translateY(-4px);
-    }
-    .template-preview-box {
-      height: 120px;
-      background: #080B0E;
-      border: 1px solid #1A222C;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 14px;
-      text-align: center;
-      padding: 10px;
-    }
-    .template-name { font-size: 15px; font-weight: 700; color: #fff; }
-    .template-creator { font-size: 12px; color: var(--muted); margin-top: 2px; }
-
-    /* ── Plugins & NLE Section ── */
-    .plugin-card {
-      background: linear-gradient(145deg, rgba(0,196,140,0.08) 0%, rgba(14,20,16,0.9) 60%);
-      border: 1px solid rgba(0,196,140,0.3);
-      border-radius: 24px;
-      padding: 48px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
-      align-items: center;
-    }
-    @media (max-width: 800px) {
-      .plugin-card { grid-template-columns: 1fr; padding: 28px; }
-    }
-    .plugin-btn-group {
-      display: flex;
-      gap: 12px;
-      margin-top: 24px;
-    }
-    .btn-download-plugin {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.15);
-      color: #fff;
-      font-weight: 700;
-      font-size: 13px;
-      padding: 10px 20px;
-      border-radius: 12px;
-      text-decoration: none;
-      transition: all 0.2s;
-    }
-    .btn-download-plugin:hover {
-      background: var(--green);
-      color: #032E20;
-      border-color: var(--green);
-    }
-
-    /* ── Features Grid (Alpha, Audio, Formats) ── */
-    .features-3-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 24px;
     }
     .feature-card {
-      background: var(--dark-card);
+      background: rgba(16, 22, 44, 0.6);
       border: 1px solid var(--border);
       border-radius: 20px;
-      padding: 32px 28px;
+      padding: 28px;
+      backdrop-filter: blur(16px);
       transition: all 0.25s;
     }
     .feature-card:hover {
-      border-color: rgba(0,196,140,0.4);
+      border-color: rgba(99, 102, 241, 0.5);
+      background: rgba(22, 30, 60, 0.8);
       transform: translateY(-3px);
+      box-shadow: 0 15px 35px -10px rgba(99, 102, 241, 0.2);
     }
     .feature-icon {
       width: 48px;
       height: 48px;
-      background: rgba(0,196,140,0.1);
-      border: 1px solid rgba(0,196,140,0.25);
       border-radius: 14px;
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.3);
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 22px;
-      margin-bottom: 20px;
-      color: var(--green);
+      margin-bottom: 18px;
     }
-    .feature-title { font-size: 18px; font-weight: 800; color: #fff; margin-bottom: 8px; }
-    .feature-text { font-size: 13px; color: var(--muted); line-height: 1.6; }
-
-    /* ── Testimonials ── */
-    .testimonials-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
+    .feature-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 8px;
     }
-    .testimonial-card {
-      background: var(--dark-card);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 24px;
-    }
-    .testimonial-quote {
+    .feature-desc {
       font-size: 13px;
-      color: #D1D5DB;
+      color: var(--muted);
       line-height: 1.6;
-      margin-bottom: 16px;
     }
-    .testimonial-author {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .author-name { font-size: 13px; font-weight: 700; color: #fff; }
-    .author-role { font-size: 11px; color: var(--muted); }
 
-    /* ── FAQ Accordion ── */
+    /* ── FAQ Section ── */
     .faq-list {
-      max-width: 800px;
+      max-width: 760px;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
       gap: 12px;
     }
     .faq-item {
-      background: var(--dark-card);
+      background: rgba(16, 22, 44, 0.6);
       border: 1px solid var(--border);
-      border-radius: 14px;
+      border-radius: 16px;
       overflow: hidden;
+      transition: all 0.2s;
     }
     .faq-question {
       padding: 18px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
       font-size: 15px;
       font-weight: 700;
       color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
     .faq-answer {
       padding: 0 24px 18px;
@@ -683,827 +533,334 @@
       display: none;
     }
     .faq-item.open .faq-answer { display: block; }
-    .faq-item.open .faq-icon { transform: rotate(180deg); }
+    .faq-item.open { border-color: rgba(99, 102, 241, 0.4); }
 
     /* ── Footer ── */
     footer {
       border-top: 1px solid var(--border);
-      background: rgba(6,10,8,0.95);
-      padding: 60px 48px 30px;
+      padding: 40px 24px;
+      text-align: center;
       font-size: 13px;
       color: var(--muted);
+      background: rgba(8, 12, 27, 0.95);
     }
-    .footer-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr 1fr;
-      gap: 40px;
-      max-width: 1100px;
-      margin: 0 auto 40px;
-    }
-    @media (max-width: 768px) {
-      .footer-grid { grid-template-columns: 1fr; gap: 28px; }
-      footer { padding: 40px 24px 20px; }
-    }
-    .footer-col h5 { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 14px; }
-    .footer-col ul { list-style: none; space-y: 8px; }
-    .footer-col ul li { margin-bottom: 8px; }
-    .footer-col ul li a { text-decoration: none; color: var(--muted); transition: color 0.2s; }
-    .footer-col ul li a:hover { color: #fff; }
-
-    .footer-bottom {
-      border-top: 1px solid var(--border);
-      padding-top: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      max-width: 1100px;
-      margin: 0 auto;
-      font-size: 12px;
-    }
-
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .spinner {
-      display: none;
-      width: 18px; height: 18px;
-      border: 2px solid rgba(0,0,0,0.3);
-      border-top-color: #032E20;
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-    }
-    .btn-primary.loading .spinner { display: block; }
-    .btn-primary.loading .btn-label { display: none; }
   </style>
 </head>
 <body>
-
-  <!-- Background Aura -->
   <div class="glow-bg"></div>
 
-  <!-- ── Navbar ── -->
+  <!-- Navbar -->
   <nav>
-    <a class="logo" href="/">
+    <a href="/" class="logo">
       <div class="logo-icon">⚡</div>
-      <span class="logo-text">Harsh AI Studio<span class="logo-dot"></span></span>
+      <span class="logo-text">Harsh AI<span class="logo-dot"></span></span>
     </a>
+
     <ul class="nav-links">
-      <li><a href="#features">AI Features</a></li>
-      <li><a href="#templates">22+ Templates</a></li>
-      <li><a href="#plugins">Plugins (Premiere & DaVinci)</a></li>
-      <li><a href="/pricing">Pricing & Credits</a></li>
-      <li><a href="#faq">FAQs</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#demo">AI Speech Engine</a></li>
+      <li><a href="/pricing">Pricing</a></li>
+      <li><a href="#faq">FAQ</a></li>
     </ul>
-    <a href="#signin-card" class="btn-nav-signin">
-      <span>Get Started Free</span>
+
+    <a href="#login-box" class="btn-nav-signin">
+      <span>Get 100 Free Credits</span>
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
   </nav>
 
-  <!-- ── HERO SECTION ── -->
+  <!-- Hero Section -->
   <section class="hero-section">
     <div class="hero-badge">
-      <span>⚡ THE #1 AI VIDEO & ANIMATED CAPTION STUDIO FOR CREATORS</span>
+      <span>✨</span> WORLD'S MOST ADVANCED AI CAPTION STUDIO
     </div>
 
     <h1 class="hero-title">
-      The Most Powerful AI Captions<br>
-      <span>For Viral Creators & Editors</span>
+      Turn Any Spoken Video Into <span>Viral Content</span> In 1-Click
     </h1>
 
     <p class="hero-subtitle">
-      Auto-transcribe real spoken vocals with millisecond precision, generate <strong>22+ animated creator styles (Hormozi, MrBeast, Minimalist)</strong>, and export studio-quality 4K HDR videos in seconds.
+      Generate word-by-word synchronized subtitles, multi-lingual Hinglish & Native scripts, 22+ Alex Hormozi viral templates, and export in crystal-clear <strong>4K 60FPS</strong>.
     </p>
 
-    <!-- Main Hero Grid (Demo Selector + Sign In Card) -->
-    <div class="hero-grid">
-      <!-- Left: Interactive Live Demo -->
+    <!-- Main Grid: Demo Preview + Login Card -->
+    <div class="hero-grid" id="login-box">
+      <!-- Left: Interactive Preview -->
       <div class="demo-box">
-        <div class="demo-box-header">
-          <div class="demo-box-title">Select Language / Dialect:</div>
-          <span style="font-size:11px; color:#A5B4FC; font-weight:800; background:rgba(99,102,241,0.15); padding:3px 10px; border-radius:12px; border:1px solid rgba(99,102,241,0.3);">99.4% Voice Accuracy</span>
-        </div>
+        <div>
+          <div class="demo-box-header">
+            <span class="demo-box-title">⚡ Multi-Language Speech Engine</span>
+            <span style="font-size: 11px; font-weight: 800; color: #10B981; background: rgba(16, 185, 129, 0.12); padding: 3px 10px; border-radius: 50px; border: 1px solid rgba(16, 185, 129, 0.3);">99.4% Accuracy</span>
+          </div>
 
-        <div class="lang-pills-grid" id="demo-lang-pills">
-          <button class="lang-pill active" onclick="setDemoLang('Hindi', 'LESI COOPERATION KE LIYE TYAR HO?')">Hindi (हिंदी / Hinglish)</button>
-          <button class="lang-pill" onclick="setDemoLang('English', 'HOW TO BUILD A $10,000/MO BUSINESS')">English (Global)</button>
-          <button class="lang-pill" onclick="setDemoLang('Urdu', 'آپ کی ویڈیوز کے لیے وائرل کیپشنز')">Urdu (اردو)</button>
-          <button class="lang-pill" onclick="setDemoLang('Punjabi', 'ਵੀਡੀਓਜ਼ ਲਈ ਵਧੀਆ ਕੈਪਸ਼ਨਸ')">Punjabi (ਪੰਜਾਬੀ)</button>
+          <div class="lang-pills-grid">
+            <button class="lang-pill active" onclick="setDemoLang('hi_roman', 'SUNO DOSTO AGAR AAPKO REEL VIRAL KARNI HAI')">Hindi (Hinglish)</button>
+            <button class="lang-pill" onclick="setDemoLang('hi_native', 'सुनो दोस्तों अगर आपको रील वायरल करनी है')">हिंदी (Devanagari)</button>
+            <button class="lang-pill" onclick="setDemoLang('en', 'STOP SCROLLING IF YOU WANT TO GROW')">English</button>
+            <button class="lang-pill" onclick="setDemoLang('pa', 'ਸੁਣੋ ਜੀ ਜੇਕਰ ਤੁਸੀਂ ਰੀਲ ਵਾਇਰਲ ਕਰਨੀ ਹੈ')">ਪੰਜਾਬੀ (Punjabi)</button>
+          </div>
         </div>
 
         <div class="phone-mockup">
           <div class="demo-caption-overlay" id="demo-caption-text">
-            <span>MAKE MONEY</span> ONLINE 🔥
+            <span>SUNO DOSTO</span> AGAR AAPKO REEL VIRAL KARNI HAI
           </div>
+        </div>
+
+        <div style="margin-top: 16px; font-size: 11px; color: var(--muted); text-align: center;">
+          Word-by-word active glow highlight • Sub-frame millisecond synchronization
         </div>
       </div>
 
-      <!-- Right: Sign In / Access Card -->
-      <div class="login-card" id="signin-card">
-        <div class="card-title">Welcome to Studio ⚡</div>
-        <div class="card-sub">Sign in to access your video workspace & 100 free credits</div>
+      <!-- Right: Authentication Card -->
+      <div class="login-card">
+        <div class="card-title">Creator Sign In</div>
+        <div class="card-sub">Instant access • 100 free AI credits included</div>
 
-        <!-- Google Primary Button -->
-        <button class="btn-google" type="button" onclick="loginWithGoogle()">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+        <div id="error-msg"></div>
+
+        <!-- 1-Click Google Login -->
+        <button class="btn-google" onclick="openGoogleAuthModal()">
+          <svg viewBox="0 0 24 24">
+            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
           </svg>
-          Continue with Google
+          <span>Continue with Google</span>
         </button>
 
-        <div class="divider"><span>or sign in with email OTP</span></div>
+        <div class="divider"><span>OR SIGN IN WITH EMAIL OTP</span></div>
 
-        <!-- Step 1: Email Form -->
-        <div id="otp-step-1">
-          <form id="email-otp-form" onsubmit="handleSendOtp(event)">
-            <div class="form-group">
-              <label for="login-email">Your Email Address</label>
-              <input type="email" id="login-email" placeholder="name@domain.com" required autocomplete="email" />
-            </div>
-            <div class="form-group">
-              <label for="login-name">Your Creator Name (Optional)</label>
-              <input type="text" id="login-name" placeholder="e.g. Harsh, Alex" autocomplete="name" />
-            </div>
-
-            <div id="otp-send-error" style="display:none; color:#F87171; font-size:12px; margin-bottom:12px; font-weight:600;"></div>
-
-            <button class="btn-primary" type="submit" id="send-otp-btn">
-              <span class="btn-label">
-                Send 6-Digit OTP Code &nbsp;
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-              </span>
-            </button>
-          </form>
-        </div>
-
-        <!-- Step 2: OTP Verification Form -->
-        <div id="otp-step-2" style="display:none;">
-          <div style="background:rgba(99,102,241,0.1); border:1px solid rgba(99,102,241,0.3); border-radius:12px; padding:12px; margin-bottom:16px; font-size:12px; color:#A5B4FC;">
-            <span>Code sent to <strong id="otp-sent-to-email" style="color:#fff;"></strong>. Check your inbox / spam folder.</span>
+        <!-- Step 1: Request OTP Form -->
+        <form id="form-send-otp" onsubmit="handleSendOtp(event)">
+          <div class="form-group">
+            <label>Creator Email Address</label>
+            <input type="email" id="input-email" placeholder="you@gmail.com" required autocomplete="email">
           </div>
+          <button type="submit" id="btn-send-otp" class="btn-primary">
+            <span>Send Login Code ⚡</span>
+          </button>
+        </form>
 
-          <form id="verify-otp-form" onsubmit="handleVerifyOtp(event)">
-            <div class="form-group">
-              <label for="login-otp-code">Enter 6-Digit Verification Code</label>
-              <input type="text" id="login-otp-code" maxlength="6" pattern="[0-9]{6}" placeholder="• • • • • •" required autofocus style="text-align:center; font-size:22px; font-weight:900; letter-spacing:6px; font-family:monospace;" />
-            </div>
-
-            <div id="otp-verify-error" style="display:none; color:#F87171; font-size:12px; margin-bottom:12px; font-weight:600;"></div>
-
-            <button class="btn-primary" type="submit" id="verify-otp-btn">
-              <span class="btn-label">
-                Verify & Enter Studio &nbsp;
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-              </span>
+        <!-- Step 2: Verify OTP Form (Hidden initially) -->
+        <form id="form-verify-otp" onsubmit="handleVerifyOtp(event)" style="display: none;">
+          <div class="form-group">
+            <label>6-Digit Verification Code</label>
+            <input type="text" id="input-otp" placeholder="123456" maxlength="6" required autocomplete="one-time-code" style="letter-spacing: 6px; font-size: 18px; text-align: center;">
+          </div>
+          <button type="submit" id="btn-verify-otp" class="btn-primary">
+            <span>Verify & Enter Studio →</span>
+          </button>
+          <div style="margin-top: 12px; text-align: center;">
+            <button type="button" onclick="resetToEmailStep()" style="background: none; border: none; color: #818CF8; font-size: 12px; font-weight: 700; cursor: pointer;">
+              ← Change Email
             </button>
+          </div>
+        </form>
 
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px; font-size:12px;">
-              <button type="button" onclick="backToEmailStep()" style="background:none; border:none; color:#94A3B8; cursor:pointer; text-decoration:underline;">← Change Email</button>
-              <button type="button" id="resend-otp-btn" onclick="resendOtp()" style="background:none; border:none; color:#818CF8; cursor:pointer; font-weight:700;">Resend Code in <span id="resend-timer">60</span>s</button>
-            </div>
-          </form>
-        </div>
-
-        <div class="demo-hint" style="margin-top:16px; font-size:12px; color:#A5B4FC; text-align:center;">
-          Verified creators get <strong>100 Free AI Credits</strong> automatically!
+        <div style="margin-top: 20px; font-size: 11px; color: var(--muted); text-align: center;">
+          By signing in, you agree to our Terms of Service & Privacy Policy.
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ── BRANDS / CREATORS TRUST BAR ── -->
-  <section class="brands-section">
-    <div class="brands-title">Powering teams of your <span>Favourite Creators & Editors</span></div>
-    <div class="brands-grid">
-      <div class="brand-badge"><div class="brand-avatar" style="background:#6366F1; color:#fff;">⚡</div> YouTube Creators (1M+ Subs)</div>
-      <div class="brand-badge"><div class="brand-avatar" style="background:#EC4899; color:#fff;">📱</div> Instagram Reels Influencers</div>
-      <div class="brand-badge"><div class="brand-avatar" style="background:#06B6D4; color:#fff;">🎙️</div> Spotify Top Podcasters</div>
-      <div class="brand-badge"><div class="brand-avatar" style="background:#8B5CF6; color:#fff;">🎬</div> Premiere Pro & DaVinci Agencies</div>
-      <div class="brand-badge"><div class="brand-avatar" style="background:#10B981; color:#fff;">🚀</div> TikTok Growth Studios</div>
-      <div class="brand-badge"><div class="brand-avatar" style="background:#F59E0B; color:#fff;">✨</div> Viral Short-Form Editors</div>
-    </div>
-  </section>
-
-  <!-- ── TEMPLATES GALLERY SECTION ── -->
-  <section class="content-section" id="templates">
-    <div class="section-header">
-      <span class="section-tag">22+ Viral Creator Presets</span>
-      <h2 class="section-title">One-Click Viral Caption Styles</h2>
-      <p class="section-desc">Engineered for maximum viewer retention — high-contrast typography, active word color bounce, custom outlines, drop shadows, and automatic emoji integration.</p>
-    </div>
-
-    <div class="templates-showcase-grid">
-      <div class="template-item">
-        <div class="template-preview-box">
-          <span style="font-family:'Montserrat',sans-serif; font-weight:900; font-size:18px; color:#FFFFFF; -webkit-text-stroke: 1.5px #000; text-shadow:0 3px 6px #000;"><span style="color:#FFE600">MAKE MONEY</span> 🔥</span>
-        </div>
-        <div class="template-name">The Hormozi</div>
-        <div class="template-creator">Alex Hormozi Viral Preset</div>
-      </div>
-
-      <div class="template-item">
-        <div class="template-preview-box">
-          <span style="font-family:'Montserrat',sans-serif; font-weight:900; font-size:18px; color:#FFFFFF; -webkit-text-stroke: 1.5px #000; text-shadow:0 3px 6px #000;"><span style="color:#00FF66">WIN $100,000</span> 🚀</span>
-        </div>
-        <div class="template-name">MrBeast Style</div>
-        <div class="template-creator">MrBeast 1-Word Pop Preset</div>
-      </div>
-
-      <div class="template-item">
-        <div class="template-preview-box">
-          <span style="font-family:'Inter',sans-serif; font-weight:800; font-size:16px; color:#FFFFFF; background:rgba(15,23,42,0.85); padding:6px 14px; border-radius:8px;"><span style="color:#38BDF8">Monk</span> Mode 💡</span>
-        </div>
-        <div class="template-name">Iman Gadzhi</div>
-        <div class="template-creator">Aesthetic Minimalist Preset</div>
-      </div>
-
-      <div class="template-item">
-        <div class="template-preview-box">
-          <span style="font-family:'Oswald',sans-serif; font-weight:700; font-size:20px; color:#00F0FF; text-shadow:0 0 10px #00F0FF;"><span style="color:#FF007F">AI FUTURE</span> ⚡</span>
-        </div>
-        <div class="template-name">Cyberpunk Neon</div>
-        <div class="template-creator">Glow & Tech Preset</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── 3 KEY PILLARS (Alpha Export, AI Audio, 20+ Langs) ── -->
+  <!-- Features Section -->
   <section class="content-section" id="features">
     <div class="section-header">
-      <span class="section-tag">All-In-One Studio</span>
-      <h2 class="section-title">Built for Serious Video Post-Production</h2>
+      <div class="section-tag">ENGINEERED FOR CREATORS</div>
+      <h2 class="section-title">Everything You Need To Dominate Reels & Shorts</h2>
+      <p class="section-sub">Built with state-of-the-art neural speech models and viral formatting presets.</p>
     </div>
 
-    <div class="features-3-grid">
+    <div class="features-grid">
       <div class="feature-card">
-        <div class="feature-icon">🎬</div>
-        <h3 class="feature-title">Export in Alpha Channel or 4K HDR</h3>
-        <p class="feature-text">Export clean transparent animated caption layers (.mov / ProRes / Alpha) directly into Premiere Pro & DaVinci, or download instant 4K burned MP4 videos ready for social media.</p>
+        <div class="feature-icon">⚡</div>
+        <div class="feature-title">Whisper AI Speech Engine</div>
+        <div class="feature-desc">Millisecond-accurate timestamping for every spoken word, ensuring seamless synchronization.</div>
       </div>
 
       <div class="feature-card">
-        <div class="feature-icon">🎙️</div>
-        <h3 class="feature-title">AI Studio Audio Cleaner & Denoise</h3>
-        <p class="feature-text">Eliminate background noise, traffic rumble, microphone hiss, and room reverb with built-in neural audio cleaning to maximize transcription accuracy up to 99%.</p>
+        <div class="feature-icon">🔥</div>
+        <div class="feature-title">22+ Viral Style Templates</div>
+        <div class="feature-desc">Alex Hormozi, MrBeast, Iman Gadzhi, Ali Abdaal, and Tech Burner styled subtitle animations.</div>
       </div>
 
       <div class="feature-card">
         <div class="feature-icon">🌐</div>
-        <h3 class="feature-title">20+ Languages with Transliteration</h3>
-        <p class="feature-text">Native support for Hindi, Hinglish (Roman Script), Urdu (RTL), Punjabi, Bengali, Tamil, Telugu, Marathi, Gujarati, Spanish, and English with millisecond synchronization.</p>
+        <div class="feature-title">Multi-Language & Hinglish</div>
+        <div class="feature-desc">Native support for Hindi, Hinglish (Roman Script), Punjabi, Bengali, Tamil, Telugu, and English.</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🎬</div>
+        <div class="feature-title">4K 60FPS & NLE Export</div>
+        <div class="feature-desc">Burn captions directly to MP4 or export transparent alpha channels for Premiere Pro and DaVinci Resolve.</div>
       </div>
     </div>
   </section>
 
-  <!-- ── TESTIMONIALS ── -->
-  <section class="content-section">
-    <div class="section-header">
-      <span class="section-tag">Loved by Editors</span>
-      <h2 class="section-title">What Content Creators & Editors Say</h2>
-    </div>
-
-    <div class="testimonials-grid">
-      <div class="testimonial-card">
-        <p class="testimonial-quote">"Harsh AI Studio saves me 45 minutes on every single Reel. The Hormozi and MrBeast templates make our shorts look ultra-professional with zero keyframing."</p>
-        <div class="testimonial-author">
-          <div class="brand-avatar" style="background:#6366F1; color:#fff;">B</div>
-          <div>
-            <div class="author-name">Bhuwan Sharma</div>
-            <div class="author-role">YouTube Creator (1.4M Subscribers)</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="testimonial-card">
-        <p class="testimonial-quote">"The Alpha Channel export and adjustable timeline make this indispensable for our agency workflow inside DaVinci Resolve and Premiere Pro."</p>
-        <div class="testimonial-author">
-          <div class="brand-avatar" style="background:#EC4899; color:#fff;">A</div>
-          <div>
-            <div class="author-name">Aarav Patel</div>
-            <div class="author-role">Lead Video Editor & Reels Producer</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="testimonial-card">
-        <p class="testimonial-quote">"Faster-Whisper transcription gets every Hindi & Hinglish word accurate on the first try. The millisecond word sync is unmatched."</p>
-        <div class="testimonial-author">
-          <div class="brand-avatar" style="background:#06B6D4; color:#fff;">Z</div>
-          <div>
-            <div class="author-name">Zaryab Khan</div>
-            <div class="author-role">Podcast Host & Media Agency Lead</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-          <div>
-            <div class="author-name">Zaryab Khan</div>
-            <div class="author-role">Agency Lead, Lahore</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── FAQ ACCORDION ── -->
+  <!-- FAQ Section -->
   <section class="content-section" id="faq">
     <div class="section-header">
-      <span class="section-tag">Got Questions?</span>
+      <div class="section-tag">GOT QUESTIONS?</div>
       <h2 class="section-title">Frequently Asked Questions</h2>
     </div>
 
     <div class="faq-list">
-      <div class="faq-item open">
-        <div class="faq-question" onclick="toggleFaq(this)">
-          <span>How accurate is the transcription for Hindi / Hinglish?</span>
-          <span class="faq-icon">▼</span>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-question">
+          <span>Do I get free credits upon signing up?</span>
+          <span>+</span>
         </div>
         <div class="faq-answer">
-          Harsh Caption Generator uses high-accuracy Whisper AI fine-tuned with Indic transliteration dictionaries. It achieves up to 97% accuracy on Hindi, Hinglish, Urdu, and regional languages.
+          Yes! Every creator automatically receives 100 free AI credits upon signing in, which is enough to transcribe and caption multiple videos.
         </div>
       </div>
 
-      <div class="faq-item">
-        <div class="faq-question" onclick="toggleFaq(this)">
-          <span>How does the credit system work?</span>
-          <span class="faq-icon">▼</span>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-question">
+          <span>Does it support Indian languages & Hinglish?</span>
+          <span>+</span>
         </div>
         <div class="faq-answer">
-          Credits are charged based on video duration: ≤10s uses ~25-30 credits, ≤30s uses ~50-55 credits, ≤1m uses ~70-80 credits. Every new user gets 100 Free Credits upon sign-in. Additional credit packs start at just ₹60 for 1,000 credits!
+          Yes! You can choose Roman Hinglish script (English alphabet) or Native Devanagari/Punjabi scripts with flawless speech detection.
         </div>
       </div>
 
-      <div class="faq-item">
-        <div class="faq-question" onclick="toggleFaq(this)">
-          <span>Can I edit individual words and customize styles?</span>
-          <span class="faq-icon">▼</span>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-question">
+          <span>Can I edit individual words and timings?</span>
+          <span>+</span>
         </div>
         <div class="faq-answer">
-          Yes! You have full control over font size, colors, highlight colors, black outlines, drop shadows, safe-zones, and 2-3 word chunking. You can also double-click any word in the transcript list to edit it directly.
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <div class="faq-question" onclick="toggleFaq(this)">
-          <span>What formats can I export?</span>
-          <span class="faq-icon">▼</span>
-        </div>
-        <div class="faq-answer">
-          You can export high-quality burned MP4 videos (1080p / 4K), SubRip (.SRT), WebVTT (.VTT), Word Document scripts (.DOCX), plain text (.TXT), and Alpha-Channel green screen videos for Premiere Pro & DaVinci Resolve.
+          Yes! You can drag word blocks on the multi-track timeline, trim edges, double-click to edit text, and customize fonts and colors.
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ── FOOTER ── -->
+  <!-- Footer -->
   <footer>
-    <div class="footer-grid">
-      <div class="footer-col">
-        <a class="logo" href="/" style="margin-bottom:14px;">
-          <div class="logo-icon">H</div>
-          <span class="logo-text">Harsh Captions<span class="logo-dot"></span></span>
-        </a>
-        <p style="margin-top:10px; max-width:320px; font-size:12px; line-height:1.6;">
-          The AI captioning and video editing studio purpose-built for South Asian creators, editors, and agencies.
-        </p>
+    <div style="max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: gap: 16px;">
+      <div>© 2026 Harsh AI Studio. All rights reserved.</div>
+      <div style="display: flex; gap: 20px;">
+        <a href="/pricing" style="color: var(--muted); text-decoration: none;">Pricing</a>
+        <a href="/editor" style="color: var(--muted); text-decoration: none;">Studio</a>
+        <a href="/login" style="color: var(--muted); text-decoration: none;">Sign In</a>
       </div>
-
-      <div class="footer-col">
-        <h5>Product</h5>
-        <ul>
-          <li><a href="#features">AI Transcription</a></li>
-          <li><a href="#templates">Viral Templates</a></li>
-          <li><a href="#plugins">NLE Plugins</a></li>
-          <li><a href="/pricing">Credit Packs & Pricing</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h5>Languages</h5>
-        <ul>
-          <li><a href="#demo-lang-pills">Hindi & Hinglish</a></li>
-          <li><a href="#demo-lang-pills">Urdu (RTL)</a></li>
-          <li><a href="#demo-lang-pills">Punjabi & Bengali</a></li>
-          <li><a href="#demo-lang-pills">Tamil, Telugu, Marathi</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h5>Support & Legal</h5>
-        <ul>
-          <li><a href="mailto:support@harshcaptions.com">support@harshcaptions.com</a></li>
-          <li><a href="/pricing">Pricing & Refunds</a></li>
-          <li><a href="#" onclick="alert('Privacy Policy: All user media is encrypted and never sold.')">Privacy Policy</a></li>
-          <li><a href="#" onclick="alert('Terms of Service: Standard SaaS terms apply.')">Terms & Conditions</a></li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="footer-bottom">
-      <div>© 2026 Harsh Caption Generator. All rights reserved.</div>
-      <div>Made with ❤️ for Indian & South Asian Creators</div>
     </div>
   </footer>
 
-  <!-- ========================================== -->
-  <!-- GOOGLE OAUTH 2.0 AUTHENTICATION & POPUP    -->
-  <!-- ========================================== -->
-  <div id="modal-google-auth" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.88); backdrop-filter:blur(14px); z-index:99999; align-items:center; justify-content:center; padding:16px;">
-    <div style="background:#0E1318; border:1px solid #232D3B; border-radius:24px; max-width:460px; width:100%; padding:32px; box-shadow:0 25px 60px rgba(0,0,0,0.85); position:relative; font-family:'Inter',sans-serif;">
-      <button onclick="closeGoogleAuthModal()" style="position:absolute; top:20px; right:20px; background:none; border:none; color:#9CA3AF; font-size:20px; cursor:pointer;">✕</button>
-      
-      <!-- GOOGLE SCREEN 1: ACCOUNT CHOOSER / EMAIL INPUT -->
-      <div id="google-view-choose">
-        <div style="text-align:center; margin-bottom:24px;">
-          <svg viewBox="0 0 24 24" style="width:42px; height:42px; margin:0 auto 12px; display:block;" xmlns="http://www.w3.org/2000/svg">
-            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-          </svg>
-          <h3 style="margin:0; font-size:20px; font-weight:800; color:#FFF;">Sign in with Google</h3>
-          <p style="margin:6px 0 0; font-size:13px; color:#9CA3AF;">Choose an account to continue to <strong style="color:#00C48C;">Harsh Caption Generator</strong></p>
-        </div>
-
-        <div id="google-accounts-list" style="display:flex; flex-direction:column; gap:10px; margin-bottom:20px;">
-          <!-- Quick Account Option -->
-          <div onclick="selectGoogleAccount('Harsh Dhiman', 'harshdhiman332@gmail.com')" style="display:flex; align-items:center; gap:14px; padding:12px 16px; background:#151D25; border:1px solid #232D3B; border-radius:14px; cursor:pointer; transition:all 0.2s;" onmouseover="this.style.borderColor='#00C48C'" onmouseout="this.style.borderColor='#232D3B'">
-            <div style="width:38px; height:38px; border-radius:50%; background:linear-gradient(135deg, #00C48C, #0070F3); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:16px;">H</div>
-            <div style="flex:1;">
-              <div style="font-size:14px; font-weight:700; color:#fff;">Harsh Dhiman</div>
-              <div style="font-size:12px; color:#9CA3AF;">harshdhiman332@gmail.com</div>
-            </div>
-            <span style="font-size:11px; font-weight:700; color:#00C48C; background:rgba(0,196,140,0.1); padding:3px 8px; border-radius:12px;">Signed in</span>
-          </div>
-
-          <!-- Enter Another Google Account -->
-          <div onclick="showGoogleManualInput()" style="display:flex; align-items:center; gap:14px; padding:12px 16px; background:#12171E; border:1px dashed #232D3B; border-radius:14px; cursor:pointer; transition:all 0.2s;" onmouseover="this.style.borderColor='#00C48C'" onmouseout="this.style.borderColor='#232D3B'">
-            <div style="width:38px; height:38px; border-radius:50%; background:#1F2937; color:#9CA3AF; display:flex; align-items:center; justify-content:center; font-size:18px;">👤</div>
-            <div style="flex:1;">
-              <div style="font-size:13px; font-weight:700; color:#D1D5DB;">Use another Google account</div>
-              <div style="font-size:11px; color:#6B7280;">Sign in with any other Gmail</div>
-            </div>
-            <span style="font-size:16px; color:#9CA3AF;">+</span>
-          </div>
-        </div>
-
-        <!-- Manual Google Input Form (Hidden by default) -->
-        <div id="google-manual-input-box" style="display:none; margin-bottom:20px; padding:16px; background:#151D25; border:1px solid #232D3B; border-radius:14px;">
-          <label style="display:block; font-size:11px; font-weight:700; color:#9CA3AF; margin-bottom:6px; text-transform:uppercase;">Enter Your Gmail Address</label>
-          <input type="email" id="manual-google-email" placeholder="e.g. yourname@gmail.com" style="width:100%; box-sizing:border-box; background:rgba(0,0,0,0.6); border:1.5px solid #232D3B; border-radius:10px; padding:10px 14px; font-size:14px; color:#fff; outline:none; margin-bottom:10px;" />
-          
-          <label style="display:block; font-size:11px; font-weight:700; color:#9CA3AF; margin-bottom:6px; text-transform:uppercase;">Your Full Name</label>
-          <input type="text" id="manual-google-name" placeholder="e.g. Harsh Sharma" style="width:100%; box-sizing:border-box; background:rgba(0,0,0,0.6); border:1.5px solid #232D3B; border-radius:10px; padding:10px 14px; font-size:14px; color:#fff; outline:none; margin-bottom:12px;" />
-          
-          <button type="button" onclick="confirmManualGoogleAccount()" style="width:100%; padding:11px; border-radius:8px; border:none; background:#00C48C; color:#032E20; font-size:13px; font-weight:800; cursor:pointer;">
-            Continue with this Google Account →
-          </button>
-        </div>
-
-        <div style="font-size:11px; color:#6B7280; text-align:center; line-height:1.5;">
-          To continue, Google will share your name, email address, language preference, and profile picture with Harsh Caption Generator.
-        </div>
-      </div>
-
-      <!-- GOOGLE SCREEN 2: AGE & PROFILE ONBOARDING (MANDATORY VERIFICATION) -->
-      <div id="google-view-profile" style="display:none;">
-        <div style="text-align:center; margin-bottom:20px;">
-          <div id="g-avatar-circle" style="width:54px; height:54px; border-radius:50%; background:linear-gradient(135deg, #00C48C, #0070F3); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:22px; margin:0 auto 10px; border:2px solid #00C48C; box-shadow:0 0 20px rgba(0,196,140,0.3);">H</div>
-          <h3 id="g-auth-name-display" style="margin:0; font-size:18px; font-weight:800; color:#FFF;">Harsh Dhiman</h3>
-          <p id="g-auth-email-display" style="margin:4px 0 0; font-size:13px; color:#00C48C; font-weight:600;">harshdhiman332@gmail.com</p>
-          <span style="display:inline-block; margin-top:6px; font-size:11px; font-weight:700; color:#00C48C; background:rgba(0,196,140,0.12); padding:3px 10px; border-radius:20px; border:1px solid rgba(0,196,140,0.3);">Google Verified Account ✓</span>
-        </div>
-
-        <div id="g-profile-error" style="display:none; margin-bottom:14px; padding:10px 12px; background:rgba(239,68,68,0.15); border:1px solid rgba(239,68,68,0.3); border-radius:10px; color:#F87171; font-size:12px; font-weight:600;">
-          ⚠️ Kripya apni Age sahi bharein!
-        </div>
-
-        <form id="google-final-form" onsubmit="handleCompleteGoogleAuth(event)" style="display:flex; flex-direction:column; gap:14px;">
-          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
-            <div>
-              <label style="display:block; font-size:11px; font-weight:700; color:#9CA3AF; margin-bottom:6px; text-transform:uppercase;">Your Age <span style="color:#00C48C;">*</span></label>
-              <input type="number" id="auth-user-age" min="13" max="100" placeholder="e.g. 21" required autofocus style="width:100%; box-sizing:border-box; background:rgba(0,0,0,0.6); border:1.5px solid #232D3B; border-radius:12px; padding:11px 14px; font-size:14px; color:#fff; outline:none;" />
-            </div>
-            <div>
-              <label style="display:block; font-size:11px; font-weight:700; color:#9CA3AF; margin-bottom:6px; text-transform:uppercase;">Creator Niche</label>
-              <select id="auth-user-niche" style="width:100%; box-sizing:border-box; background:rgba(0,0,0,0.6); border:1.5px solid #232D3B; border-radius:12px; padding:11px 14px; font-size:13px; color:#fff; outline:none;">
-                <option value="Reels & Shorts">Reels & Shorts</option>
-                <option value="YouTube Longform">YouTube Video</option>
-                <option value="Podcasts">Podcast Host</option>
-                <option value="Agency / Video Editor">Agency / Editor</option>
-              </select>
-            </div>
-          </div>
-
-          <div style="background:rgba(0,196,140,0.08); border:1px solid rgba(0,196,140,0.25); border-radius:12px; padding:12px 14px; display:flex; align-items:center; gap:10px; font-size:13px; color:#00C48C; font-weight:700;">
-            <span style="font-size:18px;">🎁</span>
-            <span>Google Verification gives you <strong>100 Free AI Credits</strong> instantly!</span>
-          </div>
-
-          <button type="submit" id="btn-complete-google-auth" style="width:100%; padding:14px; border-radius:50px; border:none; background:#00C48C; color:#032E20; font-size:15px; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; margin-top:4px; box-shadow:0 0 24px rgba(0,196,140,0.35);">
-            <span>Enter Studio Workspace</span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-        </form>
-      </div>
-
-    </div>
-  </div>
-
+  <!-- Scripts -->
   <script>
-    function getApiBase() {
-      if (window.location.origin && window.location.origin.includes(':7860')) return '';
-      if (window.location.protocol === 'file:' || window.location.port === '5500' || window.location.port === '3000' || window.location.port === '8080' || window.location.port === '5173') {
-        return 'http://localhost:7860';
-      }
-      return '';
-    }
-    const API_BASE = getApiBase();
-
-    let currentEmail = '';
-    let currentName = '';
-    let resendInterval = null;
-    let resendCountdown = 60;
-
-    // Check if already authenticated via session
-    async function checkAuthStatus() {
-      try {
-        const res = await fetch(API_BASE + '/api/user/me', { credentials: 'include' });
-        const text = await res.text();
-        const data = JSON.parse(text);
-        if (data && data.authenticated && data.user) {
-          localStorage.setItem('isLoggedIn', 'true');
-          localStorage.setItem('hcg_username', data.user.name || 'Creator');
-          localStorage.setItem('hcg_email', data.user.email || '');
-          localStorage.setItem('hcg_credits', String(data.user.credits || 100));
-          window.location.href = '/dashboard';
-        }
-      } catch (e) {}
-    }
-    checkAuthStatus();
+    const API_BASE = window.location.origin.includes(':7860') ? '' : 'http://localhost:7860';
+    let currentPendingEmail = '';
 
     async function handleSendOtp(e) {
       e.preventDefault();
-      const emailInput = document.getElementById('login-email');
-      const nameInput = document.getElementById('login-name');
-      const errorDiv = document.getElementById('otp-send-error');
-      const btn = document.getElementById('send-otp-btn');
+      const emailInput = document.getElementById('input-email');
+      const email = emailInput.value.trim().toLowerCase();
+      const btn = document.getElementById('btn-send-otp');
+      const errBox = document.getElementById('error-msg');
 
-      currentEmail = emailInput.value.trim().toLowerCase();
-      currentName = nameInput.value.trim() || 'Creator';
-
-      if (!currentEmail || !currentEmail.includes('@')) {
-        errorDiv.textContent = 'Please enter a valid email address.';
-        errorDiv.style.display = 'block';
+      if (!email || !email.includes('@')) {
+        errBox.textContent = 'Please enter a valid email address.';
+        errBox.style.display = 'block';
         return;
       }
 
-      errorDiv.style.display = 'none';
+      errBox.style.display = 'none';
       btn.disabled = true;
-      btn.innerHTML = `<span class="btn-label">Sending 6-Digit Code... ⏳</span>`;
+      btn.innerHTML = `<span>Sending Code... ⏳</span>`;
 
       try {
         const res = await fetch(API_BASE + '/api/auth/send-otp', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: currentEmail, name: currentName })
+          body: JSON.stringify({ email: email })
         });
-        const rawText = await res.text();
-        let data = {};
-        try { data = JSON.parse(rawText); } catch(e) { data = { success: true }; }
+        const data = await res.json();
 
         if (data.success) {
-          document.getElementById('otp-step-1').style.display = 'none';
-          document.getElementById('otp-step-2').style.display = 'block';
-          document.getElementById('otp-sent-to-email').textContent = currentEmail;
-          document.getElementById('login-otp-code').value = '';
-          document.getElementById('login-otp-code').focus();
-          startResendTimer();
+          currentPendingEmail = email;
+          document.getElementById('form-send-otp').style.display = 'none';
+          document.getElementById('form-verify-otp').style.display = 'block';
+          document.getElementById('input-otp').focus();
+          if (data.otp_fallback) {
+            alert(`Demo Login Code: ${data.otp_fallback}`);
+          }
         } else {
-          errorDiv.textContent = data.error || 'Failed to send OTP code. Please try again.';
-          errorDiv.style.display = 'block';
+          errBox.textContent = data.error || 'Failed to send OTP code.';
+          errBox.style.display = 'block';
+          btn.disabled = false;
+          btn.innerHTML = `<span>Send Login Code ⚡</span>`;
         }
       } catch (err) {
-        // Fallback to step 2 if offline/direct file
-        document.getElementById('otp-step-1').style.display = 'none';
-        document.getElementById('otp-step-2').style.display = 'block';
-        document.getElementById('otp-sent-to-email').textContent = currentEmail;
-        startResendTimer();
-      } finally {
-        btn.disabled = false;
-        btn.innerHTML = `<span class="btn-label">Send 6-Digit OTP Code &nbsp;<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>`;
+        // Fallback demo code
+        currentPendingEmail = email;
+        document.getElementById('form-send-otp').style.display = 'none';
+        document.getElementById('form-verify-otp').style.display = 'block';
+        document.getElementById('input-otp').focus();
       }
     }
 
     async function handleVerifyOtp(e) {
       e.preventDefault();
-      const otpInput = document.getElementById('login-otp-code');
-      const errorDiv = document.getElementById('otp-verify-error');
-      const btn = document.getElementById('verify-otp-btn');
-      const otpCode = otpInput.value.trim();
+      const otp = document.getElementById('input-otp').value.trim();
+      const btn = document.getElementById('btn-verify-otp');
+      const errBox = document.getElementById('error-msg');
 
-      if (!otpCode || otpCode.length < 6) {
-        errorDiv.textContent = 'Please enter the complete 6-digit verification code.';
-        errorDiv.style.display = 'block';
-        return;
-      }
-
-      errorDiv.style.display = 'none';
       btn.disabled = true;
-      btn.innerHTML = `<span class="btn-label">Verifying Code... ⏳</span>`;
+      btn.innerHTML = `<span>Verifying... ⏳</span>`;
 
       try {
         const res = await fetch(API_BASE + '/api/auth/verify-otp', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-          body: JSON.stringify({ email: currentEmail, otp: otpCode, name: currentName })
+          body: JSON.stringify({ email: currentPendingEmail, otp: otp })
         });
-        const rawText = await res.text();
-        let data = {};
-        try { data = JSON.parse(rawText); } catch(e) { data = { success: true, name: currentName, email: currentEmail, credits: 100 }; }
+        const data = await res.json();
 
         if (data.success) {
           localStorage.setItem('isLoggedIn', 'true');
-          localStorage.setItem('hcg_username', data.name || currentName || 'Creator');
-          localStorage.setItem('hcg_email', data.email || currentEmail);
+          localStorage.setItem('hcg_username', data.name || currentPendingEmail.split('@')[0] || 'Creator');
+          localStorage.setItem('hcg_email', currentPendingEmail);
           localStorage.setItem('hcg_credits', String(data.credits || 100));
           window.location.href = '/dashboard';
         } else {
-          errorDiv.textContent = data.error || 'Invalid verification code. Please check and try again.';
-          errorDiv.style.display = 'block';
-        }
-      } catch (err) {
-        // Fallback login
-        localStorage.setItem('isLoggedIn', 'true');
-        localStorage.setItem('hcg_username', currentName || 'Creator');
-        localStorage.setItem('hcg_email', currentEmail);
-        localStorage.setItem('hcg_credits', '100');
-        window.location.href = '/dashboard';
-      } finally {
-        btn.disabled = false;
-        btn.innerHTML = `<span class="btn-label">Verify & Enter Studio &nbsp;<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>`;
-      }
-    }
-
-    function startResendTimer() {
-      if (resendInterval) clearInterval(resendInterval);
-      resendCountdown = 60;
-      const resendBtn = document.getElementById('resend-otp-btn');
-      resendBtn.disabled = true;
-      resendBtn.style.opacity = '0.6';
-      
-      resendInterval = setInterval(() => {
-        resendCountdown--;
-        document.getElementById('resend-timer').textContent = resendCountdown;
-        if (resendCountdown <= 0) {
-          clearInterval(resendInterval);
-          resendBtn.disabled = false;
-          resendBtn.style.opacity = '1';
-          resendBtn.innerHTML = 'Resend Code Now';
-        }
-      }, 1000);
-    }
-
-    async function resendOtp() {
-      if (resendCountdown > 0) return;
-      const errorDiv = document.getElementById('otp-verify-error');
-      errorDiv.style.display = 'none';
-      try {
-        const res = await fetch(API_BASE + '/api/auth/send-otp', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: currentEmail, name: currentName })
-        });
-        startResendTimer();
-      } catch (e) {
-        startResendTimer();
-      }
-    }
-
-    function backToEmailStep() {
-      if (resendInterval) clearInterval(resendInterval);
-      document.getElementById('otp-step-2').style.display = 'none';
-      document.getElementById('otp-step-1').style.display = 'block';
-    }
-
-    // ── Google OAuth Flow ──
-    let selectedGoogleUser = { name: '', email: '' };
-
-    function loginWithGoogle() {
-      const modal = document.getElementById('modal-google-auth');
-      modal.style.display = 'flex';
-      document.getElementById('google-view-choose').style.display = 'block';
-      document.getElementById('google-view-profile').style.display = 'none';
-      document.getElementById('google-manual-input-box').style.display = 'none';
-    }
-
-    function closeGoogleAuthModal() {
-      document.getElementById('modal-google-auth').style.display = 'none';
-    }
-
-    function selectGoogleAccount(name, email) {
-      selectedGoogleUser = { name, email };
-      proceedToProfileVerification(name, email);
-    }
-
-    function showGoogleManualInput() {
-      const box = document.getElementById('google-manual-input-box');
-      box.style.display = 'block';
-      document.getElementById('manual-google-email').focus();
-    }
-
-    function confirmManualGoogleAccount() {
-      const email = document.getElementById('manual-google-email').value.trim();
-      let name = document.getElementById('manual-google-name').value.trim();
-      if (!email || !email.includes('@')) {
-        alert('Please enter a valid Gmail address.');
-        return;
-      }
-      if (!name) {
-        name = email.split('@')[0].replace(/[._-]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-      }
-      selectGoogleAccount(name, email);
-    }
-
-    function proceedToProfileVerification(name, email) {
-      document.getElementById('google-view-choose').style.display = 'none';
-      document.getElementById('google-view-profile').style.display = 'block';
-      
-      document.getElementById('g-auth-name-display').textContent = name;
-      document.getElementById('g-auth-email-display').textContent = email;
-      document.getElementById('g-avatar-circle').textContent = name.charAt(0).toUpperCase() || 'G';
-      
-      setTimeout(() => {
-        document.getElementById('auth-user-age')?.focus();
-      }, 150);
-    }
-
-    async function handleCompleteGoogleAuth(e) {
-      e.preventDefault();
-      const age = parseInt(document.getElementById('auth-user-age').value);
-      const niche = document.getElementById('auth-user-niche').value;
-      const errBox = document.getElementById('g-profile-error');
-
-      if (!age || isNaN(age) || age < 13 || age > 100) {
-        errBox.textContent = "⚠️ Please enter a valid age (min 13 years).";
-        errBox.style.display = 'block';
-        return;
-      }
-
-      const btn = document.getElementById('btn-complete-google-auth');
-      btn.disabled = true;
-      btn.innerHTML = `<span>Connecting Google Profile & Adding 100 Credits... ⏳</span>`;
-
-      try {
-        const res = await fetch(API_BASE + '/api/auth/google', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-          body: JSON.stringify({
-            name: selectedGoogleUser.name,
-            email: selectedGoogleUser.email,
-            age: String(age),
-            niche: niche
-          })
-        });
-        const rawText = await res.text();
-        let data = {};
-        try {
-          data = JSON.parse(rawText);
-        } catch(parseErr) {
-          console.warn("Non-JSON auth response, using fallback login:", rawText);
-          data = { success: true, name: selectedGoogleUser.name, email: selectedGoogleUser.email, credits: 100 };
-        }
-
-        if (data.success) {
-          localStorage.setItem('isLoggedIn', 'true');
-          localStorage.setItem('hcg_username', data.name || selectedGoogleUser.name || 'Creator');
-          localStorage.setItem('hcg_email', data.email || selectedGoogleUser.email);
-          localStorage.setItem('hcg_credits', String(data.credits || 100));
-          closeGoogleAuthModal();
-          window.location.href = '/dashboard';
-        } else {
-          errBox.textContent = data.error || 'Google login failed.';
+          errBox.textContent = data.error || 'Invalid verification code.';
           errBox.style.display = 'block';
           btn.disabled = false;
-          btn.innerHTML = `<span>Enter Studio Workspace →</span>`;
+          btn.innerHTML = `<span>Verify & Enter Studio →</span>`;
         }
       } catch (err) {
-        // Resilient fallback: activate user session locally and proceed
         localStorage.setItem('isLoggedIn', 'true');
-        localStorage.setItem('hcg_username', selectedGoogleUser.name || 'Creator');
-        localStorage.setItem('hcg_email', selectedGoogleUser.email);
+        localStorage.setItem('hcg_username', currentPendingEmail.split('@')[0] || 'Creator');
+        localStorage.setItem('hcg_email', currentPendingEmail);
         localStorage.setItem('hcg_credits', '100');
-        closeGoogleAuthModal();
         window.location.href = '/dashboard';
       }
     }
 
-    function quickLoginDemo(name) {
-      successLogin(name || 'Creator');
+    function resetToEmailStep() {
+      document.getElementById('form-send-otp').style.display = 'block';
+      document.getElementById('form-verify-otp').style.display = 'none';
+      document.getElementById('btn-send-otp').disabled = false;
+      document.getElementById('btn-send-otp').innerHTML = `<span>Send Login Code ⚡</span>`;
+      document.getElementById('error-msg').style.display = 'none';
+    }
+
+    function openGoogleAuthModal() {
+      const email = prompt('Google Sign-In\nEnter your Google email:', 'creator@gmail.com');
+      if (email) {
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('hcg_username', email.split('@')[0]);
+        localStorage.setItem('hcg_email', email);
+        localStorage.setItem('hcg_credits', '100');
+        window.location.href = '/dashboard';
+      }
     }
 
     function setDemoLang(lang, sampleText) {
@@ -1519,8 +876,7 @@
     }
 
     function toggleFaq(el) {
-      const item = el.parentElement;
-      item.classList.toggle('open');
+      el.classList.toggle('open');
     }
   </script>
 </body>
